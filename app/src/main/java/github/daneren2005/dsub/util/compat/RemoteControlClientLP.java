@@ -62,9 +62,9 @@ import github.daneren2005.dsub.util.Util;
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class RemoteControlClientLP extends RemoteControlClientBase {
 	private static final String TAG = RemoteControlClientLP.class.getSimpleName();
-	private static final String CUSTOM_ACTION_THUMBS_UP = "github.daneren2005.dsub.THUMBS_UP";
-	private static final String CUSTOM_ACTION_THUMBS_DOWN = "github.daneren2005.dsub.THUMBS_DOWN";
-	private static final String CUSTOM_ACTION_STAR = "github.daneren2005.dsub.STAR";
+	private static final String CUSTOM_ACTION_THUMBS_UP = "ga.asti.android.THUMBS_UP";
+	private static final String CUSTOM_ACTION_THUMBS_DOWN = "ga.asti.android.THUMBS_DOWN";
+	private static final String CUSTOM_ACTION_STAR = "ga.asti.android.STAR";
 	// Copied from MediaControlConstants so I did not have to include the entire Wear SDK just for these constant
 	private static final String SHOW_ON_WEAR = "android.support.wearable.media.extra.CUSTOM_ACTION_SHOW_ON_WEAR";
 	private static final String WEAR_RESERVE_SKIP_TO_NEXT = "android.support.wearable.media.extra.RESERVE_SLOT_SKIP_TO_NEXT";

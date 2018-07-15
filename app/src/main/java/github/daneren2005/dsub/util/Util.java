@@ -106,8 +106,8 @@ public final class Util {
 	private static SimpleDateFormat DATE_FORMAT_NO_TIME = new SimpleDateFormat("MMM d, yyyy");
 	private static int CURRENT_YEAR = new Date().getYear();
 
-    public static final String EVENT_META_CHANGED = "github.daneren2005.dsub.EVENT_META_CHANGED";
-    public static final String EVENT_PLAYSTATE_CHANGED = "github.daneren2005.dsub.EVENT_PLAYSTATE_CHANGED";
+    public static final String EVENT_META_CHANGED = "ga.asti.android.EVENT_META_CHANGED";
+    public static final String EVENT_PLAYSTATE_CHANGED = "ga.asti.android.EVENT_PLAYSTATE_CHANGED";
 	
 	public static final String AVRCP_PLAYSTATE_CHANGED = "com.android.music.playstatechanged";
 	public static final String AVRCP_METADATA_CHANGED = "com.android.music.metachanged";

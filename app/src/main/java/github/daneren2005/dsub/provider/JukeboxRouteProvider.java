@@ -36,7 +36,7 @@ import github.daneren2005.dsub.service.RemoteController;
  * Created by Scott on 11/28/13.
  */
 public class JukeboxRouteProvider extends MediaRouteProvider {
-	public static final String CATEGORY_JUKEBOX_ROUTE = "github.daneren2005.dsub.SERVER_JUKEBOX";
+	public static final String CATEGORY_JUKEBOX_ROUTE = "ga.asti.android.SERVER_JUKEBOX";
 	private RemoteController controller;
 	private static final int MAX_VOLUME = 10;
 

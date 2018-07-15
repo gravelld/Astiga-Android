@@ -158,7 +158,7 @@ public class SubsonicActivity extends AppCompatActivity implements OnItemSelecte
 					// When changing drawer settings change visibility
 					switch(key) {
 						case Constants.PREFERENCES_KEY_BOOKMARKS_ENABLED:
-							setDrawerItemVisible(R.id.drawer_bookmarks, false);
+//							setDrawerItemVisible(R.id.drawer_bookmarks, false);
 							break;
 					}
 				}
@@ -548,13 +548,7 @@ public class SubsonicActivity extends AppCompatActivity implements OnItemSelecte
 		drawerList.inflateMenu(R.menu.drawer_navigation);
 
 		SharedPreferences prefs = Util.getPreferences(this);
-		boolean podcastsEnabled = false;
-		boolean bookmarksEnabled = prefs.getBoolean(Constants.PREFERENCES_KEY_BOOKMARKS_ENABLED, true) && !Util.isOffline(this) && ServerInfo.canBookmark(this);
-		boolean internetRadioEnabled = false;
-		boolean sharedEnabled = false;
-		boolean chatEnabled = false;
-		boolean adminEnabled = false;
-
+		
 		MenuItem offlineMenuItem = drawerList.getMenu().findItem(R.id.drawer_offline);
 		if(Util.isOffline(this)) {
 			setDrawerItemVisible(R.id.drawer_home, false);
@@ -572,9 +566,6 @@ public class SubsonicActivity extends AppCompatActivity implements OnItemSelecte
 			offlineMenuItem.setTitle(R.string.main_online);
 		} else {
 			offlineMenuItem.setTitle(R.string.main_offline);
-		}
-		if(!bookmarksEnabled) {
-			setDrawerItemVisible(R.id.drawer_bookmarks, false);
 		}
 
 		if(lastSelectedPosition != 0) {

@@ -211,7 +211,7 @@ public final class Constants {
 
     // Name of the preferences file.
     public static final String PREFERENCES_FILE_NAME = "ga.asti.android_preferences";
-	public static final String OFFLINE_SYNC_NAME = "github.daneren2005.dsub.offline";
+	public static final String OFFLINE_SYNC_NAME = "ga.asti.android.offline";
 	public static final String OFFLINE_SYNC_DEFAULT = "syncDefaults";
 
 	// Account prefs

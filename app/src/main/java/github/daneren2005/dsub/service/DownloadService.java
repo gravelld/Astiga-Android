@@ -99,14 +99,14 @@ import android.view.KeyEvent;
 public class DownloadService extends Service {
 	private static final String TAG = DownloadService.class.getSimpleName();
 
-	public static final String CMD_PLAY = "github.daneren2005.dsub.CMD_PLAY";
-	public static final String CMD_TOGGLEPAUSE = "github.daneren2005.dsub.CMD_TOGGLEPAUSE";
-	public static final String CMD_PAUSE = "github.daneren2005.dsub.CMD_PAUSE";
-	public static final String CMD_STOP = "github.daneren2005.dsub.CMD_STOP";
-	public static final String CMD_PREVIOUS = "github.daneren2005.dsub.CMD_PREVIOUS";
-	public static final String CMD_NEXT = "github.daneren2005.dsub.CMD_NEXT";
-	public static final String CANCEL_DOWNLOADS = "github.daneren2005.dsub.CANCEL_DOWNLOADS";
-	public static final String START_PLAY = "github.daneren2005.dsub.START_PLAYING";
+	public static final String CMD_PLAY = "ga.asti.android.CMD_PLAY";
+	public static final String CMD_TOGGLEPAUSE = "ga.asti.android.CMD_TOGGLEPAUSE";
+	public static final String CMD_PAUSE = "ga.asti.android.CMD_PAUSE";
+	public static final String CMD_STOP = "ga.asti.android.CMD_STOP";
+	public static final String CMD_PREVIOUS = "ga.asti.android.CMD_PREVIOUS";
+	public static final String CMD_NEXT = "ga.asti.android.CMD_NEXT";
+	public static final String CANCEL_DOWNLOADS = "ga.asti.android.CANCEL_DOWNLOADS";
+	public static final String START_PLAY = "ga.asti.android.START_PLAYING";
 	private static final long DEFAULT_DELAY_UPDATE_PROGRESS = 1000L;
 	private static final double DELETE_CUTOFF = 0.84;
 	private static final int REQUIRED_ALBUM_MATCHES = 4;

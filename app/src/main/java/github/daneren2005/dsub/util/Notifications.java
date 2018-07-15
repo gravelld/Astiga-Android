@@ -49,7 +49,7 @@ public final class Notifications {
 	// Notification IDs.
 	public static final int NOTIFICATION_ID_PLAYING = 100;
 	public static final int NOTIFICATION_ID_DOWNLOADING = 102;
-	public static final String NOTIFICATION_SYNC_GROUP = "github.daneren2005.dsub.sync";
+	public static final String NOTIFICATION_SYNC_GROUP = "ga.asti.android.sync";
 
 	private static boolean playShowing = false;
 	private static boolean downloadShowing = false;

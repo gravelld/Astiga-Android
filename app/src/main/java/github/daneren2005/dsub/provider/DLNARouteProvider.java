@@ -61,7 +61,7 @@ import github.daneren2005.dsub.service.RemoteController;
 
 public class DLNARouteProvider extends MediaRouteProvider {
 	private static final String TAG = DLNARouteProvider.class.getSimpleName();
-	public static final String CATEGORY_DLNA = "github.daneren2005.dsub.DLNA";
+	public static final String CATEGORY_DLNA = "ga.asti.android.DLNA";
 
 	private DownloadService downloadService;
 	private RemoteController controller;
