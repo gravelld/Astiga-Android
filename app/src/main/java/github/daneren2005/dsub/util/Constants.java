@@ -215,12 +215,12 @@ public final class Constants {
 	public static final String OFFLINE_SYNC_DEFAULT = "syncDefaults";
 
 	// Account prefs
-	public static final String SYNC_ACCOUNT_NAME = "Subsonic Account";
+	public static final String SYNC_ACCOUNT_NAME = "Astiga Account";
 	public static final String SYNC_ACCOUNT_TYPE = "asti.ga";
-	public static final String SYNC_ACCOUNT_PLAYLIST_AUTHORITY = "github.daneren2005.dsub.playlists.provider";
-	public static final String SYNC_ACCOUNT_PODCAST_AUTHORITY = "github.daneren2005.dsub.podcasts.provider";
-	public static final String SYNC_ACCOUNT_STARRED_AUTHORITY = "github.daneren2005.dsub.starred.provider";
-	public static final String SYNC_ACCOUNT_MOST_RECENT_AUTHORITY = "github.daneren2005.dsub.mostrecent.provider";
+	public static final String SYNC_ACCOUNT_PLAYLIST_AUTHORITY = "ga.asti.android.playlists.provider";
+	public static final String SYNC_ACCOUNT_PODCAST_AUTHORITY = "ga.asti.android.podcasts.provider";
+	public static final String SYNC_ACCOUNT_STARRED_AUTHORITY = "ga.asti.android.starred.provider";
+	public static final String SYNC_ACCOUNT_MOST_RECENT_AUTHORITY = "ga.asti.android.mostrecent.provider";
 
 	public static final String TASKER_EXTRA_BUNDLE = "com.twofortyfouram.locale.intent.extra.BUNDLE";
 
