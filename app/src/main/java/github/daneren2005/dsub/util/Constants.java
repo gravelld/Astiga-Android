@@ -31,8 +31,8 @@ public final class Constants {
     // Note: Keep it as low as possible to maintain compatibility with older servers.
     public static final String REST_PROTOCOL_VERSION_SUBSONIC = "1.2.0";
 	public static final String REST_PROTOCOL_VERSION_MADSONIC = "2.0.0";
-    public static final String REST_CLIENT_ID = "DSub";
-    public static final String CHROMECAST_CLIENT_ID = "DSubCC";
+    public static final String REST_CLIENT_ID = "Astiga";
+    public static final String CHROMECAST_CLIENT_ID = "AstigaCC";
 	public static final String LAST_VERSION = "subsonic.version";
 
     // Names for intent extras.
@@ -216,19 +216,13 @@ public final class Constants {
 
 	// Account prefs
 	public static final String SYNC_ACCOUNT_NAME = "Subsonic Account";
-	public static final String SYNC_ACCOUNT_TYPE = "subsonic.org";
+	public static final String SYNC_ACCOUNT_TYPE = "asti.ga";
 	public static final String SYNC_ACCOUNT_PLAYLIST_AUTHORITY = "github.daneren2005.dsub.playlists.provider";
 	public static final String SYNC_ACCOUNT_PODCAST_AUTHORITY = "github.daneren2005.dsub.podcasts.provider";
 	public static final String SYNC_ACCOUNT_STARRED_AUTHORITY = "github.daneren2005.dsub.starred.provider";
 	public static final String SYNC_ACCOUNT_MOST_RECENT_AUTHORITY = "github.daneren2005.dsub.mostrecent.provider";
 
 	public static final String TASKER_EXTRA_BUNDLE = "com.twofortyfouram.locale.intent.extra.BUNDLE";
-
-    // Number of free trial days for non-licensed servers.
-    public static final int FREE_TRIAL_DAYS = 30;
-
-    // URL for project donations.
-    public static final String DONATION_URL = "http://subsonic.org/pages/android-donation.jsp";
 
     public static final String ALBUM_ART_FILE = "albumart.jpg";
 

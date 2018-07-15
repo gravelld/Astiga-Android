@@ -841,10 +841,10 @@ public class SelectDirectoryFragment extends SubsonicFragment implements Section
 		return indexes;
 	}
 
-	@Override
-	protected void executeOnValid(RecursiveLoader onValid) {
-		checkLicenseAndTrialPeriod(onValid);
-	}
+//	@Override
+//	protected void executeOnValid(RecursiveLoader onValid) {
+//		checkLicenseAndTrialPeriod(onValid);
+//	}
 
 	@Override
 	protected void downloadBackground(final boolean save) {
@@ -881,7 +881,7 @@ public class SelectDirectoryFragment extends SubsonicFragment implements Section
 			}
 		};
 
-		checkLicenseAndTrialPeriod(onValid);
+//		checkLicenseAndTrialPeriod(onValid);
 	}
 
 	@Override
@@ -988,24 +988,24 @@ public class SelectDirectoryFragment extends SubsonicFragment implements Section
 		UpdateHelper.toggleStarred(context, getSelectedEntries(), onStarChange);
 	}
 
-	private void checkLicenseAndTrialPeriod(LoadingTask onValid) {
-		if (licenseValid) {
-			onValid.execute();
-			return;
-		}
-
-		int trialDaysLeft = Util.getRemainingTrialDays(context);
-		Log.i(TAG, trialDaysLeft + " trial days left.");
-
-		if (trialDaysLeft == 0) {
-			showDonationDialog(trialDaysLeft, null);
-		} else if (trialDaysLeft < Constants.FREE_TRIAL_DAYS / 2) {
-			showDonationDialog(trialDaysLeft, onValid);
-		} else {
-			Util.toast(context, context.getResources().getString(R.string.select_album_not_licensed, trialDaysLeft));
-			onValid.execute();
-		}
-	}
+//	private void checkLicenseAndTrialPeriod(LoadingTask onValid) {
+//		if (licenseValid) {
+//			onValid.execute();
+//			return;
+//		}
+//
+//		int trialDaysLeft = Util.getRemainingTrialDays(context);
+//		Log.i(TAG, trialDaysLeft + " trial days left.");
+//
+//		if (trialDaysLeft == 0) {
+//			showDonationDialog(trialDaysLeft, null);
+//		} else if (trialDaysLeft < Constants.FREE_TRIAL_DAYS / 2) {
+//			showDonationDialog(trialDaysLeft, onValid);
+//		} else {
+//			Util.toast(context, context.getResources().getString(R.string.select_album_not_licensed, trialDaysLeft));
+//			onValid.execute();
+//		}
+//	}
 
 	private void showDonationDialog(int trialDaysLeft, final LoadingTask onValid) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -1020,13 +1020,13 @@ public class SelectDirectoryFragment extends SubsonicFragment implements Section
 
 		builder.setMessage(R.string.select_album_donate_dialog_message);
 
-		builder.setPositiveButton(R.string.select_album_donate_dialog_now,
-			new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialogInterface, int i) {
-					startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.DONATION_URL)));
-				}
-			});
+//		builder.setPositiveButton(R.string.select_album_donate_dialog_now,
+//			new DialogInterface.OnClickListener() {
+//				@Override
+//				public void onClick(DialogInterface dialogInterface, int i) {
+//					startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.DONATION_URL)));
+//				}
+//			});
 
 		builder.setNegativeButton(R.string.select_album_donate_dialog_later,
 			new DialogInterface.OnClickListener() {

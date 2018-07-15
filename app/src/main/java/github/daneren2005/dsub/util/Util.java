@@ -180,7 +180,7 @@ public final class Util {
 	
 	public static int getServerCount(Context context) {
 		SharedPreferences prefs = getPreferences(context);
-		return prefs.getInt(Constants.PREFERENCES_KEY_SERVER_COUNT, 1);
+		return prefs.getInt(Constants.PREFERENCES_KEY_SERVER_COUNT, 0);
 	}
 
 	public static void removeInstanceName(Context context, int instance, int activeInstance) {
@@ -365,37 +365,30 @@ public final class Util {
 		if (builder.charAt(builder.length() - 1) != '/') {
 			builder.append("/");
 		}
-		if(method != null && ServerInfo.isMadsonic6(context, instance)) {
-			builder.append("rest2/");
-		} else {
-			builder.append("rest/");
-		}
+		builder.append("rest/");
 		builder.append(method).append(".view");
 		builder.append("?u=").append(username);
-		if(method != null && ServerInfo.canUseToken(context, instance)) {
-			int hash = (username + password).hashCode();
-			Pair<String, String> values = tokens.get(hash);
-			if(values == null) {
-				String salt = new BigInteger(130, getRandom()).toString(32);
-				String token = md5Hex(password + salt);
-				values = new Pair<>(salt, token);
-				tokens.put(hash, values);
-			}
-
-			builder.append("&s=").append(values.getFirst());
-			builder.append("&t=").append(values.getSecond());
-		} else {
+//		if(method != null && ServerInfo.canUseToken(context, instance)) {
+//			int hash = (username + password).hashCode();
+//			Pair<String, String> values = tokens.get(hash);
+//			if(values == null) {
+//				String salt = new BigInteger(130, getRandom()).toString(32);
+//				String token = md5Hex(password + salt);
+//				values = new Pair<>(salt, token);
+//				tokens.put(hash, values);
+//			}
+//
+//			builder.append("&s=").append(values.getFirst());
+//			builder.append("&t=").append(values.getSecond());
+//		} else {
 			// Slightly obfuscate password
 			password = "enc:" + Util.utf8HexEncode(password);
 
 			builder.append("&p=").append(password);
-		}
+//		}
 
-		if(method != null && ServerInfo.isMadsonic6(context, instance)) {
-			builder.append("&v=").append(Constants.REST_PROTOCOL_VERSION_MADSONIC);
-		} else {
+
 			builder.append("&v=").append(Constants.REST_PROTOCOL_VERSION_SUBSONIC);
-		}
 		builder.append("&c=").append(Constants.REST_CLIENT_ID);
 
 		return builder.toString();
@@ -595,22 +588,22 @@ public final class Util {
 		}
 	}
 
-    public static int getRemainingTrialDays(Context context) {
-        SharedPreferences prefs = getPreferences(context);
-        long installTime = prefs.getLong(Constants.PREFERENCES_KEY_INSTALL_TIME, 0L);
-
-        if (installTime == 0L) {
-            installTime = System.currentTimeMillis();
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putLong(Constants.PREFERENCES_KEY_INSTALL_TIME, installTime);
-            editor.commit();
-        }
-
-        long now = System.currentTimeMillis();
-        long millisPerDay = 24L * 60L * 60L * 1000L;
-        int daysSinceInstall = (int) ((now - installTime) / millisPerDay);
-        return Math.max(0, Constants.FREE_TRIAL_DAYS - daysSinceInstall);
-    }
+//    public static int getRemainingTrialDays(Context context) {
+//        SharedPreferences prefs = getPreferences(context);
+//        long installTime = prefs.getLong(Constants.PREFERENCES_KEY_INSTALL_TIME, 0L);
+//
+//        if (installTime == 0L) {
+//            installTime = System.currentTimeMillis();
+//            SharedPreferences.Editor editor = prefs.edit();
+//            editor.putLong(Constants.PREFERENCES_KEY_INSTALL_TIME, installTime);
+//            editor.commit();
+//        }
+//
+//        long now = System.currentTimeMillis();
+//        long millisPerDay = 24L * 60L * 60L * 1000L;
+//        int daysSinceInstall = (int) ((now - installTime) / millisPerDay);
+//        return Math.max(0, Constants.FREE_TRIAL_DAYS - daysSinceInstall);
+//    }
 
 	public static boolean isCastProxy(Context context) {
 		SharedPreferences prefs = getPreferences(context);

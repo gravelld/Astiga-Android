@@ -9,7 +9,7 @@
 		<ListPreference
 			android:title="@string/settings.theme_title"
 			android:key="theme"
-			android:defaultValue="light"
+			android:defaultValue="dark"
 			android:entryValues="@array/themeValues"
 			android:entries="@array/themeNames"/>
 
@@ -69,7 +69,7 @@
 			android:title="@string/settings.large_album_art"
 			android:summary="@string/settings.large_album_art_summary"
 			android:key="largeAlbumArt"
-			android:defaultValue="true"/>
+			android:defaultValue="false"/>
 	</PreferenceCategory>
 
 	<PreferenceCategory
@@ -121,12 +121,6 @@
 			android:title="@string/common.star"
 			android:summary="@string/settings.menu_options.star_summary"
 			android:key="showStar"
-			android:defaultValue="true"/>
-
-		<CheckBoxPreference
-			android:title="@string/menu.share"
-			android:summary="@string/settings.menu_options.shared_summary"
-			android:key="showShared"
 			android:defaultValue="true"/>
 
 		<CheckBoxPreference

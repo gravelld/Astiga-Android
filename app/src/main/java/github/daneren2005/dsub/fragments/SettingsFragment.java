@@ -85,7 +85,7 @@ public class SettingsFragment extends PreferenceCompatFragment implements Shared
 	private Preference addServerPreference;
 	private PreferenceCategory serversCategory;
 	private ListPreference songPressAction;
-	private ListPreference videoPlayer;
+//	private ListPreference videoPlayer;
 	private ListPreference syncInterval;
 	private CheckBoxPreference syncEnabled;
 	private CheckBoxPreference syncWifi;
@@ -96,8 +96,6 @@ public class SettingsFragment extends PreferenceCompatFragment implements Shared
 	private ListPreference replayGainType;
 	private Preference replayGainBump;
 	private Preference replayGainUntagged;
-	private String internalSSID;
-	private String internalSSIDDisplay;
 	private EditTextPreference cacheSize;
 	private ListPreference openToTab;
 
@@ -222,12 +220,6 @@ public class SettingsFragment extends PreferenceCompatFragment implements Shared
 	protected void onInitPreferences(PreferenceScreen preferenceScreen) {
 		this.setTitle(preferenceScreen.getTitle());
 
-		internalSSID = Util.getSSID(context);
-		if (internalSSID == null) {
-			internalSSID = "";
-		}
-		internalSSIDDisplay = context.getResources().getString(R.string.settings_server_local_network_ssid_hint, internalSSID);
-
 		theme = (ListPreference) this.findPreference(Constants.PREFERENCES_KEY_THEME);
 		maxBitrateWifi = (ListPreference) this.findPreference(Constants.PREFERENCES_KEY_MAX_BITRATE_WIFI);
 		maxBitrateMobile = (ListPreference) this.findPreference(Constants.PREFERENCES_KEY_MAX_BITRATE_MOBILE);
@@ -242,7 +234,7 @@ public class SettingsFragment extends PreferenceCompatFragment implements Shared
 		pauseDisconnect = (ListPreference) this.findPreference(Constants.PREFERENCES_KEY_PAUSE_DISCONNECT);
 		serversCategory = (PreferenceCategory) this.findPreference(Constants.PREFERENCES_KEY_SERVER_KEY);
 		addServerPreference = this.findPreference(Constants.PREFERENCES_KEY_SERVER_ADD);
-		videoPlayer = (ListPreference) this.findPreference(Constants.PREFERENCES_KEY_VIDEO_PLAYER);
+//		videoPlayer = (ListPreference) this.findPreference(Constants.PREFERENCES_KEY_VIDEO_PLAYER);
 		songPressAction = (ListPreference) this.findPreference(Constants.PREFERENCES_KEY_SONG_PRESS_ACTION);
 		syncInterval = (ListPreference) this.findPreference(Constants.PREFERENCES_KEY_SYNC_INTERVAL);
 		syncEnabled = (CheckBoxPreference) this.findPreference(Constants.PREFERENCES_KEY_SYNC_ENABLED);
@@ -258,7 +250,7 @@ public class SettingsFragment extends PreferenceCompatFragment implements Shared
 		openToTab = (ListPreference) this.findPreference(Constants.PREFERENCES_KEY_OPEN_TO_TAB);
 
 		settings = Util.getPreferences(context);
-		serverCount = settings.getInt(Constants.PREFERENCES_KEY_SERVER_COUNT, 1);
+		serverCount = settings.getInt(Constants.PREFERENCES_KEY_SERVER_COUNT, 0);
 
 		if(cacheSize != null) {
 			this.findPreference("clearCache").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -333,8 +325,8 @@ public class SettingsFragment extends PreferenceCompatFragment implements Shared
 					editor.putInt(Constants.PREFERENCES_KEY_SERVER_COUNT, serverCount);
 					// Reset set folder ID
 					editor.putString(Constants.PREFERENCES_KEY_MUSIC_FOLDER_ID + instance, null);
-					editor.putString(Constants.PREFERENCES_KEY_SERVER_URL + instance, "http://yourhost");
-					editor.putString(Constants.PREFERENCES_KEY_SERVER_NAME + instance, getResources().getString(R.string.settings_server_unused));
+					editor.putString(Constants.PREFERENCES_KEY_SERVER_URL + instance, "https://play.asti.ga");
+					editor.putString(Constants.PREFERENCES_KEY_SERVER_NAME + instance, "Astiga");
 					editor.commit();
 
 					ServerSettings ss = new ServerSettings(instance);
@@ -412,7 +404,7 @@ public class SettingsFragment extends PreferenceCompatFragment implements Shared
 			tempLoss.setSummary(tempLoss.getEntry());
 			pauseDisconnect.setSummary(pauseDisconnect.getEntry());
 			songPressAction.setSummary(songPressAction.getEntry());
-			videoPlayer.setSummary(videoPlayer.getEntry());
+//			videoPlayer.setSummary(videoPlayer.getEntry());
 
 			if(replayGain.isChecked()) {
 				replayGainType.setEnabled(true);
@@ -500,48 +492,48 @@ public class SettingsFragment extends PreferenceCompatFragment implements Shared
 
 		serverNamePreference.setSummary(serverNamePreference.getText());
 
-		final EditTextPreference serverUrlPreference = new EditTextPreference(context);
-		serverUrlPreference.setKey(Constants.PREFERENCES_KEY_SERVER_URL + instance);
-		serverUrlPreference.getEditText().setInputType(InputType.TYPE_TEXT_VARIATION_URI);
-		serverUrlPreference.setDefaultValue("http://yourhost");
-		serverUrlPreference.setTitle(R.string.settings_server_address);
-		serverUrlPreference.setDialogTitle(R.string.settings_server_address);
+//		final EditTextPreference serverUrlPreference = new EditTextPreference(context);
+//		serverUrlPreference.setKey(Constants.PREFERENCES_KEY_SERVER_URL + instance);
+//		serverUrlPreference.getEditText().setInputType(InputType.TYPE_TEXT_VARIATION_URI);
+//		serverUrlPreference.setDefaultValue("http://yourhost");
+//		serverUrlPreference.setTitle(R.string.settings_server_address);
+//		serverUrlPreference.setDialogTitle(R.string.settings_server_address);
+//
+//		if (serverUrlPreference.getText() == null) {
+//			serverUrlPreference.setText("http://yourhost");
+//		}
+//
+//		serverUrlPreference.setSummary(serverUrlPreference.getText());
+//		screen.setSummary(serverUrlPreference.getText());
 
-		if (serverUrlPreference.getText() == null) {
-			serverUrlPreference.setText("http://yourhost");
-		}
+//		final EditTextPreference serverLocalNetworkSSIDPreference = new EditTextPreference(context) {
+//			@Override
+//			protected void onAddEditTextToDialogView(View dialogView, final EditText editText) {
+//				super.onAddEditTextToDialogView(dialogView, editText);
+//				ViewGroup root = (ViewGroup) ((ViewGroup) dialogView).getChildAt(0);
+//
+//				Button defaultButton = new Button(getContext());
+//				defaultButton.setText(internalSSIDDisplay);
+//				defaultButton.setOnClickListener(new View.OnClickListener() {
+//					@Override
+//					public void onClick(View v) {
+//						editText.setText(internalSSID);
+//					}
+//				});
+//				root.addView(defaultButton);
+//			}
+//		};
+//		serverLocalNetworkSSIDPreference.setKey(Constants.PREFERENCES_KEY_SERVER_LOCAL_NETWORK_SSID + instance);
+//		serverLocalNetworkSSIDPreference.setTitle(R.string.settings_server_local_network_ssid);
+//		serverLocalNetworkSSIDPreference.setDialogTitle(R.string.settings_server_local_network_ssid);
 
-		serverUrlPreference.setSummary(serverUrlPreference.getText());
-		screen.setSummary(serverUrlPreference.getText());
-
-		final EditTextPreference serverLocalNetworkSSIDPreference = new EditTextPreference(context) {
-			@Override
-			protected void onAddEditTextToDialogView(View dialogView, final EditText editText) {
-				super.onAddEditTextToDialogView(dialogView, editText);
-				ViewGroup root = (ViewGroup) ((ViewGroup) dialogView).getChildAt(0);
-
-				Button defaultButton = new Button(getContext());
-				defaultButton.setText(internalSSIDDisplay);
-				defaultButton.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						editText.setText(internalSSID);
-					}
-				});
-				root.addView(defaultButton);
-			}
-		};
-		serverLocalNetworkSSIDPreference.setKey(Constants.PREFERENCES_KEY_SERVER_LOCAL_NETWORK_SSID + instance);
-		serverLocalNetworkSSIDPreference.setTitle(R.string.settings_server_local_network_ssid);
-		serverLocalNetworkSSIDPreference.setDialogTitle(R.string.settings_server_local_network_ssid);
-
-		final EditTextPreference serverInternalUrlPreference = new EditTextPreference(context);
-		serverInternalUrlPreference.setKey(Constants.PREFERENCES_KEY_SERVER_INTERNAL_URL + instance);
-		serverInternalUrlPreference.getEditText().setInputType(InputType.TYPE_TEXT_VARIATION_URI);
-		serverInternalUrlPreference.setDefaultValue("");
-		serverInternalUrlPreference.setTitle(R.string.settings_server_internal_address);
-		serverInternalUrlPreference.setDialogTitle(R.string.settings_server_internal_address);
-		serverInternalUrlPreference.setSummary(serverInternalUrlPreference.getText());
+//		final EditTextPreference serverInternalUrlPreference = new EditTextPreference(context);
+//		serverInternalUrlPreference.setKey(Constants.PREFERENCES_KEY_SERVER_INTERNAL_URL + instance);
+//		serverInternalUrlPreference.getEditText().setInputType(InputType.TYPE_TEXT_VARIATION_URI);
+//		serverInternalUrlPreference.setDefaultValue("");
+//		serverInternalUrlPreference.setTitle(R.string.settings_server_internal_address);
+//		serverInternalUrlPreference.setDialogTitle(R.string.settings_server_internal_address);
+//		serverInternalUrlPreference.setSummary(serverInternalUrlPreference.getText());
 
 		final EditTextPreference serverUsernamePreference = new EditTextPreference(context);
 		serverUsernamePreference.setKey(Constants.PREFERENCES_KEY_USERNAME + instance);
@@ -592,7 +584,7 @@ public class SettingsFragment extends PreferenceCompatFragment implements Shared
 					public void onClick(DialogInterface dialog, int which) {
 						// Reset values to null so when we ask for them again they are new
 						serverNamePreference.setText(null);
-						serverUrlPreference.setText(null);
+//						serverUrlPreference.setText(null);
 						serverUsernamePreference.setText(null);
 						serverPasswordPreference.setText(null);
 
@@ -634,9 +626,9 @@ public class SettingsFragment extends PreferenceCompatFragment implements Shared
 		});
 
 		screen.addPreference(serverNamePreference);
-		screen.addPreference(serverUrlPreference);
-		screen.addPreference(serverInternalUrlPreference);
-		screen.addPreference(serverLocalNetworkSSIDPreference);
+//		screen.addPreference(serverUrlPreference);
+//		screen.addPreference(serverInternalUrlPreference);
+//		screen.addPreference(serverLocalNetworkSSIDPreference);
 		screen.addPreference(serverUsernamePreference);
 		screen.addPreference(serverPasswordPreference);
 		screen.addPreference(serverTagPreference);
@@ -773,9 +765,6 @@ public class SettingsFragment extends PreferenceCompatFragment implements Shared
 	private class ServerSettings {
 		private int instance;
 		private EditTextPreference serverName;
-		private EditTextPreference serverUrl;
-		private EditTextPreference serverLocalNetworkSSID;
-		private EditTextPreference serverInternalUrl;
 		private EditTextPreference username;
 		private PreferenceScreen screen;
 
@@ -783,49 +772,26 @@ public class SettingsFragment extends PreferenceCompatFragment implements Shared
 			this.instance = instance;
 			screen = (PreferenceScreen) SettingsFragment.this.findPreference(Constants.PREFERENCES_KEY_SERVER_KEY + instance);
 			serverName = (EditTextPreference) SettingsFragment.this.findPreference(Constants.PREFERENCES_KEY_SERVER_NAME + instance);
-			serverUrl = (EditTextPreference) SettingsFragment.this.findPreference(Constants.PREFERENCES_KEY_SERVER_URL + instance);
-			serverLocalNetworkSSID = (EditTextPreference) SettingsFragment.this.findPreference(Constants.PREFERENCES_KEY_SERVER_LOCAL_NETWORK_SSID + instance);
-			serverInternalUrl = (EditTextPreference) SettingsFragment.this.findPreference(Constants.PREFERENCES_KEY_SERVER_INTERNAL_URL + instance);
+//			serverUrl = (EditTextPreference) SettingsFragment.this.findPreference(Constants.PREFERENCES_KEY_SERVER_URL + instance);
 			username = (EditTextPreference) SettingsFragment.this.findPreference(Constants.PREFERENCES_KEY_USERNAME + instance);
 
 			if(serverName != null) {
-				serverUrl.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-					@Override
-					public boolean onPreferenceChange(Preference preference, Object value) {
-						try {
-							String url = (String) value;
-							new URL(url);
-							if (url.contains(" ") || url.contains("@")) {
-								throw new Exception();
-							}
-						} catch (Exception x) {
-							new ErrorDialog(context, R.string.settings_invalid_url, false);
-							return false;
-						}
-						return true;
-					}
-				});
-				serverInternalUrl.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-					@Override
-					public boolean onPreferenceChange(Preference preference, Object value) {
-						try {
-							String url = (String) value;
-							// Allow blank internal IP address
-							if ("".equals(url) || url == null) {
-								return true;
-							}
-
-							new URL(url);
-							if (url.contains(" ") || url.contains("@")) {
-								throw new Exception();
-							}
-						} catch (Exception x) {
-							new ErrorDialog(context, R.string.settings_invalid_url, false);
-							return false;
-						}
-						return true;
-					}
-				});
+//				serverUrl.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+//					@Override
+//					public boolean onPreferenceChange(Preference preference, Object value) {
+//						try {
+//							String url = (String) value;
+//							new URL(url);
+//							if (url.contains(" ") || url.contains("@")) {
+//								throw new Exception();
+//							}
+//						} catch (Exception x) {
+//							new ErrorDialog(context, R.string.settings_invalid_url, false);
+//							return false;
+//						}
+//						return true;
+//					}
+//				});
 
 				username.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
 					@Override
@@ -851,9 +817,7 @@ public class SettingsFragment extends PreferenceCompatFragment implements Shared
 			if(prefs.contains(Constants.PREFERENCES_KEY_SERVER_NAME + instance)) {
 				if (serverName != null) {
 					serverName.setSummary(serverName.getText());
-					serverUrl.setSummary(serverUrl.getText());
-					serverLocalNetworkSSID.setSummary(serverLocalNetworkSSID.getText());
-					serverInternalUrl.setSummary(serverInternalUrl.getText());
+//					serverUrl.setSummary(serverUrl.getText());
 					username.setSummary(username.getText());
 
 					setTitle(serverName.getText());
@@ -871,7 +835,7 @@ public class SettingsFragment extends PreferenceCompatFragment implements Shared
 				if (summary != null) {
 					screen.setSummary(summary);
 				}
-
+				context.updateDrawerHeader();
 				return true;
 			} else {
 				return false;

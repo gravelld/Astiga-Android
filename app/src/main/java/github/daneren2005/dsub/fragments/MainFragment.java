@@ -82,19 +82,6 @@ public class MainFragment extends SelectRecyclerFragment<Integer> {
 		}
 
 		switch (item.getItemId()) {
-			case R.id.menu_log:
-				getLogs();
-				return true;
-			case R.id.menu_about:
-				showAboutDialog();
-				return true;
-			case R.id.menu_changelog:
-				ChangeLog changeLog = new ChangeLog(context, Util.getPreferences(context));
-				changeLog.getFullLogDialog().show();
-				return true;
-			case R.id.menu_faq:
-				showFAQDialog();
-				return true;
 			case R.id.menu_rescan:
 				rescanServer();
 				return true;
@@ -145,12 +132,6 @@ public class MainFragment extends SelectRecyclerFragment<Integer> {
 
 			sections.add(songs);
 			headers.add("songs");
-		}
-
-		if(ServerInfo.checkServerVersion(context, "1.8")) {
-			List<Integer> videos = Arrays.asList(R.string.main_videos);
-			sections.add(videos);
-			headers.add("videos");
 		}
 
 		return new MainAdapter(context, headers, sections, this);

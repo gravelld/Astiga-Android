@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="common.appname">DSub</string>
+    <string name="common.appname">Astiga</string>
     <string name="common.ok">OK</string>
     <string name="common.save">Save</string>
     <string name="common.cancel">Cancel</string>
@@ -44,14 +44,13 @@
 	<string name="button_bar.offline">Offline</string>
 
     <string name="main.welcome_title">Welcome!</string>
-    <string name="main.welcome_text">Welcome to DSub! The app is currently configured to use the Subsonic demo server. After you\'ve
-        set up your personal server (available from <b>subsonic.org</b>), please go to <b>Settings</b> and change the configuration to connect to it.</string>
-	<string name="main.about_title">About DSub</string>
+    <string name="main.welcome_text">Welcome to Astiga! Please add your Astiga account in the <b>Settings</b>. Have fun.</string>
+	<string name="main.about_title">About Astiga</string>
 	<string name="main.faq_title">FAQ</string>
 	<string name="main.faq_text">
 	<![CDATA[
 		<font color="red">Cache vs Permanent Cache</font>:
-		<br/>When songs are downloaded by DSub, they can be deleted to make room for new downloads.  Permanently cached music on the other hand will never be automatically deleted.
+		<br/>When songs are downloaded by Astiga, they can be deleted to make room for new downloads.  Permanently cached music on the other hand will never be automatically deleted.
 		<p/><font color="red">ChromeCast fails</font>:
 		<br/>Try setting the option Settings -> Playback -> Use device proxy.  It is a work around for Chromecast not accepting self-signed certificates.
 		<p/><font color="red">First level in Library are actually groups of artists</font>:
@@ -232,7 +231,7 @@
 	<string name="sync.new_playlists">New songs in playlists</string>
 	<string name="sync.new_albums">New albums available</string>
 	<string name="sync.new_starred">New starred songs available</string>
-    
+
 	<string name="starring_content_starred">Starred \"%s\"</string>
 	<string name="starring_content_unstarred">Unstarred \"%s\"</string>
     <string name="starring_content_error">Failed to update \"%s\", please try later.</string>
@@ -243,7 +242,7 @@
 	<string name="updated_playlist">Added %1$s songs to \"%2$s\"</string>
     <string name="updated_playlist_error">Failed to update \"%s\", please try later.</string>
 	<string name="removed_playlist">Removed %1$s songs from \"%2$s\"</string>
-	
+
 	<string name="bookmark.delete">Delete bookmark</string>
 	<string name="bookmark.delete_title">Delete the bookmark for</string>
 	<string name="bookmark.deleted">Deleted the bookmark for \"%s\"</string>
@@ -270,19 +269,19 @@
 
     <string name="settings.title">Settings</string>
     <string name="settings.test_connection_title">Test connection</string>
-	<string name="settings.servers_add">Add Server</string>
-	<string name="settings.servers_remove">Remove Server</string>
-    <string name="settings.servers_title">Servers</string>
+	<string name="settings.servers_add">Add Account</string>
+	<string name="settings.servers_remove">Remove Account</string>
+    <string name="settings.servers_title">Accounts</string>
     <string name="settings.server_unused">Unused</string>
     <string name="settings.server_name">Name</string>
     <string name="settings.server_address">Server address</string>
-	<string name="settings.server_local_network_ssid" >Local network SSID</string>
+	<string name="settings.server_local_network_ssid">Local network SSID</string>
 	<string name="settings.server_local_network_ssid_hint">Current SSID: %s</string>
 	<string name="settings.server_internal_address">Local network address</string>
     <string name="settings.server_username">Username</string>
     <string name="settings.server_password">Password</string>
 	<string name="settings.server_open_browser">Open in browser</string>
-	<string name="settings.server_sync_summary">Whether or not syncing is enabled for this server</string>
+	<string name="settings.server_sync_summary">Whether or not syncing is enabled for this account</string>
 	<string name="settings.server_sync">Sync Enabled</string>
     <string name="settings.cache_title">Music cache</string>
     <string name="settings.preload_wifi">Songs to preload (Wifi)</string>
@@ -290,12 +289,12 @@
     <string name="settings.cache_size">Cache size</string>
     <string name="settings.cache_location">Cache location</string>
     <string name="settings.cache_location_error">Invalid cache location. Using default.</string>
-    <string name="settings.cache_location_reset">The cache location you have set is no longer writable. If you recently upgraded your phone OS to KitKat 4.4, then the way apps write to the SD Card has changed so that they can only write to a specific location.  The location that DSub uses has already been automatically changed to the correct location.  In order to delete all of the old app data, you will need to mount the SD Card on your computer and delete the old folder manually</string>
+    <string name="settings.cache_location_reset">The cache location you have set is no longer writable. If you recently upgraded your phone OS to KitKat 4.4, then the way apps write to the SD Card has changed so that they can only write to a specific location.  The location that Astiga uses has already been automatically changed to the correct location.  In order to delete all of the old app data, you will need to mount the SD Card on your computer and delete the old folder manually</string>
 	<string name="settings.cache_location_internal">Internal</string>
 	<string name="settings.cache_location_external">External</string>
 	<string name="settings.cache_clear">Clear Cache</string>
 	<string name="settings.cache_clear_complete">Finished clearing cache</string>
-    <string name="settings.testing_connection">Testing connection...</string>
+    <string name="settings.testing_connection">Testing connection…</string>
     <string name="settings.testing_ok">Connection is OK</string>
     <string name="settings.testing_unlicensed">Connection is OK. Server unlicensed.</string>
     <string name="settings.connection_failure">Connection failure.</string>
@@ -365,7 +364,7 @@
     <string name="settings.search_history_cleared">Search history cleared</string>
     <string name="settings.other_title">Other settings</string>
     <string name="settings.scrobble_title">Scrobble to Last.fm</string>
-    <string name="settings.scrobble_summary">Remember to set up your Last.fm user and password on the Subsonic server</string>
+    <string name="settings.scrobble_summary">Remember to set up your Last.fm user and password on Astiga</string>
     <string name="settings.hide_media_title">Hide from other</string>
     <string name="settings.hide_media_summary">Hide music files from other apps.</string>
     <string name="settings.hide_media_toast">Takes effect next time Android scans your phone for music.</string>
@@ -450,11 +449,11 @@
 	<string name="settings.menu_options.shared_summary">Show Share in menus</string>
 	<string name="settings.menu_options.rate_summary">Show Rating in menus</string>
 	<string name="settings.browse_by_tags">Browse By Tags</string>
-	<string name="settings.browse_by_tags_summary">Browse by tags instead of by folder structure.  Requires Subsonic 4.7+</string>
+	<string name="settings.browse_by_tags_summary">Browse by tags instead of by folder structure</string>
 	<string name="settings.disable_exit_prompt">Disable Exit Prompt</string>
 	<string name="settings.disable_exit_prompt_summary">Exit the app immediately upon pressing back from the home screen</string>
 	<string name="settings.override_system_language">Override System Language</string>
-	<string name="settings.override_system_language_summary">Display app in english even if the system language is something DSub has a translation for.  May need to clear the app from memory for changes to take affect.</string>
+	<string name="settings.override_system_language_summary">Display app in english even if the system language is something Astiga has a translation for.  May need to clear the app from memory for changes to take affect.</string>
 	<string name="settings.drawer_items_title">Drawer Tabs</string>
 	<string name="settings.song_press_action">Song Press Action</string>
 	<string name="settings.song_press_play_single">Play only that song</string>
@@ -479,7 +478,7 @@
 	<string name="settings.rename_duplicates">Rename duplicate tracks</string>
 	<string name="settings.rename_duplicates_summary">Rename duplicate tracks to the original filename so you can tell them apart.</string>
 	<string name="settings.start_on_headphones">Start on headphones</string>
-	<string name="settings.start_on_headphones_summary">Start when headphones are plugged in.  This requires the use of a service which starts on boot up to check for the headphone plug event even when DSub is not running.</string>
+	<string name="settings.start_on_headphones_summary">Start when headphones are plugged in.  This requires the use of a service which starts on boot up to check for the headphone plug event even when Astiga is not running.</string>
 	<string name="settings.color_action_bar">Color Action Bar</string>
 	<string name="settings.color_action_bar.summary">Color the action bar and status bar or leave them alone</string>
 	<string name="settings.shuffle_by_album">Shuffle By Album</string>
@@ -541,7 +540,7 @@
 	<string name="admin.confirm_password_bad">Entered password is wrong</string>
 	<string name="admin.permissions">Permissions</string>
 	<string name="admin.musicFolders">Music Folders</string>
-	
+
 	<string name="admin.scrobblingEnabled">Scrobbling allowed</string>
 	<string name="admin.role.admin">Administrator</string>
 	<string name="admin.role.settings">Change settings</string>
@@ -565,7 +564,7 @@
 
     <string name="service.connecting">Contacting server, please wait.</string>
 
-    <string name="parser.upgrade_client">Incompatible versions. Please upgrade DSub.</string>
+    <string name="parser.upgrade_client">Incompatible versions. Please upgrade Astiga.</string>
     <string name="parser.upgrade_server">Incompatible versions. Please upgrade Subsonic server.</string>
     <string name="parser.not_authenticated">Wrong username or password.</string>
     <string name="parser.not_authorized">Not authorized. Check user permissions in Subsonic server.</string>
@@ -584,10 +583,10 @@
 	<string name="equalizer.db_size">%d dB</string>
 	<string name="equalizer.bass_size">%d mille</string>
 
-	<string name="widget.4x1">DSub (4x1)</string>
-	<string name="widget.4x2">DSub (4x2)</string>
-	<string name="widget.4x3">DSub (4x3)</string>
-	<string name="widget.4x4">DSub (4x4)</string>
+	<string name="widget.4x1">Astiga (4x1)</string>
+	<string name="widget.4x2">Astiga (4x2)</string>
+	<string name="widget.4x3">Astiga (4x3)</string>
+	<string name="widget.4x4">Astiga (4x4)</string>
     <string name="widget.initial_text">Touch to select music</string>
     <string name="widget.sdcard_busy">SD card unavailable</string>
     <string name="widget.sdcard_missing">No SD card</string>
@@ -608,7 +607,7 @@
 
 	<string name="tasker.start_playing">Start playing</string>
 	<string name="tasker.start_playing_shuffled">Start playing in Shuffle Mode</string>
-	<string name="tasker.start_playing_title">Tasker -> Start DSub</string>
+	<string name="tasker.start_playing_title">Tasker -> Start Astiga</string>
 	<string name="tasker.edit_shuffle_mode">Start in shuffle mode: </string>
 	<string name="tasker.edit_shuffle_start_year">Shuffle start year:</string>
 	<string name="tasker.edit_shuffle_end_year">Shuffle end year:</string>
@@ -664,7 +663,7 @@
 	<string name="details.stream_url">Stream URL</string>
 	<string name="details.home_page">Home Page</string>
 
-	<string name="permission.external_storage.failed">DSub cannot function without the ability to write to storage</string>
+	<string name="permission.external_storage.failed">Astiga cannot function without the ability to write to storage</string>
 
     <plurals name="select_album_n_songs">
         <item quantity="zero">No songs</item>
@@ -683,5 +682,19 @@
         <item quantity="one">One day left of trial period</item>
         <item quantity="other">%d days left of trial period</item>
     </plurals>
+    <string name="title_activity_login">Sign in</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
 
 </resources>

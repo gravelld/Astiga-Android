@@ -157,23 +157,8 @@ public class SubsonicActivity extends AppCompatActivity implements OnItemSelecte
 				public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 					// When changing drawer settings change visibility
 					switch(key) {
-						case Constants.PREFERENCES_KEY_PODCASTS_ENABLED:
-							setDrawerItemVisible(R.id.drawer_podcasts, false);
-							break;
 						case Constants.PREFERENCES_KEY_BOOKMARKS_ENABLED:
 							setDrawerItemVisible(R.id.drawer_bookmarks, false);
-							break;
-						case Constants.PREFERENCES_KEY_INTERNET_RADIO_ENABLED:
-							setDrawerItemVisible(R.id.drawer_internet_radio_stations, false);
-							break;
-						case Constants.PREFERENCES_KEY_SHARED_ENABLED:
-							setDrawerItemVisible(R.id.drawer_shares, false);
-							break;
-						case Constants.PREFERENCES_KEY_CHAT_ENABLED:
-							setDrawerItemVisible(R.id.drawer_chat, false);
-							break;
-						case Constants.PREFERENCES_KEY_ADMIN_ENABLED:
-							setDrawerItemVisible(R.id.drawer_admin, false);
 							break;
 					}
 				}
@@ -257,7 +242,7 @@ public class SubsonicActivity extends AppCompatActivity implements OnItemSelecte
 	@Override
 	protected void onResume() {
 		super.onResume();
-
+		updateDrawerHeader();
 		// If this is in onStart is causes crashes when rotating screen in offline mode
 		// Actual root cause of error is `drawerItemSelected(newFragment);` in the offline mode branch of code
 		populateTabs();
@@ -303,11 +288,11 @@ public class SubsonicActivity extends AppCompatActivity implements OnItemSelecte
 			public boolean onNavigationItemSelected(final MenuItem menuItem) {
 				if(showingTabs) {
 					// Settings are on a different selectable track
-					if (menuItem.getItemId() != R.id.drawer_settings && menuItem.getItemId() != R.id.drawer_admin && menuItem.getItemId() != R.id.drawer_offline) {
+					if (menuItem.getItemId() != R.id.drawer_settings && menuItem.getItemId() != R.id.drawer_offline) {
 						menuItem.setChecked(true);
 						lastSelectedPosition = menuItem.getItemId();
 					}
-
+					updateDrawerHeader();
 					switch (menuItem.getItemId()) {
 						case R.id.drawer_home:
 							drawerItemSelected("Home");
@@ -318,39 +303,8 @@ public class SubsonicActivity extends AppCompatActivity implements OnItemSelecte
 						case R.id.drawer_playlists:
 							drawerItemSelected("Playlist");
 							return true;
-						case R.id.drawer_podcasts:
-							drawerItemSelected("Podcast");
-							return true;
 						case R.id.drawer_bookmarks:
 							drawerItemSelected("Bookmark");
-							return true;
-						case R.id.drawer_internet_radio_stations:
-							drawerItemSelected("Internet Radio");
-							return true;
-						case R.id.drawer_shares:
-							drawerItemSelected("Share");
-							return true;
-						case R.id.drawer_chat:
-							drawerItemSelected("Chat");
-							return true;
-						case R.id.drawer_admin:
-							if (UserUtil.isCurrentAdmin()) {
-								UserUtil.confirmCredentials(SubsonicActivity.this, new Runnable() {
-									@Override
-									public void run() {
-										drawerItemSelected("Admin");
-										menuItem.setChecked(true);
-										lastSelectedPosition = menuItem.getItemId();
-									}
-								});
-							} else {
-								drawerItemSelected("Admin");
-								menuItem.setChecked(true);
-								lastSelectedPosition = menuItem.getItemId();
-							}
-							return true;
-						case R.id.drawer_downloading:
-							drawerItemSelected("Download");
 							return true;
 						case R.id.drawer_offline:
 							toggleOffline();
@@ -409,12 +363,6 @@ public class SubsonicActivity extends AppCompatActivity implements OnItemSelecte
 
 				@Override
 				public void onDrawerOpened(View view) {
-					DownloadService downloadService = getDownloadService();
-					boolean downloadingVisible = downloadService != null && !downloadService.getBackgroundDownloads().isEmpty();
-					if(lastSelectedPosition == R.id.drawer_downloading) {
-						downloadingVisible = true;
-					}
-					setDrawerItemVisible(R.id.drawer_downloading, downloadingVisible);
 
 					drawerIdle = true;
 					drawerOpen = true;
@@ -600,12 +548,12 @@ public class SubsonicActivity extends AppCompatActivity implements OnItemSelecte
 		drawerList.inflateMenu(R.menu.drawer_navigation);
 
 		SharedPreferences prefs = Util.getPreferences(this);
-		boolean podcastsEnabled = prefs.getBoolean(Constants.PREFERENCES_KEY_PODCASTS_ENABLED, true);
+		boolean podcastsEnabled = false;
 		boolean bookmarksEnabled = prefs.getBoolean(Constants.PREFERENCES_KEY_BOOKMARKS_ENABLED, true) && !Util.isOffline(this) && ServerInfo.canBookmark(this);
-		boolean internetRadioEnabled = prefs.getBoolean(Constants.PREFERENCES_KEY_INTERNET_RADIO_ENABLED, true) && !Util.isOffline(this) && ServerInfo.canInternetRadio(this);
-		boolean sharedEnabled = prefs.getBoolean(Constants.PREFERENCES_KEY_SHARED_ENABLED, true) && !Util.isOffline(this);
-		boolean chatEnabled = prefs.getBoolean(Constants.PREFERENCES_KEY_CHAT_ENABLED, true) && !Util.isOffline(this);
-		boolean adminEnabled = prefs.getBoolean(Constants.PREFERENCES_KEY_ADMIN_ENABLED, true) && !Util.isOffline(this);
+		boolean internetRadioEnabled = false;
+		boolean sharedEnabled = false;
+		boolean chatEnabled = false;
+		boolean adminEnabled = false;
 
 		MenuItem offlineMenuItem = drawerList.getMenu().findItem(R.id.drawer_offline);
 		if(Util.isOffline(this)) {
@@ -625,24 +573,8 @@ public class SubsonicActivity extends AppCompatActivity implements OnItemSelecte
 		} else {
 			offlineMenuItem.setTitle(R.string.main_offline);
 		}
-
-		if(!podcastsEnabled) {
-			setDrawerItemVisible(R.id.drawer_podcasts, false);
-		}
 		if(!bookmarksEnabled) {
 			setDrawerItemVisible(R.id.drawer_bookmarks, false);
-		}
-		if(!internetRadioEnabled) {
-			setDrawerItemVisible(R.id.drawer_internet_radio_stations, false);
-		}
-		if(!sharedEnabled) {
-			setDrawerItemVisible(R.id.drawer_shares, false);
-		}
-		if(!chatEnabled) {
-			setDrawerItemVisible(R.id.drawer_chat, false);
-		}
-		if(!adminEnabled) {
-			setDrawerItemVisible(R.id.drawer_admin, false);
 		}
 
 		if(lastSelectedPosition != 0) {
@@ -1207,16 +1139,8 @@ public class SubsonicActivity extends AppCompatActivity implements OnItemSelecte
 				return R.id.drawer_library;
 			case "Playlist":
 				return R.id.drawer_playlists;
-			case "Podcast":
-				return R.id.drawer_podcasts;
 			case "Bookmark":
 				return R.id.drawer_bookmarks;
-			case "Internet Radio":
-				return R.id.drawer_internet_radio_stations;
-			case "Share":
-				return R.id.drawer_shares;
-			case "Chat":
-				return R.id.drawer_chat;
 			default:
 				return R.id.drawer_home;
 		}

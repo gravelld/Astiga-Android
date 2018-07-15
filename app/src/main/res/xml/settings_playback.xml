@@ -69,17 +69,6 @@
 	</PreferenceCategory>
 
 	<PreferenceCategory
-		android:title="@string/settings.video_title">
-
-		<ListPreference
-			android:title="@string/settings.video_player"
-			android:key="videoPlayer"
-			android:defaultValue="hls"
-			android:entryValues="@array/videoPlayerValues"
-			android:entries="@array/videoPlayerNames"/>
-	</PreferenceCategory>
-
-	<PreferenceCategory
 		android:title="@string/settings.replay_gain">
 
 		<CheckBoxPreference

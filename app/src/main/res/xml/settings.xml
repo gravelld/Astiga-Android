@@ -13,11 +13,6 @@
 	</PreferenceScreen>
 
 	<PreferenceScreen
-		android:title="@string/settings.drawer_items_title"
-		android:key="drawer">
-	</PreferenceScreen>
-
-	<PreferenceScreen
 		android:title="@string/settings.cache_screen_title"
 		android:key="cache">
 	</PreferenceScreen>

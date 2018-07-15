@@ -142,6 +142,7 @@
 		<item name="actionModeBackground">?attr/colorPrimary</item>
 		<item name="cardBackgroundDrawable">@drawable/card_rounded_corners_dark</item>
 		<item name="drawerHeaderBackground">@drawable/drawer_header_dark</item>
+		<item name="colorControlHighlight">@color/drawerBackgroundColor</item>
 	</style>
 	<style name="Theme.DSub.Light" parent="Theme.DSub.Light.Base">
 	</style>

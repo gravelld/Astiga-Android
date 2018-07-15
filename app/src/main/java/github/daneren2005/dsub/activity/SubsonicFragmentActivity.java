@@ -135,9 +135,6 @@ public class SubsonicFragmentActivity extends SubsonicActivity implements Downlo
 			finish();
 			getImageLoader().clearCache();
 			DrawableTint.clearCache();
-		} else if(getIntent().hasExtra(Constants.INTENT_EXTRA_NAME_DOWNLOAD_VIEW)) {
-			getIntent().putExtra(Constants.INTENT_EXTRA_FRAGMENT_TYPE, "Download");
-			lastSelectedPosition = R.id.drawer_downloading;
 		}
 		setContentView(R.layout.abstract_fragment_activity);
 
@@ -724,20 +721,20 @@ public class SubsonicFragmentActivity extends SubsonicActivity implements Downlo
 		}
 
 		if (!prefs.contains(Constants.PREFERENCES_KEY_OFFLINE)) {
-			SharedPreferences.Editor editor = prefs.edit();
-			editor.putBoolean(Constants.PREFERENCES_KEY_OFFLINE, false);
-
-			editor.putString(Constants.PREFERENCES_KEY_SERVER_NAME + 1, "Demo Server");
-			editor.putString(Constants.PREFERENCES_KEY_SERVER_URL + 1, "http://demo.subsonic.org");
-			editor.putString(Constants.PREFERENCES_KEY_USERNAME + 1, "guest2");
-			editor.putString(Constants.PREFERENCES_KEY_PASSWORD + 1, "guest");
-			editor.putInt(Constants.PREFERENCES_KEY_SERVER_INSTANCE, 1);
-			editor.commit();
+//			SharedPreferences.Editor editor = prefs.edit();
+//			editor.putBoolean(Constants.PREFERENCES_KEY_OFFLINE, false);
+//
+//			editor.putString(Constants.PREFERENCES_KEY_SERVER_NAME + 1, "Demo Server");
+//			editor.putString(Constants.PREFERENCES_KEY_SERVER_URL + 1, "http://demo.subsonic.org");
+//			editor.putString(Constants.PREFERENCES_KEY_USERNAME + 1, "guest2");
+//			editor.putString(Constants.PREFERENCES_KEY_PASSWORD + 1, "guest");
+//			editor.putInt(Constants.PREFERENCES_KEY_SERVER_INSTANCE, 1);
+//			editor.commit();
 		}
 		if(!prefs.contains(Constants.PREFERENCES_KEY_SERVER_COUNT)) {
-			SharedPreferences.Editor editor = prefs.edit();
-			editor.putInt(Constants.PREFERENCES_KEY_SERVER_COUNT, 1);
-			editor.commit();
+//			SharedPreferences.Editor editor = prefs.edit();
+//			editor.putInt(Constants.PREFERENCES_KEY_SERVER_COUNT, 1);
+//			editor.commit();
 		}
 	}
 
@@ -909,7 +906,7 @@ public class SubsonicFragmentActivity extends SubsonicActivity implements Downlo
 	private void showInfoDialog() {
 		if (!infoDialogDisplayed) {
 			infoDialogDisplayed = true;
-			if (Util.getRestUrl(this, null).contains("demo.subsonic.org")) {
+			if (Util.getRestUrl(this, null).startsWith("null")) {
 				Util.info(this, R.string.main_welcome_title, R.string.main_welcome_text);
 			}
 		}
