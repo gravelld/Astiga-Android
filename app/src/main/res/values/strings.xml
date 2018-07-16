@@ -269,9 +269,10 @@
 
     <string name="settings.title">Settings</string>
     <string name="settings.test_connection_title">Test connection</string>
-	<string name="settings.servers_add">Add Account</string>
-	<string name="settings.servers_remove">Remove Account</string>
-    <string name="settings.servers_title">Accounts</string>
+	<string name="settings.accounts_add">Add Account</string>
+	<string name="settings.accounts_remove">Remove Account</string>
+	<string name="settings.accounts_register">Register Account</string>
+	<string name="settings.accounts_title">Accounts</string>
     <string name="settings.server_unused">Unused</string>
     <string name="settings.server_name">Name</string>
     <string name="settings.server_address">Server address</string>
@@ -280,7 +281,7 @@
 	<string name="settings.server_internal_address">Local network address</string>
     <string name="settings.server_username">Username</string>
     <string name="settings.server_password">Password</string>
-	<string name="settings.server_open_browser">Open in browser</string>
+	<string name="settings.server_open_browser">Configure storage</string>
 	<string name="settings.server_sync_summary">Whether or not syncing is enabled for this account</string>
 	<string name="settings.server_sync">Sync Enabled</string>
     <string name="settings.cache_title">Music cache</string>

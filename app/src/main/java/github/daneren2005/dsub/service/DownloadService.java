@@ -2562,7 +2562,7 @@ public class DownloadService extends Service {
 				public Void doInBackground() throws Throwable {
 					MusicService musicService = MusicServiceFactory.getMusicService(context);
 					entry.setBookmark(new Bookmark(position));
-					musicService.createBookmark(entry, position, "Auto created by DSub", context, null);
+					musicService.createBookmark(entry, position, "Auto created by Astiga", context, null);
 
 					MusicDirectory.Entry found = UpdateView.findEntry(entry);
 					if(found != null) {

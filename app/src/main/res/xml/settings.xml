@@ -3,7 +3,7 @@
 	android:title="@string/settings.title">
 
 	<PreferenceScreen
-		android:title="@string/settings.servers_title"
+		android:title="@string/settings.accounts_title"
 		android:key="servers">
 	</PreferenceScreen>
 

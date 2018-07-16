@@ -83,7 +83,7 @@ public class RemoteControlClientLP extends RemoteControlClientBase {
 	@Override
 	public void register(Context context, ComponentName mediaButtonReceiverComponent) {
 		downloadService = (DownloadService) context;
-		mediaSession = new MediaSession(downloadService, "DSub MediaSession");
+		mediaSession = new MediaSession(downloadService, "Astiga MediaSession");
 
 		Intent mediaButtonIntent = new Intent(Intent.ACTION_MEDIA_BUTTON);
 		mediaButtonIntent.setComponent(mediaButtonReceiverComponent);

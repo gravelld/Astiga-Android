@@ -83,6 +83,7 @@ public class SettingsFragment extends PreferenceCompatFragment implements Shared
 	private ListPreference tempLoss;
 	private ListPreference pauseDisconnect;
 	private Preference addServerPreference;
+	private Preference registerServerPreference;
 	private PreferenceCategory serversCategory;
 	private ListPreference songPressAction;
 //	private ListPreference videoPlayer;
@@ -234,6 +235,7 @@ public class SettingsFragment extends PreferenceCompatFragment implements Shared
 		pauseDisconnect = (ListPreference) this.findPreference(Constants.PREFERENCES_KEY_PAUSE_DISCONNECT);
 		serversCategory = (PreferenceCategory) this.findPreference(Constants.PREFERENCES_KEY_SERVER_KEY);
 		addServerPreference = this.findPreference(Constants.PREFERENCES_KEY_SERVER_ADD);
+		registerServerPreference = this.findPreference(Constants.PREFERENCES_KEY_SERVER_REGISTER);
 //		videoPlayer = (ListPreference) this.findPreference(Constants.PREFERENCES_KEY_VIDEO_PLAYER);
 		songPressAction = (ListPreference) this.findPreference(Constants.PREFERENCES_KEY_SONG_PRESS_ACTION);
 		syncInterval = (ListPreference) this.findPreference(Constants.PREFERENCES_KEY_SYNC_INTERVAL);
@@ -333,6 +335,16 @@ public class SettingsFragment extends PreferenceCompatFragment implements Shared
 					serverSettings.put(String.valueOf(instance), ss);
 					ss.update();
 
+					return true;
+				}
+			});
+
+			registerServerPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+				@Override
+				public boolean onPreferenceClick(Preference preference) {
+					Uri uri = Uri.parse("https://play.asti.ga/register");
+					Intent browserIntent = new Intent(Intent.ACTION_VIEW, uri);
+					startActivity(browserIntent);
 					return true;
 				}
 			});
@@ -574,7 +586,7 @@ public class SettingsFragment extends PreferenceCompatFragment implements Shared
 		Preference serverRemoveServerPreference = new Preference(context);
 		serverRemoveServerPreference.setKey(Constants.PREFERENCES_KEY_SERVER_REMOVE + instance);
 		serverRemoveServerPreference.setPersistent(false);
-		serverRemoveServerPreference.setTitle(R.string.settings_servers_remove);
+		serverRemoveServerPreference.setTitle(R.string.settings_accounts_remove);
 
 		serverRemoveServerPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 			@Override

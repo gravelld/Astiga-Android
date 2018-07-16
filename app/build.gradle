@@ -1,5 +1,11 @@
 apply plugin: 'com.android.application'
 
+repositories {
+	maven {
+		url "https://maven.google.com"
+	}
+}
+
 android {
 	compileSdkVersion 24
 	buildToolsVersion '25.0.0'
@@ -10,7 +16,7 @@ android {
 		targetSdkVersion 23
 		versionCode 195
 		versionName '5.3.5'
-		setProperty("archivesBaseName", "DSub $versionName")
+		setProperty("archivesBaseName", "Astiga $versionName")
 		resConfigs "de", "es", "fr", "hu", "nl", "pt-rPT", "ru", "sv"
 	}
 	buildTypes {
@@ -61,7 +67,7 @@ dependencies {
 	compile 'com.android.support:mediarouter-v7:24.2.+'
 	compile 'com.android.support:recyclerview-v7:24.2.+'
 	compile 'com.android.support:design:24.2.+'
-	googleCompile 'com.google.android.gms:play-services-cast:8.1.0'
+	compile 'com.google.android.gms:play-services-cast:8.1.0'
 	compile 'com.sothree.slidinguppanel:library:3.0.0'
 	compile 'de.hdodenhof:circleimageview:1.2.1'
     compile 'com.shehabic.droppy:Droppy:0.5.1@aar'

@@ -85,7 +85,7 @@
 		</activity>
 
         <service android:name="github.daneren2005.dsub.service.DownloadService"
-                 android:label="DSub Playback Service"/>
+                 android:label="Astiga Playback Service"/>
 
 		<service android:name="github.daneren2005.dsub.service.AutoMediaBrowserService"
 				 android:exported="true">
@@ -146,7 +146,7 @@
 		</service>
 
 		<service android:name="github.daneren2005.dsub.service.HeadphoneListenerService"
-			android:label="DSub Headphone Listener"/>
+			android:label="Astiga Headphone Listener"/>
 		<receiver
 			android:name="github.daneren2005.dsub.receiver.BootReceiver">
 			<intent-filter>
@@ -215,7 +215,7 @@
 		</receiver>
 
         <provider android:name="github.daneren2005.dsub.provider.DSubSearchProvider"
-                  android:authorities="github.daneren2005.dsub.provider.DSubSearchProvider"/>
+                  android:authorities="ga.asti.android.provider.DSubSearchProvider"/>
 		<provider android:name="github.daneren2005.dsub.provider.PlaylistStubProvider"
 			android:authorities="ga.asti.android.playlists.provider"
 			android:label="@string/button_bar.playlists"

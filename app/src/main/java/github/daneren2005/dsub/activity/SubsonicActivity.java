@@ -292,7 +292,7 @@ public class SubsonicActivity extends AppCompatActivity implements OnItemSelecte
 						menuItem.setChecked(true);
 						lastSelectedPosition = menuItem.getItemId();
 					}
-					updateDrawerHeader();
+					//updateDrawerHeader();
 					switch (menuItem.getItemId()) {
 						case R.id.drawer_home:
 							drawerItemSelected("Home");

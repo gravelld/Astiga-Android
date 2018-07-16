@@ -284,19 +284,19 @@ public class DSubWidgetProvider extends AppWidgetProvider {
         views.setOnClickPendingIntent(R.id.appwidget_top, pendingIntent);
         
         // Emulate media button clicks.
-        intent = new Intent("DSub.PLAY_PAUSE");
+        intent = new Intent("Astiga.PLAY_PAUSE");
         intent.setComponent(new ComponentName(context, DownloadService.class));
 		intent.setAction(DownloadService.CMD_TOGGLEPAUSE);
         pendingIntent = PendingIntent.getService(context, 0, intent, 0);
         views.setOnClickPendingIntent(R.id.control_play, pendingIntent);
 
-        intent = new Intent("DSub.NEXT");  // Use a unique action name to ensure a different PendingIntent to be created.
+        intent = new Intent("Astiga.NEXT");  // Use a unique action name to ensure a different PendingIntent to be created.
         intent.setComponent(new ComponentName(context, DownloadService.class));
 		intent.setAction(DownloadService.CMD_NEXT);
         pendingIntent = PendingIntent.getService(context, 0, intent, 0);
         views.setOnClickPendingIntent(R.id.control_next, pendingIntent);
         
-        intent = new Intent("DSub.PREVIOUS");  // Use a unique action name to ensure a different PendingIntent to be created.
+        intent = new Intent("Astiga.PREVIOUS");  // Use a unique action name to ensure a different PendingIntent to be created.
         intent.setComponent(new ComponentName(context, DownloadService.class));
 		intent.setAction(DownloadService.CMD_PREVIOUS);
         pendingIntent = PendingIntent.getService(context, 0, intent, 0);
