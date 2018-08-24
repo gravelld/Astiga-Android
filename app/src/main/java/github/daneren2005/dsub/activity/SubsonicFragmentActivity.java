@@ -380,7 +380,7 @@ public class SubsonicFragmentActivity extends SubsonicActivity implements Downlo
 			} else {
 				Dialog log = changeLog.getLogDialog();
 				if (log != null) {
-					log.show();
+					//log.show();
 				}
 			}
 		}

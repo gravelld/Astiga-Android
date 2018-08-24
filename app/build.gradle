@@ -14,8 +14,8 @@ android {
 		applicationId "ga.asti.android"
 		minSdkVersion 14
 		targetSdkVersion 26
-		versionCode 100
-		versionName '1.0.0'
+		versionCode 110
+		versionName '1.1.0'
 		setProperty("archivesBaseName", "Astiga $versionName")
 		//resConfigs "de", "es", "fr", "hu", "nl", "pt-rPT", "ru", "sv"
 	}
