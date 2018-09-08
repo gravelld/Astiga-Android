@@ -98,7 +98,7 @@ public class RESTMusicService implements MusicService {
     private static final String TAG = RESTMusicService.class.getSimpleName();
 
     private static final int SOCKET_READ_TIMEOUT_DEFAULT = 10 * 1000;
-    private static final int SOCKET_READ_TIMEOUT_DOWNLOAD = 30 * 1000;
+    private static final int SOCKET_READ_TIMEOUT_DOWNLOAD = 90 * 1000;
     private static final int SOCKET_READ_TIMEOUT_GET_PLAYLIST = 60 * 1000;
 
     // Allow 20 seconds extra timeout per MB offset.
