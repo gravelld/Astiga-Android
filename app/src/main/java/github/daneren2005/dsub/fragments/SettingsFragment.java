@@ -327,7 +327,7 @@ public class SettingsFragment extends PreferenceCompatFragment implements Shared
 					editor.putInt(Constants.PREFERENCES_KEY_SERVER_COUNT, serverCount);
 					// Reset set folder ID
 					editor.putString(Constants.PREFERENCES_KEY_MUSIC_FOLDER_ID + instance, null);
-					editor.putString(Constants.PREFERENCES_KEY_SERVER_URL + instance, "https://play.asti.ga");
+					editor.putString(Constants.PREFERENCES_KEY_SERVER_URL + instance, "https://play.astiga.app");
 					editor.putString(Constants.PREFERENCES_KEY_SERVER_NAME + instance, "Astiga");
 					editor.commit();
 
@@ -342,7 +342,7 @@ public class SettingsFragment extends PreferenceCompatFragment implements Shared
 			registerServerPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 				@Override
 				public boolean onPreferenceClick(Preference preference) {
-					Uri uri = Uri.parse("https://play.asti.ga/register");
+					Uri uri = Uri.parse("https://play.astiga.app/register");
 					Intent browserIntent = new Intent(Intent.ACTION_VIEW, uri);
 					startActivity(browserIntent);
 					return true;
@@ -578,7 +578,9 @@ public class SettingsFragment extends PreferenceCompatFragment implements Shared
 		serverOpenBrowser.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 			@Override
 			public boolean onPreferenceClick(Preference preference) {
-				openInBrowser(instance);
+				Uri uri = Uri.parse("https://play.astiga.app/manage");
+				Intent browserIntent = new Intent(Intent.ACTION_VIEW, uri);
+				startActivity(browserIntent);
 				return true;
 			}
 		});

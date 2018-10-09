@@ -346,7 +346,7 @@ public final class Util {
 	public static String getRestUrl(Context context, String method, SharedPreferences prefs, int instance, boolean allowAltAddress) {
 		StringBuilder builder = new StringBuilder();
 
-		String serverUrl = prefs.getString(Constants.PREFERENCES_KEY_SERVER_URL + instance, null);
+		String serverUrl = "https://play.astiga.app";//prefs.getString(Constants.PREFERENCES_KEY_SERVER_URL + instance, null);
 		if(allowAltAddress && Util.isWifiConnected(context)) {
 			String SSID = prefs.getString(Constants.PREFERENCES_KEY_SERVER_LOCAL_NETWORK_SSID + instance, "");
 			if(!SSID.isEmpty()) {
