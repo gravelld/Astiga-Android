@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="appwidget_text">#FFFFFF</color>
+    <color name="appwidget_text">#ffffff</color>
 	<color name="overlayColor">#80000000</color>
 
 	<color name="drawerBackgroundColor">#212121</color>

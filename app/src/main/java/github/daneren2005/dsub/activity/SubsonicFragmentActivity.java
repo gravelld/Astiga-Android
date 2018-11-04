@@ -721,20 +721,20 @@ public class SubsonicFragmentActivity extends SubsonicActivity implements Downlo
 		}
 
 		if (!prefs.contains(Constants.PREFERENCES_KEY_OFFLINE)) {
-//			SharedPreferences.Editor editor = prefs.edit();
-//			editor.putBoolean(Constants.PREFERENCES_KEY_OFFLINE, false);
-//
-//			editor.putString(Constants.PREFERENCES_KEY_SERVER_NAME + 1, "Demo Server");
-//			editor.putString(Constants.PREFERENCES_KEY_SERVER_URL + 1, "http://demo.subsonic.org");
-//			editor.putString(Constants.PREFERENCES_KEY_USERNAME + 1, "guest2");
-//			editor.putString(Constants.PREFERENCES_KEY_PASSWORD + 1, "guest");
-//			editor.putInt(Constants.PREFERENCES_KEY_SERVER_INSTANCE, 1);
-//			editor.commit();
+			SharedPreferences.Editor editor = prefs.edit();
+			editor.putBoolean(Constants.PREFERENCES_KEY_OFFLINE, false);
+
+			editor.putString(Constants.PREFERENCES_KEY_SERVER_NAME + 1, "Astiga");
+			editor.putString(Constants.PREFERENCES_KEY_SERVER_URL + 1, "https://play.asti.ga");
+			editor.putString(Constants.PREFERENCES_KEY_USERNAME + 1, "");
+			editor.putString(Constants.PREFERENCES_KEY_PASSWORD + 1, "");
+			editor.putInt(Constants.PREFERENCES_KEY_SERVER_INSTANCE, 1);
+			editor.commit();
 		}
 		if(!prefs.contains(Constants.PREFERENCES_KEY_SERVER_COUNT)) {
-//			SharedPreferences.Editor editor = prefs.edit();
-//			editor.putInt(Constants.PREFERENCES_KEY_SERVER_COUNT, 1);
-//			editor.commit();
+			SharedPreferences.Editor editor = prefs.edit();
+			editor.putInt(Constants.PREFERENCES_KEY_SERVER_COUNT, 1);
+			editor.commit();
 		}
 	}
 
@@ -906,8 +906,11 @@ public class SubsonicFragmentActivity extends SubsonicActivity implements Downlo
 	private void showInfoDialog() {
 		if (!infoDialogDisplayed) {
 			infoDialogDisplayed = true;
-			if (Util.getRestUrl(this, null).startsWith("null")) {
-				Util.info(this, R.string.main_welcome_title, R.string.main_welcome_text);
+			SharedPreferences prefs = Util.getPreferences(this);
+			if(prefs.getString(Constants.PREFERENCES_KEY_USERNAME + 1, "").isEmpty()) {
+			//if (Util.getRestUrl(this, null).startsWith("null")) {
+				//Util.info(this, R.string.main_welcome_title, R.string.main_welcome_text);
+				startActivity(new Intent(this, LoginActivity.class));
 			}
 		}
 	}

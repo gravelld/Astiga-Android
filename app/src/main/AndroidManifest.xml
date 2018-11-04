@@ -53,6 +53,11 @@
                   android:configChanges="orientation|keyboardHidden"
                   android:launchMode="singleTask"/>
 
+        <activity android:name="github.daneren2005.dsub.activity.LoginActivity"
+                  android:configChanges="orientation|keyboardHidden"
+		          android:theme="@style/Theme.DSub.Dark"
+                  android:launchMode="singleTask"/>
+
         <activity android:name="github.daneren2005.dsub.activity.VoiceQueryReceiverActivity"
                   android:launchMode="singleTask">
             <intent-filter>
