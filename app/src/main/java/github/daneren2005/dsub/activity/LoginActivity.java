@@ -246,6 +246,9 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             editor.putString(Constants.PREFERENCES_KEY_USERNAME + 1, mEmail);
             editor.putString(Constants.PREFERENCES_KEY_PASSWORD + 1, mPassword);
             editor.putInt(Constants.PREFERENCES_KEY_SERVER_INSTANCE, 1);
+            if (prefs.getInt(Constants.PREFERENCES_KEY_SERVER_COUNT, 0) < 1) {
+                editor.putInt(Constants.PREFERENCES_KEY_SERVER_COUNT, 1);
+            }
             editor.commit();
 
             MusicService musicService = MusicServiceFactory.getMusicService(context);
