@@ -107,10 +107,10 @@ public class ArtistRadioBuffer {
 	}
 
 	private void refill() {
-		if (buffer != null && executorService != null && (buffer.size() > refillThreshold || (!Util.isNetworkConnected(context) && !Util.isOffline(context)) || lastCount == 0)) {
-			executorService.shutdown();
-			return;
-		}
+		//if (buffer != null && executorService != null && (buffer.size() > refillThreshold || (!Util.isNetworkConnected(context) && !Util.isOffline(context)) )) { //|| lastCount == 0
+		//	executorService.shutdown();
+		//	return;
+		//}
 
 		try {
 			MusicService service = MusicServiceFactory.getMusicService(context);
