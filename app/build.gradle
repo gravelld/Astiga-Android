@@ -34,10 +34,10 @@ android {
 	}
 	flavorDimensions "version"
 	productFlavors {
-		floss {
-			// FLOSS build (no proprietary libraries)
-			dimension "version"
-		}
+//		floss {
+//			// FLOSS build (no proprietary libraries)
+//			dimension "version"
+//		}
 		google {
 			// FLOSS build + Google libraries
 			// Adds ChromeCast support
