@@ -320,7 +320,7 @@ public class RemoteControlClientLP extends RemoteControlClientBase {
 				} else if(results.hasAlbums()) {
 					playFromParent(results.getAlbums().get(0), false);
 				} else if(results.hasSongs()) {
-					playSong(results.getSongs().get(0));
+					playSongs(results.getSongs());
 				} else {
 					noResults();
 				}
@@ -548,9 +548,9 @@ public class RemoteControlClientLP extends RemoteControlClientBase {
 					downloadService.setShufflePlayEnabled(true);
 				}
 				else {
-					int artists = 10;
-					int albums = 10;
-					int songs = 10;
+					int artists = 100;
+					int albums = 100;
+					int songs = 100;
 
 					// Play a specific artist
 					if (MediaStore.Audio.Artists.ENTRY_CONTENT_TYPE.equals(mediaFocus)) {
