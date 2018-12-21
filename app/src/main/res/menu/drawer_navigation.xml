@@ -17,6 +17,10 @@
 			android:id="@+id/drawer_bookmarks"
 			android:icon="?attr/drawerBookmarks"
 			android:title="@string/button_bar.bookmarks"/>
+		<item
+			android:id="@+id/drawer_synchronise"
+			android:icon="?attr/drawerSynchronise"
+			android:title="@string/button_bar.synchronise"/>
 	</group>
 
 	<group

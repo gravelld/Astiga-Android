@@ -121,16 +121,16 @@
 			<meta-data android:name="android.content.SyncAdapter"
 				android:resource="@xml/playlists_syncadapter" />
 		</service>
-		<service android:name="github.daneren2005.dsub.service.sync.PodcastSyncService"
-				 android:exported="true"
-				 android:process=":sync">
+		<!--<service android:name="github.daneren2005.dsub.service.sync.PodcastSyncService"-->
+				 <!--android:exported="true"-->
+				 <!--android:process=":sync">-->
 
-			<intent-filter>
-				<action android:name="android.content.SyncAdapter"/>
-			</intent-filter>
-			<meta-data android:name="android.content.SyncAdapter"
-					   android:resource="@xml/podcasts_syncadapter" />
-		</service>
+			<!--<intent-filter>-->
+				<!--<action android:name="android.content.SyncAdapter"/>-->
+			<!--</intent-filter>-->
+			<!--<meta-data android:name="android.content.SyncAdapter"-->
+					   <!--android:resource="@xml/podcasts_syncadapter" />-->
+		<!--</service>-->
 		<service android:name="github.daneren2005.dsub.service.sync.StarredSyncService"
 				 android:exported="true"
 				 android:process=":sync">

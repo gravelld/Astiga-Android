@@ -118,21 +118,17 @@ public class MainFragment extends SelectRecyclerFragment<Integer> {
 		sections.add(albums);
 		headers.add("albums");
 
-		if(ServerInfo.isMadsonic6(context)) {
-			List<Integer> songs = new ArrayList<>();
+		//if(ServerInfo.isMadsonic6(context)) {
+		List<Integer> songs = new ArrayList<>();
 
-			songs.add(R.string.main_songs_newest);
-			if(ServerInfo.checkServerVersion(context, "2.0.1")) {
-				songs.add(R.string.main_songs_top_played);
-			}
-			songs.add(R.string.main_songs_recent);
-			if(ServerInfo.checkServerVersion(context, "2.0.1")) {
-				songs.add(R.string.main_songs_frequent);
-			}
+		songs.add(R.string.main_songs_newest);
+		//songs.add(R.string.main_songs_top_played);
+		songs.add(R.string.main_songs_recent);
+		songs.add(R.string.main_songs_frequent);
 
-			sections.add(songs);
-			headers.add("songs");
-		}
+		sections.add(songs);
+		headers.add("songs");
+		//}
 
 		return new MainAdapter(context, headers, sections, this);
 	}

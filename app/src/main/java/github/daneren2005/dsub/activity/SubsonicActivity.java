@@ -27,6 +27,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.media.AudioManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -290,7 +291,9 @@ public class SubsonicActivity extends AppCompatActivity implements OnItemSelecte
 					// Settings are on a different selectable track
 					if (menuItem.getItemId() != R.id.drawer_settings && menuItem.getItemId() != R.id.drawer_offline) {
 						menuItem.setChecked(true);
-						lastSelectedPosition = menuItem.getItemId();
+						if (menuItem.getItemId() != R.id.drawer_synchronise) {
+							lastSelectedPosition = menuItem.getItemId();
+						}
 					}
 					//updateDrawerHeader();
 					switch (menuItem.getItemId()) {
@@ -305,6 +308,12 @@ public class SubsonicActivity extends AppCompatActivity implements OnItemSelecte
 							return true;
 						case R.id.drawer_bookmarks:
 							drawerItemSelected("Bookmark");
+							return true;
+						case R.id.drawer_synchronise:
+							drawer.closeDrawers();
+							Uri uri = Uri.parse("https://play.asti.ga/sync");
+							Intent browserIntent = new Intent(Intent.ACTION_VIEW, uri);
+							startActivity(browserIntent);
 							return true;
 						case R.id.drawer_offline:
 							toggleOffline();
