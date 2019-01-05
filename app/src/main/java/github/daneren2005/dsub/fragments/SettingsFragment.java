@@ -72,10 +72,10 @@ public class SettingsFragment extends PreferenceCompatFragment implements Shared
 	private final Map<String, ServerSettings> serverSettings = new LinkedHashMap<String, ServerSettings>();
 	private boolean testingConnection;
 	private ListPreference theme;
-	private ListPreference maxBitrateWifi;
-	private ListPreference maxBitrateMobile;
-	private ListPreference maxVideoBitrateWifi;
-	private ListPreference maxVideoBitrateMobile;
+//	private ListPreference maxBitrateWifi;
+//	private ListPreference maxBitrateMobile;
+//	private ListPreference maxVideoBitrateWifi;
+//	private ListPreference maxVideoBitrateMobile;
 	private ListPreference networkTimeout;
 	private CacheLocationPreference cacheLocation;
 	private ListPreference preloadCountWifi;
@@ -231,10 +231,10 @@ public class SettingsFragment extends PreferenceCompatFragment implements Shared
 		this.setTitle(preferenceScreen.getTitle());
 
 		theme = (ListPreference) this.findPreference(Constants.PREFERENCES_KEY_THEME);
-		maxBitrateWifi = (ListPreference) this.findPreference(Constants.PREFERENCES_KEY_MAX_BITRATE_WIFI);
-		maxBitrateMobile = (ListPreference) this.findPreference(Constants.PREFERENCES_KEY_MAX_BITRATE_MOBILE);
-		maxVideoBitrateWifi = (ListPreference) this.findPreference(Constants.PREFERENCES_KEY_MAX_VIDEO_BITRATE_WIFI);
-		maxVideoBitrateMobile = (ListPreference) this.findPreference(Constants.PREFERENCES_KEY_MAX_VIDEO_BITRATE_MOBILE);
+//		maxBitrateWifi = (ListPreference) this.findPreference(Constants.PREFERENCES_KEY_MAX_BITRATE_WIFI);
+//		maxBitrateMobile = (ListPreference) this.findPreference(Constants.PREFERENCES_KEY_MAX_BITRATE_MOBILE);
+//		maxVideoBitrateWifi = (ListPreference) this.findPreference(Constants.PREFERENCES_KEY_MAX_VIDEO_BITRATE_WIFI);
+//		maxVideoBitrateMobile = (ListPreference) this.findPreference(Constants.PREFERENCES_KEY_MAX_VIDEO_BITRATE_MOBILE);
 		networkTimeout = (ListPreference) this.findPreference(Constants.PREFERENCES_KEY_NETWORK_TIMEOUT);
 		cacheLocation = (CacheLocationPreference) this.findPreference(Constants.PREFERENCES_KEY_CACHE_LOCATION);
 		preloadCountWifi = (ListPreference) this.findPreference(Constants.PREFERENCES_KEY_PRELOAD_COUNT_WIFI);
@@ -399,10 +399,10 @@ public class SettingsFragment extends PreferenceCompatFragment implements Shared
 		}
 
 		if(cacheSize != null) {
-			maxBitrateWifi.setSummary(maxBitrateWifi.getEntry());
-			maxBitrateMobile.setSummary(maxBitrateMobile.getEntry());
-			maxVideoBitrateWifi.setSummary(maxVideoBitrateWifi.getEntry());
-			maxVideoBitrateMobile.setSummary(maxVideoBitrateMobile.getEntry());
+//			maxBitrateWifi.setSummary(maxBitrateWifi.getEntry());
+//			maxBitrateMobile.setSummary(maxBitrateMobile.getEntry());
+//			maxVideoBitrateWifi.setSummary(maxVideoBitrateWifi.getEntry());
+//			maxVideoBitrateMobile.setSummary(maxVideoBitrateMobile.getEntry());
 			networkTimeout.setSummary(networkTimeout.getEntry());
 			cacheLocation.setSummary(cacheLocation.getText());
 			preloadCountWifi.setSummary(preloadCountWifi.getEntry());

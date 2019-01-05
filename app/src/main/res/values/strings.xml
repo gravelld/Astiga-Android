@@ -421,7 +421,7 @@
 	<string name="settings.shares_enabled_summary">Whether or not to display the shares listing in the pull out drawer</string>
 	<string name="settings.sync_title">Sync</string>
 	<string name="settings.sync_enabled">Sync Enabled</string>
-	<string name="settings.sync_enabled_summary">Whether or not playlists or podcasts are periodically checked for changes</string>
+	<string name="settings.sync_enabled_summary">Whether or not playlists are periodically checked for changes</string>
 	<string name="settings.sync_interval">Sync Interval</string>
 	<string name="settings.sync_interval_15">15 Minutes</string>
 	<string name="settings.sync_interval_30">30 Minutes</string>
@@ -476,7 +476,7 @@
 	<string name="settings.replay_gain_untagged">Songs without Replay Gain</string>
 	<string name="settings.casting">Casting</string>
 	<string name="settings.casting_proxy">Use device proxy</string>
-	<string name="settings.casting_proxy_summary">Stream everything through the device as a proxy.  This gets around issues such as using self-signed certificates.</string>
+	<string name="settings.casting_proxy_summary">Stream everything through the device as a proxy.</string>
 	<string name="settings.rename_duplicates">Rename duplicate tracks</string>
 	<string name="settings.rename_duplicates_summary">Rename duplicate tracks to the original filename so you can tell them apart.</string>
 	<string name="settings.start_on_headphones">Start on headphones</string>

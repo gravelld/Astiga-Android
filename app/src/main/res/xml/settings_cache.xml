@@ -6,6 +6,7 @@
 	<PreferenceCategory
 		android:title="@string/settings.network_title">
 
+		<!--
 		<ListPreference
 			android:title="@string/settings.max_bitrate_wifi"
 			android:key="maxBitrateWifi"
@@ -33,6 +34,7 @@
 			android:defaultValue="0"
 			android:entryValues="@array/maxVideoBitrateValues"
 			android:entries="@array/maxVideoBitrateNames"/>
+		-->
 
 		<CheckBoxPreference
 			android:title="@string/settings.wifi_required_title"
