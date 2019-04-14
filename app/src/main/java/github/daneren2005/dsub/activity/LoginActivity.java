@@ -38,6 +38,7 @@ import github.daneren2005.dsub.service.MusicService;
 import github.daneren2005.dsub.service.MusicServiceFactory;
 import github.daneren2005.dsub.util.Constants;
 import github.daneren2005.dsub.util.FileUtil;
+import github.daneren2005.dsub.util.KeyStoreUtil;
 import github.daneren2005.dsub.util.Util;
 
 /**
@@ -244,7 +245,22 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             editor.putString(Constants.PREFERENCES_KEY_SERVER_NAME + 1, "Astiga");
             editor.putString(Constants.PREFERENCES_KEY_SERVER_URL + 1, "https://play.asti.ga");
             editor.putString(Constants.PREFERENCES_KEY_USERNAME + 1, mEmail);
-            editor.putString(Constants.PREFERENCES_KEY_PASSWORD + 1, mPassword);
+            if (Build.VERSION.SDK_INT < 23) {
+                editor.putString(Constants.PREFERENCES_KEY_PASSWORD + 1, mPassword);
+            } else {
+                // Attempt to encrypt password
+                String encryptedDefaultPassword = KeyStoreUtil.encrypt(mPassword);
+
+                if (encryptedDefaultPassword != null) {
+                    // If encryption succeeds, store encrypted password and flag password as encrypted
+                    editor.putString(Constants.PREFERENCES_KEY_PASSWORD + 1, encryptedDefaultPassword);
+                    editor.putBoolean(Constants.PREFERENCES_KEY_ENCRYPTED_PASSWORD + 1, true);
+                } else {
+                    // Fall back to plaintext if Keystore is having issue
+                    editor = editor.putString(Constants.PREFERENCES_KEY_PASSWORD + 1, mPassword);
+                    editor.putBoolean(Constants.PREFERENCES_KEY_ENCRYPTED_PASSWORD + 1, false);
+                }
+            }
             editor.putInt(Constants.PREFERENCES_KEY_SERVER_INSTANCE, 1);
             if (prefs.getInt(Constants.PREFERENCES_KEY_SERVER_COUNT, 0) < 1) {
                 editor.putInt(Constants.PREFERENCES_KEY_SERVER_COUNT, 1);
