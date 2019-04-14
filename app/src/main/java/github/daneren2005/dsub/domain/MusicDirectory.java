@@ -723,7 +723,7 @@ public class MusicDirectory implements Serializable {
 				return 1;
 			}
 
-			return collator.compare(lhs.getTitle(), rhs.getTitle());
+			return collator.compare(lhs.getPath(), rhs.getPath());
 		}
 		
 		public static void sort(List<Entry> entries) {

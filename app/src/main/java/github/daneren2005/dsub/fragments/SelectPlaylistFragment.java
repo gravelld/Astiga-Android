@@ -284,16 +284,11 @@ public class SelectPlaylistFragment extends SelectRecyclerFragment<Playlist> {
 		View dialogView = context.getLayoutInflater().inflate(R.layout.update_playlist, null);
 		final EditText nameBox = (EditText)dialogView.findViewById(R.id.get_playlist_name);
 		final EditText commentBox = (EditText)dialogView.findViewById(R.id.get_playlist_comment);
-		final CheckBox publicBox = (CheckBox)dialogView.findViewById(R.id.get_playlist_public);
+		//final CheckBox publicBox = (CheckBox)dialogView.findViewById(R.id.get_playlist_public);
 
 		nameBox.setText(playlist.getName());
 		commentBox.setText(playlist.getComment());
 		Boolean pub = playlist.getPublic();
-		if(pub == null) {
-			publicBox.setEnabled(false);
-		} else {
-			publicBox.setChecked(pub);
-		}
 
 		new AlertDialog.Builder(context)
 			.setIcon(android.R.drawable.ic_dialog_alert)
@@ -307,7 +302,7 @@ public class SelectPlaylistFragment extends SelectRecyclerFragment<Playlist> {
 						protected Void doInBackground() throws Throwable {
 							String name = nameBox.getText().toString();
 							String comment = commentBox.getText().toString();
-							boolean isPublic = publicBox.isChecked();
+							boolean isPublic = false;//publicBox.isChecked();
 
 							MusicService musicService = MusicServiceFactory.getMusicService(context);
 							musicService.updatePlaylist(playlist.getId(), name, comment, isPublic, context, null);
