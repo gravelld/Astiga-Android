@@ -27,6 +27,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
@@ -74,6 +75,7 @@ import github.daneren2005.dsub.updates.Updater;
 import github.daneren2005.dsub.util.Constants;
 import github.daneren2005.dsub.util.DrawableTint;
 import github.daneren2005.dsub.util.FileUtil;
+import github.daneren2005.dsub.util.KeyStoreUtil;
 import github.daneren2005.dsub.util.SilentBackgroundTask;
 import github.daneren2005.dsub.util.UserUtil;
 import github.daneren2005.dsub.util.Util;
@@ -688,6 +690,15 @@ public class SubsonicFragmentActivity extends SubsonicActivity implements Downlo
 	}
 
 	private void loadSession() {
+		if (Build.VERSION.SDK_INT >= 23) {
+			try {
+				KeyStoreUtil.loadKeyStore();
+			} catch (Exception e) {
+				Log.w(TAG, "Error loading keystore");
+				Log.w(TAG, Log.getStackTraceString(e));
+			}
+		}
+
 		loadSettings();
 		if(!Util.isOffline(this) && ServerInfo.canBookmark(this)) {
 			loadBookmarks();
@@ -727,7 +738,22 @@ public class SubsonicFragmentActivity extends SubsonicActivity implements Downlo
 			editor.putString(Constants.PREFERENCES_KEY_SERVER_NAME + 1, "Astiga");
 			editor.putString(Constants.PREFERENCES_KEY_SERVER_URL + 1, "https://play.asti.ga");
 			editor.putString(Constants.PREFERENCES_KEY_USERNAME + 1, "");
-			editor.putString(Constants.PREFERENCES_KEY_PASSWORD + 1, "");
+			if (Build.VERSION.SDK_INT < 23) {
+				editor.putString(Constants.PREFERENCES_KEY_PASSWORD + 1, "");
+			} else {
+				// Attempt to encrypt password
+				String encryptedDefaultPassword = KeyStoreUtil.encrypt("");
+
+				if (encryptedDefaultPassword != null) {
+					// If encryption succeeds, store encrypted password and flag password as encrypted
+					editor.putString(Constants.PREFERENCES_KEY_PASSWORD + 1, encryptedDefaultPassword);
+					editor.putBoolean(Constants.PREFERENCES_KEY_ENCRYPTED_PASSWORD + 1, true);
+				} else {
+					// Fall back to plaintext if Keystore is having issue
+					editor = editor.putString(Constants.PREFERENCES_KEY_PASSWORD + 1, "");
+					editor.putBoolean(Constants.PREFERENCES_KEY_ENCRYPTED_PASSWORD + 1, false);
+				}
+			}
 			editor.putInt(Constants.PREFERENCES_KEY_SERVER_INSTANCE, 1);
 			editor.commit();
 		}
