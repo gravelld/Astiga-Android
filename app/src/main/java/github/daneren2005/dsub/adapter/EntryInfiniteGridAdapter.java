@@ -133,6 +133,8 @@ public class EntryInfiniteGridAdapter extends EntryGridAdapter {
 			result = service.getSongsByGenre(extra, size, offset, context, null);
 		}else if(type.indexOf(MainFragment.SONGS_LIST_PREFIX) != -1) {
 			result = service.getSongList(type, size, offset, context, null);
+		} else if (type.indexOf("artist-") != -1) {
+			result = service.getArtistList(type.split("-", 2)[1], size, offset, false, context, null);
 		} else {
 			result = service.getAlbumList(type, size, offset, false, context, null);
 		}

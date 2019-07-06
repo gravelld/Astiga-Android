@@ -624,6 +624,113 @@ public class RESTMusicService implements MusicService {
 		}
 	}
 
+@Override
+    public MusicDirectory getArtistList(String type, int size, int offset, boolean refresh, Context context, ProgressListener progressListener) throws Exception {
+		List<String> names = new ArrayList<String>();
+		List<Object> values = new ArrayList<Object>();
+
+		names.add("type");
+		values.add(type);
+		names.add("size");
+		values.add(size);
+		names.add("offset");
+		values.add(offset);
+
+		// Add folder if it was set and is non null
+		int instance = getInstance(context);
+		if(Util.getAlbumListsPerFolder(context, instance)) {
+			String folderId = Util.getSelectedMusicFolderId(context, instance);
+			if(folderId != null) {
+				names.add("musicFolderId");
+				values.add(folderId);
+			}
+		}
+
+		String method;
+		if(Util.isTagBrowsing(context, instance)) {
+			if(ServerInfo.isMadsonic6(context, instance)) {
+				method = "getArtistListID3";
+			} else {
+				method = "getArtistList2";
+			}
+		} else {
+			method = "getArtistList";
+		}
+
+        Reader reader = getReader(context, progressListener, method, names, values, true);
+        try {
+            return new EntryListParser(context, getInstance(context)).parse(reader, progressListener);
+        } finally {
+            Util.close(reader);
+        }
+    }
+
+	@Override
+	public MusicDirectory getArtistList(String type, String extra, int size, int offset, boolean refresh, Context context, ProgressListener progressListener) throws Exception {
+		checkServerVersion(context, "1.10.1", "This type of album list is not supported");
+
+		List<String> names = new ArrayList<String>();
+		List<Object> values = new ArrayList<Object>();
+
+		names.add("size");
+		names.add("offset");
+
+		values.add(size);
+		values.add(offset);
+
+		int instance = getInstance(context);
+		if("genres".equals(type)) {
+			names.add("type");
+			values.add("byGenre");
+
+			names.add("genre");
+			values.add(extra);
+		} else if("years".equals(type)) {
+			names.add("type");
+			values.add("byYear");
+
+			names.add("fromYear");
+			names.add("toYear");
+
+			int decade = Integer.parseInt(extra);
+			// Reverse chronological order only supported in 5.3+
+			if(ServerInfo.checkServerVersion(context, "1.13", instance) && !ServerInfo.isMadsonic(context, instance)) {
+				values.add(decade + 9);
+				values.add(decade);
+			} else {
+				values.add(decade);
+				values.add(decade + 9);
+			}
+		}
+
+		// Add folder if it was set and is non null
+		if(Util.getAlbumListsPerFolder(context, instance)) {
+			String folderId = Util.getSelectedMusicFolderId(context, instance);
+			if(folderId != null) {
+				names.add("musicFolderId");
+				values.add(folderId);
+			}
+		}
+
+		String method;
+		if(Util.isTagBrowsing(context, instance)) {
+			if(ServerInfo.isMadsonic6(context, instance)) {
+				method = "getArtistListID3";
+			} else {
+				method = "getArtistList2";
+			}
+		} else {
+			method = "getArtistList";
+		}
+
+		Reader reader = getReader(context, progressListener, method, names, values, true);
+		try {
+			return new EntryListParser(context, instance).parse(reader, progressListener);
+		} finally {
+			Util.close(reader);
+		}
+	}
+
     @Override
     public MusicDirectory getSongList(String type, int size, int offset, Context context, ProgressListener progressListener) throws Exception {
         List<String> names = new ArrayList<String>();
