@@ -85,8 +85,10 @@ public class MusicDirectoryEntryParser extends AbstractParser {
 		
 		entry.setId(get("id"));
 		entry.setTitle(get("name"));
+		entry.setArtist(get("songCount") + " songs");
+		entry.setCoverArt(get("coverArt"));
 		entry.setPath(entry.getTitle());
-		entry.setStarred(true);
+		entry.setStarred(get("starred") != null);
 		entry.setDirectory(true);
 		
 		return entry;

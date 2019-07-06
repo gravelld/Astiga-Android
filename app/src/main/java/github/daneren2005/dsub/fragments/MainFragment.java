@@ -118,6 +118,24 @@ public class MainFragment extends SelectRecyclerFragment<Integer> {
 		sections.add(albums);
 		headers.add("albums");
 
+		List<Integer> artists = new ArrayList<>();
+		artists.add(R.string.main_artists_newest);
+		artists.add(R.string.main_artists_random);
+		if(ServerInfo.checkServerVersion(context, "1.8")) {
+			artists.add(R.string.main_artists_alphabetical);
+		}
+		if(!Util.isTagBrowsing(context)) {
+			artists.add(R.string.main_artists_highest);
+		}
+//		artists.add(R.string.main_artists_starred);
+//		artists.add(R.string.main_artists_genres);
+//		artists.add(R.string.main_artists_year);
+		artists.add(R.string.main_artists_recent);
+		artists.add(R.string.main_artists_frequent);
+
+		sections.add(artists);
+		headers.add("artists");
+
 		//if(ServerInfo.isMadsonic6(context)) {
 		List<Integer> songs = new ArrayList<>();
 
@@ -387,6 +405,24 @@ public class MainFragment extends SelectRecyclerFragment<Integer> {
 			showAlbumList("years");
 		} else if(item == R.string.main_albums_alphabetical) {
 			showAlbumList("alphabeticalByName");
+		} else if (item == R.string.main_artists_newest) {
+			showAlbumList("artist-newest");
+		} else if (item == R.string.main_artists_random) {
+			showAlbumList("artist-random");
+		} else if (item == R.string.main_artists_highest) {
+			showAlbumList("artist-highest");
+		} else if (item == R.string.main_artists_recent) {
+			showAlbumList("artist-recent");
+		} else if (item == R.string.main_artists_frequent) {
+			showAlbumList("artist-frequent");
+		} else if (item == R.string.main_artists_starred) {
+			showAlbumList("artist-starred");
+//		} else if(item == R.string.main_artists_genres) {
+//			showAlbumList("artist-genres");
+//		} else if(item == R.string.main_artists_year) {
+//			showAlbumList("artist-years");
+		} else if(item == R.string.main_artists_alphabetical) {
+			showAlbumList("artist-alphabeticalByName");
 		} else if(item == R.string.main_videos) {
 			showVideos();
 		} else if (item == R.string.main_songs_newest) {

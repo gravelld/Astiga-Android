@@ -103,6 +103,9 @@ public class MainAdapter extends SectionAdapter<Integer> {
 		} else if("songs".equals(header)) {
 			display = context.getResources().getString(R.string.search_songs);
 			checkBox.setVisibility(View.GONE);
+		} else if("artists".equals(header)) {
+			display = context.getResources().getString(R.string.main_artists_title);
+			checkBox.setVisibility(View.GONE);
 		} else {
 			display = header;
 			checkBox.setVisibility(View.GONE);

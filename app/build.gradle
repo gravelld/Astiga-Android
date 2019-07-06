@@ -13,8 +13,8 @@ android {
 		applicationId "ga.asti.android"
 		minSdkVersion 14
 		targetSdkVersion 26
-		versionCode 1440
-		versionName '1.4.4'
+		versionCode 1452
+		versionName '1.4.5'
 		setProperty("archivesBaseName", "Astiga $versionName")
 		//resConfigs "de", "es", "fr", "hu", "nl", "pt-rPT", "ru", "sv"
 	}
@@ -69,7 +69,7 @@ dependencies {
 	implementation 'com.android.support:recyclerview-v7:27.1.+'
 	implementation 'com.android.support:design:27.1.+'
 	implementation 'com.google.android.gms:play-services-cast:8.1.0'
-	implementation 'com.sothree.slidinguppanel:library:3.0.0'
+	implementation 'com.sothree.slidinguppanel:library:3.2.1'
 	implementation 'de.hdodenhof:circleimageview:1.2.1'
     implementation 'com.shehabic.droppy:Droppy:0.5.1@aar'
 	implementation group: 'org.fourthline.cling', name: 'cling-core', version:'2.1.1'

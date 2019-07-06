@@ -53,6 +53,9 @@ public class EntryListParser extends MusicDirectoryEntryParser {
                 } else if ("song".equals(name)) {
                     MusicDirectory.Entry entry = parseEntry("");
                     dir.addChild(entry);
+                } else if ("artist".equals(name)) {
+                    MusicDirectory.Entry entry = parseArtist();
+                    dir.addChild(entry);
                 } else if ("error".equals(name)) {
                     handleError();
                 }
