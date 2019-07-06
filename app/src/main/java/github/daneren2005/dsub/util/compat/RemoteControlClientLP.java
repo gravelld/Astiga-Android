@@ -375,22 +375,30 @@ public class RemoteControlClientLP extends RemoteControlClientBase {
 	}
 	private void playMusicDirectory(final String dirId, final boolean shuffle, final boolean append, final Entry startEntry) {
 		new SilentServiceTask<Void>(downloadService) {
-			@Override
-			protected Void doInBackground(MusicService musicService) throws Throwable {
+			List<Entry> playEntries = new ArrayList<>();
+
+			private void walkFolder(String id) throws Throwable {
 				MusicDirectory musicDirectory;
 				if(Util.isTagBrowsing(downloadService) && !Util.isOffline(downloadService)) {
-					musicDirectory = musicService.getAlbum(dirId, "dir", false, downloadService, null);
+					musicDirectory = musicService.getAlbum(id, "dir", false, downloadService, null);
 				} else {
-					musicDirectory = musicService.getMusicDirectory(dirId, "dir", false, downloadService, null);
+					musicDirectory = musicService.getMusicDirectory(id, "dir", false, downloadService, null);
 				}
 
-				List<Entry> playEntries = new ArrayList<>();
-				List<Entry> allEntries = musicDirectory.getChildren(false, true);
+				List<Entry> allEntries = musicDirectory.getChildren(true, true);
 				for(Entry song: allEntries) {
-					if (!song.isVideo() && song.getRating() != 1) {
+					if (song.isDirectory()) {
+						walkFolder(song.getId());
+					} else if (!song.isVideo() && song.getRating() != 1) {
 						playEntries.add(song);
 					}
 				}
+			}
+
+			@Override
+			protected Void doInBackground(MusicService musicService) throws Throwable {
+				walkFolder(dirId);
+
 				playSongs(playEntries, shuffle, append, startEntry);
 
 				return null;
@@ -399,22 +407,30 @@ public class RemoteControlClientLP extends RemoteControlClientBase {
 	}
 	private void playMusicDirectory(final String dirId, final boolean shuffle, final boolean append, final boolean playFromBookmark) {
 		new SilentServiceTask<Void>(downloadService) {
-			@Override
-			protected Void doInBackground(MusicService musicService) throws Throwable {
+			List<Entry> playEntries = new ArrayList<>();
+
+			private void walkFolder(String id) throws Throwable {
 				MusicDirectory musicDirectory;
 				if(Util.isTagBrowsing(downloadService) && !Util.isOffline(downloadService)) {
-					musicDirectory = musicService.getAlbum(dirId, "dir", false, downloadService, null);
+					musicDirectory = musicService.getAlbum(id, "dir", false, downloadService, null);
 				} else {
-					musicDirectory = musicService.getMusicDirectory(dirId, "dir", false, downloadService, null);
+					musicDirectory = musicService.getMusicDirectory(id, "dir", false, downloadService, null);
 				}
 
-				List<Entry> playEntries = new ArrayList<>();
-				List<Entry> allEntries = musicDirectory.getChildren(false, true);
+				List<Entry> allEntries = musicDirectory.getChildren(true, true);
 				for(Entry song: allEntries) {
-					if (!song.isVideo() && song.getRating() != 1) {
+					if (song.isDirectory()) {
+						walkFolder(song.getId());
+					} else if (!song.isVideo() && song.getRating() != 1) {
 						playEntries.add(song);
 					}
 				}
+			}
+
+			@Override
+			protected Void doInBackground(MusicService musicService) throws Throwable {
+				walkFolder(dirId);
+
 				playSongs(playEntries, shuffle, append, playFromBookmark);
 
 				return null;
