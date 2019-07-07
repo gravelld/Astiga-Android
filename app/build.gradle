@@ -7,12 +7,12 @@ repositories {
 }
 
 android {
-	compileSdkVersion 27
+	compileSdkVersion 28
 
 	defaultConfig {
 		applicationId "ga.asti.android"
 		minSdkVersion 14
-		targetSdkVersion 26
+		targetSdkVersion 28
 		versionCode 1452
 		versionName '1.4.5'
 		setProperty("archivesBaseName", "Astiga $versionName")

@@ -245,18 +245,6 @@ public class SubsonicFragmentActivity extends SubsonicActivity implements Downlo
 		};
 		slideUpPanel.setPanelSlideListener(panelSlideListener);
 
-		if(getIntent().hasExtra(Constants.INTENT_EXTRA_NAME_DOWNLOAD)) {
-			// Post this later so it actually runs
-			handler.postDelayed(new Runnable() {
-				@Override
-				public void run() {
-					openNowPlaying();
-				}
-			}, 200);
-
-			getIntent().removeExtra(Constants.INTENT_EXTRA_NAME_DOWNLOAD);
-		}
-
 		bottomBar = findViewById(R.id.bottom_bar);
 		mainToolbar = (Toolbar) findViewById(R.id.main_toolbar);
 		nowPlayingToolbar = (Toolbar) findViewById(R.id.now_playing_toolbar);
@@ -459,6 +447,18 @@ public class SubsonicFragmentActivity extends SubsonicActivity implements Downlo
 				getDownloadService().addOnSongChangedListener(SubsonicFragmentActivity.this, true);
 			}
 		});
+
+		if(getIntent().hasExtra(Constants.INTENT_EXTRA_NAME_DOWNLOAD)) {
+			// Post this later so it actually runs
+			handler.postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					openNowPlaying();
+				}
+			}, 200);
+
+			getIntent().removeExtra(Constants.INTENT_EXTRA_NAME_DOWNLOAD);
+		}
 	}
 
 	@Override
