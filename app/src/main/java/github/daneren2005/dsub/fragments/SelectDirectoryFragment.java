@@ -35,6 +35,7 @@ import github.daneren2005.dsub.adapter.EntryInfiniteGridAdapter;
 import github.daneren2005.dsub.adapter.EntryGridAdapter;
 import github.daneren2005.dsub.adapter.SectionAdapter;
 import github.daneren2005.dsub.adapter.TopRatedAlbumAdapter;
+import github.daneren2005.dsub.domain.Artist;
 import github.daneren2005.dsub.domain.ArtistInfo;
 import github.daneren2005.dsub.domain.MusicDirectory;
 import github.daneren2005.dsub.domain.ServerInfo;
@@ -226,7 +227,7 @@ public class SelectDirectoryFragment extends SubsonicFragment implements Section
 	public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
 		if(licenseValid == null) {
 			menuInflater.inflate(R.menu.empty, menu);
-		} else if(albumListType != null && !"starred".equals(albumListType)) {
+		} else if(albumListType != null && albumListType.indexOf("artist-") == -1 && !"starred".equals(albumListType)) {
 			menuInflater.inflate(R.menu.select_album_list, menu);
 		} else if(artist && !showAll) {
 			menuInflater.inflate(R.menu.select_album, menu);
@@ -333,16 +334,25 @@ public class SelectDirectoryFragment extends SubsonicFragment implements Section
 	@Override
 	public void onItemClicked(UpdateView<Entry> updateView, Entry entry) {
 		if (entry.isDirectory()) {
-			SubsonicFragment fragment = new SelectDirectoryFragment();
+			SubsonicFragment fragment;
 			Bundle args = new Bundle();
-			args.putString(Constants.INTENT_EXTRA_NAME_ID, entry.getId());
-			args.putString(Constants.INTENT_EXTRA_NAME_NAME, entry.getTitle());
-			args.putSerializable(Constants.INTENT_EXTRA_NAME_DIRECTORY, entry);
-			if ("newest".equals(albumListType)) {
-				args.putBoolean(Constants.INTENT_EXTRA_REFRESH_LISTINGS, true);
-			}
-			if(!entry.isAlbum()) {
+			if (albumListType != null && albumListType.indexOf("artist-") != -1) {
+				fragment = new SelectDirectoryFragment();
+				args.putString(Constants.INTENT_EXTRA_NAME_ID, entry.getId());
+				args.putString(Constants.INTENT_EXTRA_NAME_NAME, entry.getArtist());
 				args.putBoolean(Constants.INTENT_EXTRA_NAME_ARTIST, true);
+				args.putSerializable(Constants.INTENT_EXTRA_NAME_DIRECTORY, entry);
+			} else {
+				fragment = new SelectDirectoryFragment();
+				args.putString(Constants.INTENT_EXTRA_NAME_ID, entry.getId());
+				args.putString(Constants.INTENT_EXTRA_NAME_NAME, entry.getTitle());
+				args.putSerializable(Constants.INTENT_EXTRA_NAME_DIRECTORY, entry);
+				if ("newest".equals(albumListType)) {
+					args.putBoolean(Constants.INTENT_EXTRA_REFRESH_LISTINGS, true);
+				}
+				if(!entry.isAlbum()) {
+					args.putBoolean(Constants.INTENT_EXTRA_NAME_ARTIST, true);
+				}
 			}
 			fragment.setArguments(args);
 
