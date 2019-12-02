@@ -527,7 +527,12 @@ public class OfflineMusicService implements MusicService {
 	public void removeFromPlaylist(String id, List<Integer> toRemove, Context context, ProgressListener progressListener) throws Exception {
 		throw new OfflineException(ERRORMSG);
 	}
-	
+
+	@Override
+	public void reorderPlaylist(String id, int from, int to, Context context, ProgressListener progressListener) throws Exception {
+		throw new OfflineException(ERRORMSG);
+	}
+
 	@Override
 	public void overwritePlaylist(String id, String name, int toRemove, List<Entry> toAdd, Context context, ProgressListener progressListener) throws Exception {
 		throw new OfflineException(ERRORMSG);

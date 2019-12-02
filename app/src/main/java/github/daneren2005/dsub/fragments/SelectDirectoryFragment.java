@@ -12,6 +12,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -22,6 +23,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -395,8 +397,53 @@ public class SelectDirectoryFragment extends SubsonicFragment implements Section
 		}
 
 		recyclerView.setVisibility(View.INVISIBLE);
+
 		if (playlistId != null) {
 			getPlaylist(playlistId, playlistName, refresh);
+			ItemTouchHelper touchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.RIGHT) {
+				int dragFrom = -1;
+				int dragTo = -1;
+
+				@Override
+				public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+					int fromPosition = viewHolder.getAdapterPosition();
+					int toPosition = target.getAdapterPosition();
+
+
+					if(dragFrom == -1) {
+						dragFrom =  fromPosition;
+					}
+					dragTo = toPosition;
+
+					entryGridAdapter.moveItem(fromPosition, toPosition);
+					return true;
+				}
+
+				@Override
+				public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+					ArrayList<Integer> indexes = new ArrayList<>();
+					indexes.add(viewHolder.getAdapterPosition());
+					removeFromPlaylist(playlistId, playlistName, indexes);
+				}
+
+				@Override
+				public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+					super.clearView(recyclerView, viewHolder);
+
+					if(dragFrom != -1 && dragTo != -1 && dragFrom != dragTo) {
+						reorderPlaylist(playlistId, playlistName, dragFrom - 1, dragTo - 1);
+					}
+
+					dragFrom = dragTo = -1;
+				}
+			});
+			recyclerView.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Log.d(TAG, "OnClicked");
+				}
+			});
+			touchHelper.attachToRecyclerView(recyclerView);
 		} else if(podcastId != null) {
 			getPodcast(podcastId, podcastName, refresh);
 		} else if (share != null) {
@@ -947,6 +994,34 @@ public class SelectDirectoryFragment extends SubsonicFragment implements Section
 					entryGridAdapter.removeAt(index);
 				}
 				Util.toast(context, context.getResources().getString(R.string.removed_playlist, String.valueOf(indexes.size()), name));
+			}
+
+			@Override
+			protected void error(Throwable error) {
+				String msg;
+				if (error instanceof OfflineException || error instanceof ServerTooOldException) {
+					msg = getErrorMessage(error);
+				} else {
+					msg = context.getResources().getString(R.string.updated_playlist_error, name) + " " + getErrorMessage(error);
+				}
+
+				Util.toast(context, msg, false);
+			}
+		}.execute();
+	}
+
+	public void reorderPlaylist(final String id, final String name, final int from, final int to) {
+		new LoadingTask<Void>(context, true) {
+			@Override
+			protected Void doInBackground() throws Throwable {
+				MusicService musicService = MusicServiceFactory.getMusicService(context);
+				musicService.reorderPlaylist(id, from, to, context, null);
+				return null;
+			}
+
+			@Override
+			protected void done(Void result) {
+//				entryGridAdapter.moveItem(from, to);
 			}
 
 			@Override

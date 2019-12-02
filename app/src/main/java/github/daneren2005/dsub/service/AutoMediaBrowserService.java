@@ -134,12 +134,12 @@ public class AutoMediaBrowserService extends MediaBrowserServiceCompat {
 				.setMediaId(BROWSER_PLAYLISTS);
 		mediaItems.add(new MediaBrowserCompat.MediaItem(playlists.build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE));
 
-//		if(Util.getPreferences(downloadService).getBoolean(Constants.PREFERENCES_KEY_PODCASTS_ENABLED, true)) {
-//			MediaDescription.Builder podcasts = new MediaDescription.Builder();
-//			podcasts.setTitle(downloadService.getString(R.string.button_bar_podcasts))
-//					.setMediaId(BROWSER_PODCASTS);
-//			mediaItems.add(new MediaBrowser.MediaItem(podcasts.build(), MediaBrowser.MediaItem.FLAG_BROWSABLE));
-//		}
+		if(Util.getPreferences(downloadService).getBoolean(Constants.PREFERENCES_KEY_PODCASTS_ENABLED, true)) {
+			MediaDescriptionCompat.Builder podcasts = new MediaDescriptionCompat.Builder();
+			podcasts.setTitle(downloadService.getString(R.string.button_bar_podcasts))
+					.setMediaId(BROWSER_PODCASTS);
+			mediaItems.add(new MediaBrowserCompat.MediaItem(podcasts.build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE));
+		}
 
 		if(Util.getPreferences(downloadService).getBoolean(Constants.PREFERENCES_KEY_BOOKMARKS_ENABLED, true)) {
 			MediaDescriptionCompat.Builder podcasts = new MediaDescriptionCompat.Builder();

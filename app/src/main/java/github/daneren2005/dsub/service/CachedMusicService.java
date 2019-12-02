@@ -479,7 +479,12 @@ public class CachedMusicService implements MusicService {
 			}
 		}.execute();
 	}
-	
+
+	@Override
+	public void reorderPlaylist(String id, int from, int to, Context context, ProgressListener progressListener) throws Exception {
+		musicService.reorderPlaylist(id, from, to, context, progressListener);
+	}
+
 	@Override
 	public void overwritePlaylist(String id, String name, int toRemove, final List<Entry> toAdd, Context context, ProgressListener progressListener) throws Exception {
 		musicService.overwritePlaylist(id, name, toRemove, toAdd, context, progressListener);

@@ -103,6 +103,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Random;
 
 import static github.daneren2005.dsub.domain.MusicDirectory.Entry;
@@ -1017,12 +1018,22 @@ public class SubsonicFragment extends Fragment implements SwipeRefreshLayout.OnR
 	}
 
 	protected void addToPlaylist(final List<Entry> songs) {
-		Iterator<Entry> it = songs.iterator();
-		while(it.hasNext()) {
-			Entry entry = it.next();
+		MusicService musicService = MusicServiceFactory.getMusicService(context);
+
+		int i = 0;
+		while(i < songs.size()) {
+			Entry entry = songs.get(i);
 			if(entry.isDirectory()) {
-				it.remove();
+				songs.remove(i);
+				i--;
+				try {
+					MusicDirectory directory = getMusicDirectory(entry.getId(), entry.getTitle(), false, musicService, null);
+					songs.addAll(directory.getChildren());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
+			i++;
 		}
 
 		if(songs.isEmpty()) {

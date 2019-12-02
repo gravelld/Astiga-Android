@@ -158,6 +158,9 @@ public class SubsonicActivity extends AppCompatActivity implements OnItemSelecte
 				public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 					// When changing drawer settings change visibility
 					switch(key) {
+						case Constants.PREFERENCES_KEY_PODCASTS_ENABLED:
+							setDrawerItemVisible(R.id.drawer_podcasts, false);
+							break;
 						case Constants.PREFERENCES_KEY_BOOKMARKS_ENABLED:
 //							setDrawerItemVisible(R.id.drawer_bookmarks, false);
 							break;
@@ -305,6 +308,9 @@ public class SubsonicActivity extends AppCompatActivity implements OnItemSelecte
 							return true;
 						case R.id.drawer_playlists:
 							drawerItemSelected("Playlist");
+							return true;
+						case R.id.drawer_podcasts:
+							drawerItemSelected("Podcast");
 							return true;
 						case R.id.drawer_bookmarks:
 							drawerItemSelected("Bookmark");
