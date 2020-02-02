@@ -36,7 +36,8 @@
     	android:backupAgent="github.daneren2005.dsub.util.SettingsBackupAgent"
     	android:icon="@drawable/launch"
     	android:theme="@style/Theme.DSub.Light"
-		android:largeHeap="true">
+		android:largeHeap="true"
+		android:usesCleartextTraffic="true" >
     	
         <uses-library android:name="android.test.runner" />
 

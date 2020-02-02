@@ -99,7 +99,7 @@ public class RESTMusicService implements MusicService {
     private static final String TAG = RESTMusicService.class.getSimpleName();
 
     private static final int SOCKET_READ_TIMEOUT_DEFAULT = 10 * 1000;
-    private static final int SOCKET_READ_TIMEOUT_DOWNLOAD = 90 * 1000;
+    private static final int SOCKET_READ_TIMEOUT_DOWNLOAD = 30 * 1000;
     private static final int SOCKET_READ_TIMEOUT_GET_PLAYLIST = 60 * 1000;
 
     // Allow 20 seconds extra timeout per MB offset.
@@ -2039,7 +2039,7 @@ public class RESTMusicService implements MusicService {
 		String username = prefs.getString(Constants.PREFERENCES_KEY_USERNAME + instance, null);
 		String password = prefs.getString(Constants.PREFERENCES_KEY_PASSWORD + instance, null);
 		if (prefs.getBoolean(Constants.PREFERENCES_KEY_ENCRYPTED_PASSWORD + instance, false)) password = KeyStoreUtil.decrypt(password);
-		String encoded = Base64.encodeToString((username + ":" + password).getBytes("UTF-8"), Base64.NO_WRAP);;
+		String encoded = Base64.encodeToString((username + ":" + password).getBytes("UTF-8"), Base64.NO_WRAP);
 		connection.setRequestProperty("Authorization", "Basic " + encoded);
 
 		// Force the connection to initiate
