@@ -340,7 +340,11 @@ public class ImageLoader {
 			entry.setTitle(playlist.getName());
 		}
 		entry.setId(id);
-		entry.setCoverArt(id);
+		if (playlist.getCoverArt() != null) {
+			entry.setCoverArt(playlist.getCoverArt());
+		} else {
+			entry.setCoverArt(id);
+		}
 		// So this isn't treated as a artist
 		entry.setParent("");
 
