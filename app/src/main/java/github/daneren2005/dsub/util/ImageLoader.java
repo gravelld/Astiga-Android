@@ -21,6 +21,7 @@ package github.daneren2005.dsub.util;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
@@ -61,6 +62,7 @@ import github.daneren2005.dsub.util.compat.RemoteControlClientBase;
  */
 public class ImageLoader {
 	private static final String TAG = ImageLoader.class.getSimpleName();
+	public static final String SONG_PREFIX = "ca-";
 	public static final String PLAYLIST_PREFIX = "pl-";
 	public static final String PODCAST_PREFIX = "pc-";
 
@@ -169,32 +171,36 @@ public class ImageLoader {
 		return bitmap;
 	}
 	private Bitmap createUnknownImage(int size, int primaryColor, String topText, String bottomText) {
-		Bitmap bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
-		Canvas canvas = new Canvas(bitmap);
-
-		Paint color = new Paint();
-		color.setColor(primaryColor);
-		canvas.drawRect(0, 0, size, size * 2.0f / 3.0f, color);
-
-		color.setShader(new LinearGradient(0, 0, 0, size / 3.0f, Color.rgb(82, 82, 82), Color.BLACK, Shader.TileMode.MIRROR));
-		canvas.drawRect(0, size * 2.0f / 3.0f, size, size, color);
-
-		if(topText != null || bottomText != null) {
-			Paint font = new Paint();
-			font.setFlags(Paint.ANTI_ALIAS_FLAG);
-			font.setColor(Color.WHITE);
-			font.setTextSize(3.0f + size * 0.07f);
-
-			if(topText != null) {
-				canvas.drawText(topText, size * 0.05f, size * 0.6f, font);
-			}
-
-			if(bottomText != null) {
-				canvas.drawText(bottomText, size * 0.05f, size * 0.8f, font);
-			}
-		}
-
+		Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),
+				R.drawable.unknown_album_large);
+		bitmap = Bitmap.createScaledBitmap(bitmap, size, size, false);
 		return bitmap;
+//		Bitmap bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
+//		Canvas canvas = new Canvas(bitmap);
+//
+//		Paint color = new Paint();
+//		color.setColor(primaryColor);
+//		canvas.drawRect(0, 0, size, size * 2.0f / 3.0f, color);
+//
+//		color.setShader(new LinearGradient(0, 0, 0, size / 3.0f, Color.rgb(82, 82, 82), Color.BLACK, Shader.TileMode.MIRROR));
+//		canvas.drawRect(0, size * 2.0f / 3.0f, size, size, color);
+//
+//		if(topText != null || bottomText != null) {
+//			Paint font = new Paint();
+//			font.setFlags(Paint.ANTI_ALIAS_FLAG);
+//			font.setColor(Color.WHITE);
+//			font.setTextSize(3.0f + size * 0.07f);
+//
+//			if(topText != null) {
+//				canvas.drawText(topText, size * 0.05f, size * 0.6f, font);
+//			}
+//
+//			if(bottomText != null) {
+//				canvas.drawText(bottomText, size * 0.05f, size * 0.8f, font);
+//			}
+//		}
+//
+//		return bitmap;
 	}
 
 	public Bitmap getCachedImage(Context context, MusicDirectory.Entry entry, boolean large) {
