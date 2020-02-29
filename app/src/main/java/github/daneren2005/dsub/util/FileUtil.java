@@ -193,7 +193,10 @@ public class FileUtil {
 		return getAlbumArtFile(context, entry);
 	}
     public static File getAlbumArtFile(Context context, MusicDirectory.Entry entry) {
-		if(entry.getId().indexOf(ImageLoader.PLAYLIST_PREFIX) != -1) {
+		if (entry.getCoverArt() != null) {
+			File dir = getAlbumArtDirectory(context);
+			return  new File(dir, Util.md5Hex(ImageLoader.SONG_PREFIX + entry.getCoverArt()) + ".jpeg");
+		} else if(entry.getId().indexOf(ImageLoader.PLAYLIST_PREFIX) != -1) {
 			File dir = getAlbumArtDirectory(context);
 			return  new File(dir, Util.md5Hex(ImageLoader.PLAYLIST_PREFIX + entry.getTitle()) + ".jpeg");
 		} else if(entry.getId().indexOf(ImageLoader.PODCAST_PREFIX) != -1) {
