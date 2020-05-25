@@ -30,6 +30,16 @@
 	<string name="common.true">Yes</string>
 	<string name="common.never">Never</string>
 
+	<string name="common.play">Play</string>
+	<string name="common.pause">Pause</string>
+	<string name="common.stop">Stop</string>
+	<string name="common.rewind">Rewind</string>
+	<string name="common.fastforward">Fast forward</string>
+	<string name="common.repeat">Repeat</string>
+	<string name="common.next">Next</string>
+	<string name="common.previous">Previous</string>
+	<string name="common.toggle_list">Toggle list</string>
+
     <string name="button_bar.home">Home</string>
     <string name="button_bar.browse">Library</string>
 	<string name="button_bar.playlists">Playlists</string>
