@@ -75,6 +75,7 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.math.BigInteger;
+import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
 import java.text.DecimalFormat;
@@ -373,7 +374,11 @@ public final class Util {
 		}
 		builder.append("rest/");
 		builder.append(method).append(".view");
-		builder.append("?u=").append(username);
+		try {
+			builder.append("?u=").append(URLEncoder.encode(username, "UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 //		if(method != null && ServerInfo.canUseToken(context, instance)) {
 //			int hash = (username + password).hashCode();
 //			Pair<String, String> values = tokens.get(hash);
