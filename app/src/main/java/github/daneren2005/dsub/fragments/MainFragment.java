@@ -103,9 +103,7 @@ public class MainFragment extends SelectRecyclerFragment<Integer> {
 		List<Integer> albums = new ArrayList<>();
 		albums.add(R.string.main_albums_newest);
 		albums.add(R.string.main_albums_random);
-		if(ServerInfo.checkServerVersion(context, "1.8")) {
-			albums.add(R.string.main_albums_alphabetical);
-		}
+		albums.add(R.string.main_albums_alphabetical);
 		if(!Util.isTagBrowsing(context)) {
 			albums.add(R.string.main_albums_highest);
 		}
@@ -121,9 +119,7 @@ public class MainFragment extends SelectRecyclerFragment<Integer> {
 		List<Integer> artists = new ArrayList<>();
 		artists.add(R.string.main_artists_newest);
 		artists.add(R.string.main_artists_random);
-		if(ServerInfo.checkServerVersion(context, "1.8")) {
-			artists.add(R.string.main_artists_alphabetical);
-		}
+		artists.add(R.string.main_artists_alphabetical);
 		if(!Util.isTagBrowsing(context)) {
 			artists.add(R.string.main_artists_highest);
 		}

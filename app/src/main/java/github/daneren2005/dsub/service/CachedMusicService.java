@@ -532,9 +532,9 @@ public class CachedMusicService implements MusicService {
 	@Override
 	public MusicDirectory getAlbumList(String type, int size, int offset, boolean refresh, Context context, ProgressListener progressListener) throws Exception {
 		try {
-			MusicDirectory dir = FileUtil.deserialize(context, getCacheName(context, type, Integer.toString(offset)), MusicDirectory.class);
+			MusicDirectory dir = FileUtil.deserialize(context, getCacheName(context, "album" + type, Integer.toString(offset)), MusicDirectory.class);
 			if(dir == null || refresh) {
-				FileUtil.deleteSerializedCache(context, type);
+				FileUtil.deleteSerializedCache(context, "album" + type);
 				dir = musicService.getAlbumList(type, size, offset, refresh, context, progressListener);
 			}
 
@@ -632,7 +632,7 @@ public class CachedMusicService implements MusicService {
 				FileUtil.serialize(context, recents, recentlyAddedFile);
 			}
 
-			FileUtil.serialize(context, dir, getCacheName(context, type, Integer.toString(offset)));
+			FileUtil.serialize(context, dir, getCacheName(context, "album" + type, Integer.toString(offset)));
 			return dir;
 		} catch(IOException e) {
 			Log.w(TAG, "Failed to refresh album list: ", e);
@@ -640,7 +640,7 @@ public class CachedMusicService implements MusicService {
 				throw e;
 			}
 
-			MusicDirectory dir = FileUtil.deserialize(context, getCacheName(context, type, Integer.toString(offset)), MusicDirectory.class);
+			MusicDirectory dir = FileUtil.deserialize(context, getCacheName(context, "album" + type, Integer.toString(offset)), MusicDirectory.class);
 
 			if(dir == null) {
 				// If we are at start and no cache, throw error higher
@@ -659,12 +659,12 @@ public class CachedMusicService implements MusicService {
 	@Override
 	public MusicDirectory getAlbumList(String type, String extra, int size, int offset, boolean refresh, Context context, ProgressListener progressListener) throws Exception {
 		try {
-			MusicDirectory dir = FileUtil.deserialize(context, getCacheName(context, type + extra, Integer.toString(offset)), MusicDirectory.class);
+			MusicDirectory dir = FileUtil.deserialize(context, getCacheName(context, "album" + type + extra, Integer.toString(offset)), MusicDirectory.class);
 			if(dir == null || refresh) {
-				FileUtil.deleteSerializedCache(context, type + extra);
+				FileUtil.deleteSerializedCache(context, "album" + type + extra);
 				dir = musicService.getAlbumList(type, extra, size, offset, refresh, context, progressListener);
 			}
-			FileUtil.serialize(context, dir, getCacheName(context, type + extra, Integer.toString(offset)));
+			FileUtil.serialize(context, dir, getCacheName(context, "album" + type + extra, Integer.toString(offset)));
 			return dir;
 		} catch(IOException e) {
 			Log.w(TAG, "Failed to refresh album list: ", e);
@@ -672,7 +672,7 @@ public class CachedMusicService implements MusicService {
 				throw e;
 			}
 
-			MusicDirectory dir = FileUtil.deserialize(context, getCacheName(context, type + extra, Integer.toString(offset)), MusicDirectory.class);
+			MusicDirectory dir = FileUtil.deserialize(context, getCacheName(context, "album" + type + extra, Integer.toString(offset)), MusicDirectory.class);
 
 			if(dir == null) {
 				// If we are at start and no cache, throw error higher
@@ -691,9 +691,9 @@ public class CachedMusicService implements MusicService {
 	@Override
 	public MusicDirectory getArtistList(String type, int size, int offset, boolean refresh, Context context, ProgressListener progressListener) throws Exception {
 		try {
-			MusicDirectory dir = FileUtil.deserialize(context, getCacheName(context, type, Integer.toString(offset)), MusicDirectory.class);
+			MusicDirectory dir = FileUtil.deserialize(context, getCacheName(context, "artist" + type, Integer.toString(offset)), MusicDirectory.class);
 			if(dir == null || refresh) {
-				FileUtil.deleteSerializedCache(context, type);
+				FileUtil.deleteSerializedCache(context, "artist" + type);
 				dir = musicService.getArtistList(type, size, offset, refresh, context, progressListener);
 			}
 
@@ -791,7 +791,7 @@ public class CachedMusicService implements MusicService {
 				FileUtil.serialize(context, recents, recentlyAddedFile);
 			}
 
-			FileUtil.serialize(context, dir, getCacheName(context, type, Integer.toString(offset)));
+			FileUtil.serialize(context, dir, getCacheName(context, "artist" + type, Integer.toString(offset)));
 			return dir;
 		} catch(IOException e) {
 			Log.w(TAG, "Failed to refresh album list: ", e);
@@ -799,7 +799,7 @@ public class CachedMusicService implements MusicService {
 				throw e;
 			}
 
-			MusicDirectory dir = FileUtil.deserialize(context, getCacheName(context, type, Integer.toString(offset)), MusicDirectory.class);
+			MusicDirectory dir = FileUtil.deserialize(context, getCacheName(context, "artist" + type, Integer.toString(offset)), MusicDirectory.class);
 
 			if(dir == null) {
 				// If we are at start and no cache, throw error higher
@@ -818,12 +818,12 @@ public class CachedMusicService implements MusicService {
 	@Override
 	public MusicDirectory getArtistList(String type, String extra, int size, int offset, boolean refresh, Context context, ProgressListener progressListener) throws Exception {
 		try {
-			MusicDirectory dir = FileUtil.deserialize(context, getCacheName(context, type + extra, Integer.toString(offset)), MusicDirectory.class);
+			MusicDirectory dir = FileUtil.deserialize(context, getCacheName(context, "artist" + type + extra, Integer.toString(offset)), MusicDirectory.class);
 			if(dir == null || refresh) {
-				FileUtil.deleteSerializedCache(context, type + extra);
+				FileUtil.deleteSerializedCache(context, "artist" + type + extra);
 				dir = musicService.getArtistList(type, extra, size, offset, refresh, context, progressListener);
 			}
-			FileUtil.serialize(context, dir, getCacheName(context, type + extra, Integer.toString(offset)));
+			FileUtil.serialize(context, dir, getCacheName(context, "artist" + type + extra, Integer.toString(offset)));
 			return dir;
 		} catch(IOException e) {
 			Log.w(TAG, "Failed to refresh album list: ", e);
@@ -831,7 +831,7 @@ public class CachedMusicService implements MusicService {
 				throw e;
 			}
 
-			MusicDirectory dir = FileUtil.deserialize(context, getCacheName(context, type + extra, Integer.toString(offset)), MusicDirectory.class);
+			MusicDirectory dir = FileUtil.deserialize(context, getCacheName(context, "artist" + type + extra, Integer.toString(offset)), MusicDirectory.class);
 
 			if(dir == null) {
 				// If we are at start and no cache, throw error higher
