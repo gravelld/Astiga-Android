@@ -525,6 +525,13 @@ public class FileUtil {
 			}
 		}
 	}
+	public static void deleteSerializedCache(Context context, String name) {
+		for(File file: context.getCacheDir().listFiles()) {
+			if(file.getName().endsWith(".ser") && file.getName().startsWith(name)) {
+				file.delete();
+			}
+		}
+	}
 	public static boolean deleteArtworkCache(Context context) {
 		File artDirectory = FileUtil.getAlbumArtDirectory(context);
 		return recursiveDelete(artDirectory);
