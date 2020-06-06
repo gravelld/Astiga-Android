@@ -349,20 +349,6 @@ public final class Util {
 		StringBuilder builder = new StringBuilder();
 
 		String serverUrl = "https://play.asti.ga";//prefs.getString(Constants.PREFERENCES_KEY_SERVER_URL + instance, null);
-		if(allowAltAddress && Util.isWifiConnected(context)) {
-			String SSID = prefs.getString(Constants.PREFERENCES_KEY_SERVER_LOCAL_NETWORK_SSID + instance, "");
-			if(!SSID.isEmpty()) {
-				String currentSSID = Util.getSSID(context);
-
-				String[] ssidParts = SSID.split(",");
-				if ("".equals(SSID) || SSID.equals(currentSSID) || Arrays.asList(ssidParts).contains(currentSSID)) {
-					String internalUrl = prefs.getString(Constants.PREFERENCES_KEY_SERVER_INTERNAL_URL + instance, null);
-					if (internalUrl != null && !"".equals(internalUrl) && !"http://".equals(internalUrl)) {
-						serverUrl = internalUrl;
-					}
-				}
-			}
-		}
 
 		String username = prefs.getString(Constants.PREFERENCES_KEY_USERNAME + instance, null);
 		String password = prefs.getString(Constants.PREFERENCES_KEY_PASSWORD + instance, null);
@@ -375,6 +361,7 @@ public final class Util {
 		builder.append("rest/");
 		builder.append(method).append(".view");
 		try {
+			if (username == null) username = "";
 			builder.append("?u=").append(URLEncoder.encode(username, "UTF-8"));
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
