@@ -283,6 +283,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             showProgress(false);
 
             if (success) {
+                setResult(RESULT_OK);
                 finish();
             } else {
                 SharedPreferences prefs = Util.getPreferences(context);

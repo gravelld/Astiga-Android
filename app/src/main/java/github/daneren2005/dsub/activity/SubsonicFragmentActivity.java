@@ -930,15 +930,17 @@ public class SubsonicFragmentActivity extends SubsonicActivity implements Downlo
 	}
 
 	private void showInfoDialog() {
-		if (!infoDialogDisplayed) {
-			infoDialogDisplayed = true;
-			SharedPreferences prefs = Util.getPreferences(this);
-			if(prefs.getString(Constants.PREFERENCES_KEY_USERNAME + 1, "").isEmpty()) {
+		SharedPreferences prefs = Util.getPreferences(this);
+		if (prefs.getString(Constants.PREFERENCES_KEY_USERNAME + 1, "").isEmpty()) {
 			//if (Util.getRestUrl(this, null).startsWith("null")) {
-				//Util.info(this, R.string.main_welcome_title, R.string.main_welcome_text);
-				startActivity(new Intent(this, LoginActivity.class));
-			}
+			//Util.info(this, R.string.main_welcome_title, R.string.main_welcome_text);
+			startActivityForResult(new Intent(this, LoginActivity.class), 0);
 		}
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		showInfoDialog();
 	}
 
 	public Toolbar getActiveToolbar() {
