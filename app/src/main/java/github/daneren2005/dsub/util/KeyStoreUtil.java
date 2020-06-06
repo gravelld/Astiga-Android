@@ -108,7 +108,7 @@ public class KeyStoreUtil {
     }
 
     public static String decrypt(@NonNull String encryptedString) {
-        Log.d(TAG, "Decrypting password...");
+//        Log.d(TAG, "Decrypting password...");
         try {
             // Retrieve secret key
             final Key key = getKey();
@@ -135,7 +135,7 @@ public class KeyStoreUtil {
             String decryptedString = new String(cipher.doFinal(encryptedBytes));
 
             // Return the decrypted password string
-            Log.d(TAG, "Password successfully decrypted");
+//            Log.d(TAG, "Password successfully decrypted");
             return decryptedString;
 
         } catch (Exception e) {

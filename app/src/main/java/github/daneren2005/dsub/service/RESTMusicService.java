@@ -98,9 +98,9 @@ public class RESTMusicService implements MusicService {
 
     private static final String TAG = RESTMusicService.class.getSimpleName();
 
-    private static final int SOCKET_READ_TIMEOUT_DEFAULT = 10 * 1000;
-    private static final int SOCKET_READ_TIMEOUT_DOWNLOAD = 30 * 1000;
-    private static final int SOCKET_READ_TIMEOUT_GET_PLAYLIST = 60 * 1000;
+    private static final int SOCKET_READ_TIMEOUT_DEFAULT = 5 * 60 * 1000;
+    private static final int SOCKET_READ_TIMEOUT_DOWNLOAD = 5 * 60 * 1000;
+    private static final int SOCKET_READ_TIMEOUT_GET_PLAYLIST = 5 * 60 * 1000;
 
     // Allow 20 seconds extra timeout per MB offset.
     private static final double TIMEOUT_MILLIS_PER_OFFSET_BYTE = 20000.0 / 1000000.0;
@@ -1942,7 +1942,7 @@ public class RESTMusicService implements MusicService {
 	private HttpURLConnection getConnection(Context context, String url, List<String> parameterNames, List<Object> parameterValues, Map<String, String> headers, int minNetworkTimeout, ProgressListener progressListener, boolean throwErrors) throws Exception {
 		if(throwErrors) {
 			SharedPreferences prefs = Util.getPreferences(context);
-			int networkTimeout = Integer.parseInt(prefs.getString(Constants.PREFERENCES_KEY_NETWORK_TIMEOUT, SOCKET_READ_TIMEOUT_DEFAULT + ""));
+			int networkTimeout = SOCKET_READ_TIMEOUT_DEFAULT;//Integer.parseInt(prefs.getString(Constants.PREFERENCES_KEY_NETWORK_TIMEOUT, SOCKET_READ_TIMEOUT_DEFAULT + ""));
 			return getConnectionDirect(context, url, parameterNames, parameterValues, headers, Math.max(minNetworkTimeout, networkTimeout));
 		} else {
 			return getConnection(context, url, parameterNames, parameterValues, headers, minNetworkTimeout, progressListener, HTTP_REQUEST_MAX_ATTEMPTS, 0);
@@ -1951,7 +1951,7 @@ public class RESTMusicService implements MusicService {
 
 	private HttpURLConnection getConnection(Context context, String url, List<String> parameterNames, List<Object> parameterValues, Map<String, String> headers, int minNetworkTimeout, ProgressListener progressListener, int retriesLeft, int attempts) throws Exception {
 		SharedPreferences prefs = Util.getPreferences(context);
-		int networkTimeout = Integer.parseInt(prefs.getString(Constants.PREFERENCES_KEY_NETWORK_TIMEOUT, SOCKET_READ_TIMEOUT_DEFAULT + ""));
+		int networkTimeout = SOCKET_READ_TIMEOUT_DEFAULT;//Integer.parseInt(prefs.getString(Constants.PREFERENCES_KEY_NETWORK_TIMEOUT, SOCKET_READ_TIMEOUT_DEFAULT + ""));
 		minNetworkTimeout = Math.max(minNetworkTimeout, networkTimeout);
 		attempts++;
 		retriesLeft--;

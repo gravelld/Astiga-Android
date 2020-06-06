@@ -48,12 +48,14 @@
 			android:key="localNetworkRequiredForDownload"
 			android:defaultValue="false"/>
 
+		<!--
 		<ListPreference
 			android:title="@string/settings.network_timeout_title"
 			android:key="networkTimeout"
 			android:defaultValue="60000"
 			android:entryValues="@array/networkTimeoutValues"
 			android:entries="@array/networkTimeoutNames"/>
+		-->
 	</PreferenceCategory>
 
 	<PreferenceCategory
