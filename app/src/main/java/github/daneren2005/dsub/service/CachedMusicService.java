@@ -532,9 +532,11 @@ public class CachedMusicService implements MusicService {
 	@Override
 	public MusicDirectory getAlbumList(String type, int size, int offset, boolean refresh, Context context, ProgressListener progressListener) throws Exception {
 		try {
-			MusicDirectory dir = FileUtil.deserialize(context, getCacheName(context, "album" + type, Integer.toString(offset)), MusicDirectory.class);
-			if(dir == null || refresh) {
+			if (refresh) {
 				FileUtil.deleteSerializedCache(context, "album" + type);
+			}
+			MusicDirectory dir = FileUtil.deserialize(context, getCacheName(context, "album" + type, Integer.toString(offset)), MusicDirectory.class);
+			if(dir == null) {
 				dir = musicService.getAlbumList(type, size, offset, refresh, context, progressListener);
 			}
 
@@ -659,9 +661,11 @@ public class CachedMusicService implements MusicService {
 	@Override
 	public MusicDirectory getAlbumList(String type, String extra, int size, int offset, boolean refresh, Context context, ProgressListener progressListener) throws Exception {
 		try {
-			MusicDirectory dir = FileUtil.deserialize(context, getCacheName(context, "album" + type + extra, Integer.toString(offset)), MusicDirectory.class);
-			if(dir == null || refresh) {
+			if (refresh) {
 				FileUtil.deleteSerializedCache(context, "album" + type + extra);
+			}
+			MusicDirectory dir = FileUtil.deserialize(context, getCacheName(context, "album" + type + extra, Integer.toString(offset)), MusicDirectory.class);
+			if(dir == null) {
 				dir = musicService.getAlbumList(type, extra, size, offset, refresh, context, progressListener);
 			}
 			FileUtil.serialize(context, dir, getCacheName(context, "album" + type + extra, Integer.toString(offset)));
@@ -691,9 +695,11 @@ public class CachedMusicService implements MusicService {
 	@Override
 	public MusicDirectory getArtistList(String type, int size, int offset, boolean refresh, Context context, ProgressListener progressListener) throws Exception {
 		try {
-			MusicDirectory dir = FileUtil.deserialize(context, getCacheName(context, "artist" + type, Integer.toString(offset)), MusicDirectory.class);
-			if(dir == null || refresh) {
+			if (refresh) {
 				FileUtil.deleteSerializedCache(context, "artist" + type);
+			}
+			MusicDirectory dir = FileUtil.deserialize(context, getCacheName(context, "artist" + type, Integer.toString(offset)), MusicDirectory.class);
+			if(dir == null) {
 				dir = musicService.getArtistList(type, size, offset, refresh, context, progressListener);
 			}
 
@@ -818,9 +824,11 @@ public class CachedMusicService implements MusicService {
 	@Override
 	public MusicDirectory getArtistList(String type, String extra, int size, int offset, boolean refresh, Context context, ProgressListener progressListener) throws Exception {
 		try {
-			MusicDirectory dir = FileUtil.deserialize(context, getCacheName(context, "artist" + type + extra, Integer.toString(offset)), MusicDirectory.class);
-			if(dir == null || refresh) {
+			if (refresh) {
 				FileUtil.deleteSerializedCache(context, "artist" + type + extra);
+			}
+			MusicDirectory dir = FileUtil.deserialize(context, getCacheName(context, "artist" + type + extra, Integer.toString(offset)), MusicDirectory.class);
+			if(dir == null) {
 				dir = musicService.getArtistList(type, extra, size, offset, refresh, context, progressListener);
 			}
 			FileUtil.serialize(context, dir, getCacheName(context, "artist" + type + extra, Integer.toString(offset)));
