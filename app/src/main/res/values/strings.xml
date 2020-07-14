@@ -468,7 +468,7 @@
 	<string name="settings.menu_options.play_last_summary">Show Play Last in menus</string>
 	<string name="settings.menu_options.download_summary">Show Download in menus</string>
 	<string name="settings.menu_options.pin_summary">Show Permanent Cache in menus</string>
-	<string name="settings.menu_options.delete_summary">Show Delete in menus</string>
+	<string name="settings.menu_options.delete_summary">Show Delete Cache in menus</string>
 	<string name="settings.menu_options.star_summary">Show Star in menus</string>
 	<string name="settings.menu_options.shared_summary">Show Share in menus</string>
 	<string name="settings.menu_options.rate_summary">Show Rating in menus</string>
