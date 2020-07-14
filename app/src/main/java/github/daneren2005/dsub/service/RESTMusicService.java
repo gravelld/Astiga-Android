@@ -1279,7 +1279,19 @@ public class RESTMusicService implements MusicService {
 	public List<Genre> getGenres(boolean refresh, Context context, ProgressListener progressListener) throws Exception {
 		checkServerVersion(context, "1.9", "Genres not supported.");
 
-        Reader reader = getReader(context, progressListener, "getGenres");
+		List<String> parameterNames = new ArrayList<String>();
+		List<Object> parameterValues = new ArrayList<Object>();
+
+		int instance = getInstance(context);
+		if(Util.getAlbumListsPerFolder(context, instance)) {
+			String folderId = Util.getSelectedMusicFolderId(context, instance);
+			if (folderId != null) {
+				parameterNames.add("musicFolderId");
+				parameterValues.add(folderId);
+			}
+		}
+
+        Reader reader = getReader(context, progressListener, "getGenres", parameterNames, parameterValues);
         try {
             return new GenreParser(context, getInstance(context)).parse(reader, progressListener);
         } finally {
