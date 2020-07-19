@@ -40,7 +40,7 @@
 	<string name="common.previous">Previous</string>
 	<string name="common.toggle_list">Toggle list</string>
 
-    <string name="button_bar.home">Home</string>
+    <string name="button_bar.home">Library</string>
     <string name="button_bar.browse">Browser</string>
 	<string name="button_bar.playlists">Playlists</string>
 	<string name="button_bar.vibe">Vibe</string>
