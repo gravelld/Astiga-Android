@@ -1325,6 +1325,7 @@ public final class Util {
 				audioFocusRequest = new AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
 						.setAudioAttributes(playbackAttributes)
 						.setOnAudioFocusChangeListener(getAudioFocusChangeListener(context, audioManager))
+						.setWillPauseWhenDucked(true)
 						.build();
 				audioManager.requestAudioFocus(audioFocusRequest);
 			}

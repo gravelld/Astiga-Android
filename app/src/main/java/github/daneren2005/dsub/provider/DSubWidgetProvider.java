@@ -283,7 +283,7 @@ public class DSubWidgetProvider extends AppWidgetProvider {
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
         views.setOnClickPendingIntent(R.id.appwidget_coverart, pendingIntent);
         views.setOnClickPendingIntent(R.id.appwidget_top, pendingIntent);
-        
+
         // Emulate media button clicks.
         intent = new Intent("Astiga.PLAY_PAUSE");
         intent.setComponent(new ComponentName(context, DownloadService.class));
