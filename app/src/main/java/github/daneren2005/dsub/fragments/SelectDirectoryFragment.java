@@ -415,7 +415,12 @@ public class SelectDirectoryFragment extends SubsonicFragment implements Section
 					}
 					dragTo = toPosition;
 
-					entryGridAdapter.moveItem(fromPosition, toPosition);
+					try {
+						entryGridAdapter.moveItem(fromPosition, toPosition);
+					} catch (Exception e) {
+						Log.e(TAG, e.toString());
+						return false;
+					}
 					return true;
 				}
 
