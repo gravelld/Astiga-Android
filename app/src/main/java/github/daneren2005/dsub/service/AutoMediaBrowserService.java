@@ -184,6 +184,9 @@ public class AutoMediaBrowserService extends MediaBrowserServiceCompat {
 					case R.string.main_albums_newest:
 						albumListType = "newest";
 						break;
+					case R.string.main_albums_alphabetical:
+						albumListType = "alphabeticalByName";
+						break;
 					case R.string.main_albums_random:
 						albumListType = "random";
 						break;

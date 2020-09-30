@@ -59,6 +59,7 @@ import github.daneren2005.dsub.util.Constants;
 import github.daneren2005.dsub.util.FileUtil;
 import github.daneren2005.dsub.util.LoadingTask;
 import github.daneren2005.dsub.util.MediaRouteManager;
+import github.daneren2005.dsub.util.SongDBHandler;
 import github.daneren2005.dsub.util.SyncUtil;
 import github.daneren2005.dsub.util.Util;
 import github.daneren2005.dsub.view.CacheLocationPreference;
@@ -276,6 +277,7 @@ public class SettingsFragment extends PreferenceCompatFragment implements Shared
 									FileUtil.deleteSerializedCache(context);
 									FileUtil.deleteArtworkCache(context);
 									FileUtil.deleteAvatarCache(context);
+									SongDBHandler.getHandler(context).clearDatabase();
 									return null;
 								}
 

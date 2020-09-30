@@ -68,6 +68,13 @@ public class SongDBHandler extends SQLiteOpenHelper {
 		this.onCreate(db);
 	}
 
+	public synchronized void clearDatabase() {
+		SQLiteDatabase db = this.getWritableDatabase();
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_SONGS);
+		this.onCreate(db);
+		db.close();
+	}
+
 	public synchronized void addSong(DownloadFile downloadFile) {
 		addSong(Util.getMostRecentActiveServer(context), downloadFile);
 	}
