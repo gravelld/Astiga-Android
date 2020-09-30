@@ -50,15 +50,15 @@ public class Playlist implements Serializable {
         this.id = id;
         this.name = name;
     }
-	public Playlist(String id, String name, String owner, String comment, String songCount, String pub, String created, String changed, Integer duration, String coverArt) {
+	public Playlist(String id, String name, String owner, String comment, String songCount, String pub, Date created, Date changed, Integer duration, String coverArt) {
         this.id = id;
         this.name = name;
 		this.owner = (owner == null) ? "" : owner;
 		this.comment = (comment == null) ? "" : comment;
 		this.songCount = (songCount == null) ? "" : songCount;
 		this.pub = (pub == null) ? null : (pub.equals("true"));
-		setCreated(created);
-		setChanged(changed);
+		this.created = created;
+		this.changed = changed;
 		this.duration = duration;
 		this.coverArt = (coverArt == null) ? "" : coverArt;
     }

@@ -15,3 +15,5 @@ proguard_logs/
 local.properties
 *Thumbs.db
 Subsonic\.iml
+
+app/google/release

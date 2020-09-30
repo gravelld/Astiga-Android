@@ -24,13 +24,16 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Handler;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.media.app.NotificationCompat.MediaStyle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RemoteViews;
+import android.widget.TextView;
 
 import github.daneren2005.dsub.R;
 import github.daneren2005.dsub.activity.SubsonicActivity;
@@ -49,8 +52,8 @@ public final class Notifications {
 	// Notification IDs.
 	public static final int NOTIFICATION_ID_PLAYING = 100;
 	public static final int NOTIFICATION_ID_DOWNLOADING = 102;
-	public static final String NOTIFICATION_SYNC_GROUP = "ga.asti.android.sync";
 	public static final int NOTIFICATION_ID_SHUT_GOOGLE_UP = 103;
+	public static final String NOTIFICATION_SYNC_GROUP = "ga.asti.android.sync";
 
 	private static boolean playShowing = false;
 	private static boolean downloadShowing = false;
@@ -61,56 +64,96 @@ public final class Notifications {
 	private static NotificationChannel downloadingChannel;
 	private static NotificationChannel syncChannel;
 
-	public static void showPlayingNotification(final Context context, final DownloadService downloadService, final Handler handler, MusicDirectory.Entry song) {
+	private final static Pair<Integer, Integer> NOTIFICATION_TEXT_COLORS = new Pair<Integer, Integer>();
+
+	public static void showPlayingNotification(final Context context, final DownloadService downloadService, final Handler handler, MusicDirectory.Entry song, boolean usingMediaStyleNotification) {
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 			getPlayingNotificationChannel(context);
 		}
 
-		// Set the icon, scrolling text and timestamp
-		NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
-				.setSmallIcon(R.drawable.stat_notify_playing)
-				.setTicker(song.getTitle())
-				.setSubText(song.getAlbum())
-				.setContentTitle(song.getTitle())
-				.setContentText(song.getArtist())
-				.setShowWhen(false)
-				.setChannelId("now-playing-channel")
-				.setLargeIcon(getAlbumArt(context, song));
+		final Notification notification;
 
 		final boolean playing = downloadService.getPlayerState() == PlayerState.STARTED;
-        final boolean thumbs = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N;
-        int[] compactActions;
 
-        compactActions = thumbs ? new int[]{1, 2, 3} : new int[]{0, 1, 2};
-        addActions(context, builder, song, playing, thumbs);
-		Intent cancelIntent = new Intent("KEYCODE_MEDIA_STOP")
-				.setComponent(new ComponentName(context, DownloadService.class))
-				.putExtra(Intent.EXTRA_KEY_EVENT, new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_STOP));
-		MediaStyle mediaStyle = new MediaStyle()
-				.setShowActionsInCompactView(compactActions)
-				.setShowCancelButton(true)
-				.setCancelButtonIntent(PendingIntent.getService(context, 0, cancelIntent, 0));
+		boolean remote = downloadService.isRemoteEnabled();
+		boolean isSingle = downloadService.isCurrentPlayingSingle();
+		boolean shouldFastForward = downloadService.shouldFastForward();
 
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN){
-			builder.setPriority(Notification.PRIORITY_HIGH);
-		}
-		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-			RemoteControlClientLP remoteControlClientLP = (RemoteControlClientLP) downloadService.getRemoteControlClient();
-			mediaStyle.setMediaSession(remoteControlClientLP.getMediaSession().getSessionToken());
-			builder.setVisibility(Notification.VISIBILITY_PUBLIC).setColor(context.getResources().getColor(R.color.lightPrimary));
-			if(Util.getPreferences(context).getBoolean(Constants.PREFERENCES_KEY_HEADS_UP_NOTIFICATION, false) && !UpdateView.hasActiveActivity()) {
-				builder.setVibrate(new long[0]);
+		if (usingMediaStyleNotification) {
+			RemoteControlClientLP remoteControlClient = (RemoteControlClientLP) downloadService.getRemoteControlClient();
+
+			android.support.v4.media.app.NotificationCompat.MediaStyle mediaStyle = new android.support.v4.media.app.NotificationCompat.MediaStyle()
+					.setMediaSession(remoteControlClient.getMediaSession().getSessionToken());
+
+			if (isSingle) {
+				mediaStyle.setShowActionsInCompactView(1);
+			} else {
+				mediaStyle.setShowActionsInCompactView(0, 2, 4);
 			}
+
+			NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, "now-playing-channel")
+					.setSmallIcon(R.drawable.stat_notify_playing)
+					.setStyle(mediaStyle);
+
+			PendingIntent prevIntent = null;
+			PendingIntent nextIntent = null;
+			if (!isSingle) {
+				prevIntent = getMediaPendingIntent("KEYCODE_MEDIA_PREVIOUS", context);
+				nextIntent = getMediaPendingIntent("KEYCODE_MEDIA_NEXT", context);
+			}
+
+			PendingIntent rewindIntent = getMediaPendingIntent("KEYCODE_MEDIA_REWIND", context);
+			PendingIntent playIntent = getMediaPendingIntent(playing ? "KEYCODE_MEDIA_PLAY_PAUSE" : "KEYCODE_MEDIA_START", context);
+			PendingIntent forwardIntent = getMediaPendingIntent("KEYCODE_MEDIA_FAST_FORWARD", context);
+
+			if (!isSingle) {
+				notificationBuilder.addAction(R.drawable.ic_baseline_skip_previous_32, "Previous", prevIntent);
+			}
+
+			notificationBuilder.addAction(R.drawable.ic_baseline_fast_rewind_32, "Rewind", rewindIntent);
+			notificationBuilder.addAction(playing ? R.drawable.ic_baseline_pause_48 : R.drawable.ic_baseline_play_arrow_48, playing ? "Pause" : "Play", playIntent);
+			notificationBuilder.addAction(R.drawable.ic_baseline_fast_forward_32, "Forward", forwardIntent);
+
+			if (!isSingle) {
+				notificationBuilder.addAction(R.drawable.ic_baseline_skip_next_32, "Next", nextIntent);
+			}
+
+			notification = notificationBuilder.build();
+		} else {
+			// Set the icon, scrolling text and timestamp
+			notification = new NotificationCompat.Builder(context, "now-playing-channel")
+					.setSmallIcon(R.drawable.stat_notify_playing)
+					.setTicker(song.getTitle())
+					.setWhen(System.currentTimeMillis())
+					.build();
+
+			if(playing) {
+				notification.flags |= Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;
+			}
+
+			if (Build.VERSION.SDK_INT>= Build.VERSION_CODES.JELLY_BEAN){
+				RemoteViews expandedContentView = new RemoteViews(context.getPackageName(), R.layout.notification_expanded);
+				setupViews(expandedContentView, context, song, true, playing, remote, isSingle, shouldFastForward);
+				notification.bigContentView = expandedContentView;
+				notification.priority = Notification.PRIORITY_HIGH;
+			}
+			if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+				notification.visibility = Notification.VISIBILITY_PUBLIC;
+
+				if(Util.getPreferences(context).getBoolean(Constants.PREFERENCES_KEY_HEADS_UP_NOTIFICATION, false) && !UpdateView.hasActiveActivity()) {
+					notification.vibrate = new long[0];
+				}
+			}
+
+			RemoteViews smallContentView = new RemoteViews(context.getPackageName(), R.layout.notification);
+			setupViews(smallContentView, context, song, false, playing, remote, isSingle, shouldFastForward);
+			notification.contentView = smallContentView;
 		}
-		builder.setStyle(mediaStyle);
+
 		Intent notificationIntent = new Intent(context, SubsonicFragmentActivity.class);
 		notificationIntent.putExtra(Constants.INTENT_EXTRA_NAME_DOWNLOAD, true);
 		notificationIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		builder.setContentIntent(PendingIntent.getActivity(context, 0, notificationIntent, 0));
-		final Notification notification = builder.build();
-		if(playing) {
-			notification.flags |= Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;
-		}
+		notification.contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
 
 		playShowing = true;
 		if(downloadForeground && downloadShowing) {
@@ -142,12 +185,7 @@ public final class Notifications {
 						playShowing = false;
 						persistentPlayingShowing = true;
 						NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-						if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
-								&& Util.getPreferences(context).getBoolean(Constants.PREFERENCES_KEY_PERSISTENT_NOTIFICATION, false)) {
-							stopForeground(downloadService, android.app.Service.STOP_FOREGROUND_DETACH);
-						} else {
-							stopForeground(downloadService,false);
-						}
+						stopForeground(downloadService, false);
 
 						try {
 							notificationManager.notify(NOTIFICATION_ID_PLAYING, notification);
@@ -163,7 +201,55 @@ public final class Notifications {
 		DSubWidgetProvider.notifyInstances(context, downloadService, playing);
 	}
 
-	private static Bitmap getAlbumArt(Context context, MusicDirectory.Entry song) {
+	private static PendingIntent getMediaPendingIntent(String action, Context context) {
+		Intent intent = new Intent(action);
+		intent.setComponent(new ComponentName(context, DownloadService.class));
+
+		int keyCode = 0;
+		switch (action) {
+			case "KEYCODE_MEDIA_PREVIOUS":
+				keyCode = KeyEvent.KEYCODE_MEDIA_PREVIOUS;
+				break;
+
+			case "KEYCODE_MEDIA_REWIND":
+				keyCode = KeyEvent.KEYCODE_MEDIA_REWIND;
+				break;
+
+			case "KEYCODE_MEDIA_PLAY_PAUSE":
+				keyCode = KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE;
+				break;
+
+			case "KEYCODE_MEDIA_START":
+				keyCode = KeyEvent.KEYCODE_MEDIA_PLAY;
+				break;
+
+			case "KEYCODE_MEDIA_NEXT":
+				keyCode = KeyEvent.KEYCODE_MEDIA_NEXT;
+				break;
+
+			case "KEYCODE_MEDIA_FAST_FORWARD":
+				keyCode = KeyEvent.KEYCODE_MEDIA_FAST_FORWARD;
+				break;
+
+			case "KEYCODE_MEDIA_STOP":
+				keyCode = KeyEvent.KEYCODE_MEDIA_STOP;
+				break;
+		}
+
+		if (keyCode != 0) {
+			intent.putExtra(Intent.EXTRA_KEY_EVENT, new KeyEvent(KeyEvent.ACTION_UP, keyCode));
+		}
+
+		return PendingIntent.getService(context, 0, intent, 0);
+	}
+
+	private static void setupViews(RemoteViews rv, Context context, MusicDirectory.Entry song, boolean expanded, boolean playing, boolean remote, boolean isSingleFile, boolean shouldFastForward) {
+		// Use the same text for the ticker and the expanded notification
+		String title = song.getTitle();
+		String artist = song.getArtist();
+		String album = song.getAlbum();
+
+		// Set the album art.
 		try {
 			ImageLoader imageLoader = SubsonicActivity.getStaticImageLoader(context);
 			Bitmap bitmap = null;
@@ -172,76 +258,141 @@ public final class Notifications {
 			}
 			if (bitmap == null) {
 				// set default album art
-				return BitmapFactory.decodeResource(context.getResources(),
-						R.drawable.unknown_album_large);
+				rv.setImageViewResource(R.id.notification_image, R.drawable.unknown_album);
 			} else {
-				return bitmap;
+				imageLoader.setNowPlayingSmall(bitmap);
+				rv.setImageViewBitmap(R.id.notification_image, bitmap);
 			}
 		} catch (Exception x) {
 			Log.w(TAG, "Failed to get notification cover art", x);
-			return BitmapFactory.decodeResource(context.getResources(),
-					R.drawable.unknown_album_large);
+			rv.setImageViewResource(R.id.notification_image, R.drawable.unknown_album);
 		}
-	}
 
-	private static void addActions(final Context context, final NotificationCompat.Builder builder, MusicDirectory.Entry song, final boolean playing, final boolean thumbs) {
-        PendingIntent pendingIntent;
-        DownloadService downloadService = (DownloadService) context;
-		boolean shouldFastForward = downloadService.shouldFastForward();
-        int rating = song.getRating();
+		// set the text for the notifications
+		rv.setTextViewText(R.id.notification_title, title);
+		rv.setTextViewText(R.id.notification_artist, artist);
+		rv.setTextViewText(R.id.notification_album, album);
 
-        if (thumbs) {
-            pendingIntent = PendingIntent.getService(downloadService, 0,
-					new Intent(DownloadService.THUMBS_UP).setComponent(new ComponentName(context, DownloadService.class)), 0);
-            builder.addAction(rating == 5 ? R.drawable.ic_action_rating_good_selected : R.drawable.ic_action_rating_good, "Thumbs Up", pendingIntent);
-        }
-		if(!shouldFastForward) {
-			Intent prevIntent = new Intent("KEYCODE_MEDIA_PREVIOUS");
-			prevIntent.setComponent(new ComponentName(context, DownloadService.class));
-			prevIntent.putExtra(Intent.EXTRA_KEY_EVENT, new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_PREVIOUS));
-			pendingIntent = PendingIntent.getService(context, 0, prevIntent, 0);
-			builder.addAction(R.drawable.ic_skip_previous, "Previous", pendingIntent);
+		boolean persistent = Util.getPreferences(context).getBoolean(Constants.PREFERENCES_KEY_PERSISTENT_NOTIFICATION, false);
+		if(persistent) {
+			if(expanded) {
+				rv.setImageViewResource(R.id.control_pause, playing ? R.drawable.notification_pause : R.drawable.notification_start);
+
+				if(shouldFastForward) {
+					rv.setImageViewResource(R.id.control_previous, R.drawable.notification_rewind);
+					rv.setImageViewResource(R.id.control_next, R.drawable.notification_fastforward);
+				} else {
+					rv.setImageViewResource(R.id.control_previous, R.drawable.notification_backward);
+					rv.setImageViewResource(R.id.control_next, R.drawable.notification_forward);
+				}
+			} else {
+				rv.setImageViewResource(R.id.control_previous, playing ? R.drawable.notification_pause : R.drawable.notification_start);
+				if(shouldFastForward) {
+					rv.setImageViewResource(R.id.control_pause, R.drawable.notification_fastforward);
+				} else {
+					rv.setImageViewResource(R.id.control_pause, R.drawable.notification_forward);
+				}
+				rv.setImageViewResource(R.id.control_next, R.drawable.notification_close);
+			}
+		} else if(shouldFastForward) {
+			rv.setImageViewResource(R.id.control_previous, R.drawable.notification_rewind);
+			rv.setImageViewResource(R.id.control_next, R.drawable.notification_fastforward);
 		} else {
-			Intent rewindIntent = new Intent("KEYCODE_MEDIA_REWIND");
-			rewindIntent.setComponent(new ComponentName(context, DownloadService.class));
-			rewindIntent.putExtra(Intent.EXTRA_KEY_EVENT, new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_REWIND));
-			pendingIntent = PendingIntent.getService(context, 0, rewindIntent, 0);
-			builder.addAction(R.drawable.ic_fast_rewind, "Rewind", pendingIntent);
+			// Necessary for switching back since it appears to re-use the same layout
+			rv.setImageViewResource(R.id.control_previous, R.drawable.notification_backward);
+			rv.setImageViewResource(R.id.control_next, R.drawable.notification_forward);
 		}
 
-        if(playing) {
-            Intent pauseIntent = new Intent("KEYCODE_MEDIA_PLAY_PAUSE");
-            pauseIntent.setComponent(new ComponentName(context, DownloadService.class));
-            pauseIntent.putExtra(Intent.EXTRA_KEY_EVENT, new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE));
-            pendingIntent = PendingIntent.getService(context, 0, pauseIntent, 0);
-            builder.addAction(R.drawable.ic_pause, "Pause", pendingIntent);
-        } else {
-            Intent playIntent = new Intent("KEYCODE_MEDIA_PLAY");
-            playIntent.setComponent(new ComponentName(context, DownloadService.class));
-            playIntent.putExtra(Intent.EXTRA_KEY_EVENT, new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_PLAY));
-            pendingIntent = PendingIntent.getService(context, 0, playIntent, 0);
-            builder.addAction(R.drawable.ic_play_arrow, "Play", pendingIntent);
-        }
+		// Create actions for media buttons
+		int previous = 0, pause = 0, next = 0, close = 0, rewind = 0, fastForward = 0;
+		if (expanded) {
+			pause = R.id.control_pause;
 
-        if(!shouldFastForward || downloadService.getCurrentPlayingIndex() < downloadService.getDownloadListSize() - 1) {
-            Intent nextIntent = new Intent("KEYCODE_MEDIA_NEXT");
-            nextIntent.setComponent(new ComponentName(context, DownloadService.class));
-            nextIntent.putExtra(Intent.EXTRA_KEY_EVENT, new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_NEXT));
-            pendingIntent = PendingIntent.getService(context, 0, nextIntent, 0);
-            builder.addAction(R.drawable.ic_skip_next, "Next", pendingIntent);
-        }
-        if(shouldFastForward) {
-            Intent fastForwardIntent = new Intent("KEYCODE_MEDIA_FAST_FORWARD");
-            fastForwardIntent.setComponent(new ComponentName(context, DownloadService.class));
-            fastForwardIntent.putExtra(Intent.EXTRA_KEY_EVENT, new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_FAST_FORWARD));
-            pendingIntent = PendingIntent.getService(context, 0, fastForwardIntent, 0);
-			builder.addAction(R.drawable.ic_fast_forward, "Fast Forward", pendingIntent);
-        }
-        if (thumbs) {
-			pendingIntent = PendingIntent.getService(downloadService, 0,
-					new Intent(DownloadService.THUMBS_DOWN).setComponent(new ComponentName(context, DownloadService.class)), 0);
-			builder.addAction(rating == 1 ? R.drawable.ic_action_rating_bad_selected : R.drawable.ic_action_rating_bad, "Thumbs Down", pendingIntent);
-	    }
+			if (shouldFastForward) {
+				rewind = R.id.control_previous;
+				fastForward = R.id.control_next;
+			} else {
+				previous = R.id.control_previous;
+				next = R.id.control_next;
+			}
+
+			if (remote || persistent) {
+				close = R.id.notification_close;
+				rv.setViewVisibility(close, View.VISIBLE);
+			}
+		} else {
+			if (persistent) {
+				pause = R.id.control_previous;
+				if(shouldFastForward) {
+					fastForward = R.id.control_pause;
+				} else {
+					next = R.id.control_pause;
+				}
+				close = R.id.control_next;
+			} else {
+				if (shouldFastForward) {
+					rewind = R.id.control_previous;
+					fastForward = R.id.control_next;
+				} else {
+					previous = R.id.control_previous;
+					next = R.id.control_next;
+				}
+
+				pause = R.id.control_pause;
+			}
+		}
+
+		if(isSingleFile) {
+			if(previous > 0) {
+				rv.setViewVisibility(previous, View.GONE);
+				previous = 0;
+			}
+			if(rewind > 0) {
+				rv.setViewVisibility(rewind, View.GONE);
+				rewind = 0;
+			}
+
+			if(next > 0) {
+				rv.setViewVisibility(next, View.GONE);
+				next = 0;
+			}
+
+			if(fastForward > 0) {
+				rv.setViewVisibility(fastForward, View.GONE);
+				fastForward = 0;
+			}
+		}
+
+		PendingIntent pendingIntent;
+		if(previous > 0) {
+			pendingIntent = getMediaPendingIntent("KEYCODE_MEDIA_PREVIOUS", context);
+			rv.setOnClickPendingIntent(previous, pendingIntent);
+		}
+		if(rewind > 0) {
+			pendingIntent = getMediaPendingIntent("KEYCODE_MEDIA_REWIND", context);
+			rv.setOnClickPendingIntent(rewind, pendingIntent);
+		}
+		if(pause > 0) {
+			if(playing) {
+				pendingIntent = getMediaPendingIntent("KEYCODE_MEDIA_PLAY_PAUSE", context);
+				rv.setOnClickPendingIntent(pause, pendingIntent);
+			} else {
+				pendingIntent = getMediaPendingIntent("KEYCODE_MEDIA_START", context);
+				rv.setOnClickPendingIntent(pause, pendingIntent);
+			}
+		}
+		if(next > 0) {
+			pendingIntent = getMediaPendingIntent("KEYCODE_MEDIA_NEXT", context);
+			rv.setOnClickPendingIntent(next, pendingIntent);
+		}
+		if(fastForward > 0) {
+			pendingIntent = getMediaPendingIntent("KEYCODE_MEDIA_FAST_FORWARD", context);
+			rv.setOnClickPendingIntent(fastForward, pendingIntent);
+		}
+		if(close > 0) {
+			pendingIntent = getMediaPendingIntent("KEYCODE_MEDIA_STOP", context);
+			rv.setOnClickPendingIntent(close, pendingIntent);
+		}
 	}
 
 	public static void hidePlayingNotification(final Context context, final DownloadService downloadService, Handler handler) {
@@ -368,9 +519,6 @@ public final class Notifications {
 	@TargetApi(Build.VERSION_CODES.O)
 	public static void shutGoogleUpNotification(final DownloadService downloadService) {
 		// On Android O+, service crashes if startForeground isn't called within 5 seconds of starting
-		if (downloadService.isForeground()) {
-			return;
-		}
 		getDownloadingNotificationChannel(downloadService);
 
 		NotificationCompat.Builder builder;
@@ -412,7 +560,7 @@ public final class Notifications {
 
 			Intent notificationIntent = new Intent(context, SubsonicFragmentActivity.class);
 			notificationIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			
+
 			String tab = null, type = null;
 			switch(stringId) {
 				case R.string.sync_new_albums:
@@ -464,12 +612,6 @@ public final class Notifications {
 	}
 
 	private static void stopForeground(DownloadService downloadService, boolean removeNotification) {
-		downloadService.stopForeground(removeNotification);
-		downloadService.setIsForeground(false);
-	}
-
-	@TargetApi(24)
-	private static void stopForeground(DownloadService downloadService, int removeNotification) {
 		downloadService.stopForeground(removeNotification);
 		downloadService.setIsForeground(false);
 	}

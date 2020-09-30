@@ -86,6 +86,7 @@ public final class Constants {
     public static final String PREFERENCES_KEY_MUSIC_FOLDER_ID = "musicFolderId";
     public static final String PREFERENCES_KEY_USERNAME = "username";
     public static final String PREFERENCES_KEY_PASSWORD = "password";
+	public static final String PREFERENCES_KEY_SERVER_AUTHHEADER = "authHeader";
     public static final String PREFERENCES_KEY_ENCRYPTED_PASSWORD = "encryptedPassword";
     public static final String PREFERENCES_KEY_INSTALL_TIME = "installTime";
     public static final String PREFERENCES_KEY_THEME = "theme";
@@ -118,6 +119,7 @@ public final class Constants {
 	public static final String PREFERENCES_EQUALIZER_ON = "equalizerOn";
 	public static final String PREFERENCES_EQUALIZER_SETTINGS = "equalizerSettings";
 	public static final String PREFERENCES_KEY_PERSISTENT_NOTIFICATION = "persistentNotification";
+	public static final String PREFERENCES_KEY_MEDIA_STYLE_NOTIFICATION = "mediaStyleNotification";
 	public static final String PREFERENCES_KEY_GAPLESS_PLAYBACK = "gaplessPlayback";
 	public static final String PREFERENCES_KEY_REMOVE_PLAYED = "removePlayed";
 	public static final String PREFERENCES_KEY_KEEP_PLAYED_CNT = "keepPlayedCount";

@@ -7,16 +7,17 @@ repositories {
 }
 
 android {
-	compileSdkVersion 28
+	compileSdkVersion 30
 
 	defaultConfig {
 		applicationId "ga.asti.android"
-		minSdkVersion 14
+		minSdkVersion 16
 		targetSdkVersion 28
 		versionCode 1550
 		versionName '1.5.5'
 		setProperty("archivesBaseName", "Astiga $versionName")
 		//resConfigs "de", "es", "fr", "hu", "nl", "pt-rPT", "ru", "sv"
+		vectorDrawables.useSupportLibrary = true
 	}
 	buildTypes {
 		release {

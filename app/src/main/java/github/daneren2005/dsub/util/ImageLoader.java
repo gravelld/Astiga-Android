@@ -213,7 +213,7 @@ public class ImageLoader {
 		if(bitmap == null || bitmap.isRecycled()) {
 			bitmap = FileUtil.getAlbumArtBitmap(context, entry, size);
 			String key = getKey(entry.getCoverArt(), size);
-			if (bitmap != null) {
+			if(key != null && bitmap != null) {
 				cache.put(key, bitmap);
 				cache.get(key);
 			}

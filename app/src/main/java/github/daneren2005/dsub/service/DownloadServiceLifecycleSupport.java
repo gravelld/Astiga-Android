@@ -244,9 +244,9 @@ public class DownloadServiceLifecycleSupport {
 					} else if(DownloadService.CANCEL_DOWNLOADS.equals(action)) {
 						downloadService.clearBackground();
 					} else if (DownloadService.THUMBS_UP.equals(action)) {
-						downloadService.toggleRating(5, true);
+						downloadService.toggleRating(5);
 					} else if (DownloadService.THUMBS_DOWN.equals(action)) {
-						downloadService.toggleRating(1, true);
+						downloadService.toggleRating(1);
 					} else if(intent.getExtras() != null) {
 						final KeyEvent event = (KeyEvent) intent.getExtras().get(Intent.EXTRA_KEY_EVENT);
 						if (event != null) {
