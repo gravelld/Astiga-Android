@@ -974,6 +974,10 @@ public class DownloadService extends Service {
 		}
 	}
 
+	public int getDownloadListSize() {
+		return downloadList.size();
+	}
+
 	public int getCurrentPlayingIndex() {
 		return currentPlayingIndex;
 	}
@@ -1527,10 +1531,10 @@ public class DownloadService extends Service {
 		boolean usingMediaStyleNotification = prefs.getBoolean(Constants.PREFERENCES_KEY_MEDIA_STYLE_NOTIFICATION, true) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
 
 		if (show) {
-			Notifications.showPlayingNotification(this, this, handler, currentPlaying.getSong(), usingMediaStyleNotification);
+			Notifications.showPlayingNotification(this, this, handler, currentPlaying.getSong());
 		} else if (pause) {
 			if (prefs.getBoolean(Constants.PREFERENCES_KEY_PERSISTENT_NOTIFICATION, false)) {
-				Notifications.showPlayingNotification(this, this, handler, currentPlaying.getSong(), usingMediaStyleNotification);
+				Notifications.showPlayingNotification(this, this, handler, currentPlaying.getSong());
 			} else {
 				Notifications.hidePlayingNotification(this, this, handler);
 			}
