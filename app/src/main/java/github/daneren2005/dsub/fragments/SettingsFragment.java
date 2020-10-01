@@ -663,7 +663,7 @@ public class SettingsFragment extends PreferenceCompatFragment implements Shared
 		screen.addPreference(serverPasswordPreference);
 		screen.addPreference(serverTagPreference);
 		screen.addPreference(serverSyncPreference);
-		screen.addPreference(serverAuthHeaderPreference);
+//		screen.addPreference(serverAuthHeaderPreference);
 		screen.addPreference(serverTestConnectionPreference);
 		screen.addPreference(serverOpenBrowser);
 		screen.addPreference(serverRemoveServerPreference);
