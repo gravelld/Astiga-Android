@@ -18,6 +18,8 @@
  */
 package github.daneren2005.dsub.util;
 
+import github.daneren2005.dsub.BuildConfig;
+
 /**
  * @author Sindre Mehus
  * @version $Id$
