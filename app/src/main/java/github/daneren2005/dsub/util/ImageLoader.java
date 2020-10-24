@@ -416,6 +416,8 @@ public class ImageLoader {
 			} else {
 				imageView.setImageDrawable(drawable);
 			}
+		} else {
+			view.setBackground(drawable);
 		}
 	}
 

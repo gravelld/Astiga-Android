@@ -294,7 +294,7 @@
     <string name="settings.test_connection_title">Test connection</string>
 	<string name="settings.accounts_add">Add account</string>
 	<string name="settings.accounts_remove">Remove account</string>
-	<string name="settings.accounts_register">Register account</string>
+	<string name="settings.accounts_register">Create an account</string>
 	<string name="settings.accounts_title">Accounts</string>
     <string name="settings.server_unused">Unused</string>
     <string name="settings.server_name">Name</string>

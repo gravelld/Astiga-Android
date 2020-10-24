@@ -27,7 +27,11 @@
             android:paddingLeft="55dip"
             android:paddingRight="55dip"
             android:paddingTop="3dip"
-            android:paddingBottom="7dip" />
+            android:paddingBottom="7dip"
+			android:progressTint="@color/progressBarTint"
+			android:progressBackgroundTint="@color/progressBarBackgroundTint"
+			android:thumbTint="@color/progressBarThumbTint"
+		/>
 			
 	<TextView
             android:id="@+id/download_duration"

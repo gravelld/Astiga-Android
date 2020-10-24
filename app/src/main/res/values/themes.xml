@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<style name="Theme.DSub.Light.Base" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+		<item name="background_gradient">@drawable/background_gradient</item>
 		<item name="offline_icon">@drawable/main_offline_light</item>
 		<item name="media_button_backward">@drawable/media_backward_light</item>
 		<item name="media_button_forward">@drawable/media_forward_light</item>
@@ -74,6 +75,7 @@
 		<item name="drawerHeaderBackground">@drawable/drawer_header_light</item>
 	</style>
 	<style name="Theme.DSub.Dark.Base" parent="@style/Theme.AppCompat">
+		<item name="background_gradient">@drawable/background_gradient_dark</item>
 		<item name="offline_icon">@drawable/main_offline_dark</item>
 		<item name="media_button_backward">@drawable/media_backward_dark</item>
 		<item name="media_button_forward">@drawable/media_forward_dark</item>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="appwidget_text">#ffffff</color>
-	<color name="overlayColor">#80000000</color>
+	<color name="overlayColor">@android:color/transparent</color>
 
 	<color name="drawerBackgroundColor">#212121</color>
 
@@ -12,7 +12,13 @@
 
 	<color name="lightPrimary">#605ca8</color>
 	<color name="lightPrimaryDark">#504c8f</color>
+	<color name="lightPrimaryDarker">#282647</color>
+	<color name="lightPrimaryLighter">#8F89F8</color>
 	<color name="lightAccent">#6864b3</color>
+
+	<color name="progressBarTint">#ffffff</color>
+	<color name="progressBarBackgroundTint">#80ffffff</color>
+	<color name="progressBarThumbTint">#ffffff</color>
 
 	<color name="holoPrimary">#009688</color>
 	<color name="holoPrimaryDark">#00897b</color>

@@ -189,7 +189,7 @@ public class NowPlayingFragment extends SubsonicFragment implements OnGestureLis
 		rateBadButton = (ImageButton) rootView.findViewById(R.id.download_rating_bad);
 		rateGoodButton = (ImageButton) rootView.findViewById(R.id.download_rating_good);
 		playbackSpeedButton = (ImageButton) rootView.findViewById(R.id.download_playback_speed);
-		toggleListButton =rootView.findViewById(R.id.download_toggle_list);
+		toggleListButton = rootView.findViewById(R.id.download_toggle_list);
 
 		playlistView = (RecyclerView)rootView.findViewById(R.id.download_list);
 		FastScroller fastScroller = (FastScroller) rootView.findViewById(R.id.download_fast_scroller);
@@ -837,7 +837,7 @@ public class NowPlayingFragment extends SubsonicFragment implements OnGestureLis
 				handler.post(new Runnable() {
 					@Override
 					public void run() {
-						setControlsVisible(false);
+						//setControlsVisible(false);
 					}
 				});
 			}

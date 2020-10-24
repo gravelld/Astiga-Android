@@ -1,17 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:card_view="http://schemas.android.com/apk/res-auto"
 	android:id="@+id/download_layout"
 	android:orientation="horizontal"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent">
+	android:layout_height="match_parent"
+	android:background="?attr/background_gradient">
 
-	<github.daneren2005.dsub.view.RecyclingImageView
-		android:id="@+id/download_album_art_image"
-		android:src="@drawable/unknown_album_large"
+<!--	<github.daneren2005.dsub.view.RecyclingImageView-->
+<!--		android:id="@+id/download_album_art_image"-->
+<!--		android:src="@drawable/unknown_album_large"-->
+<!--		android:layout_width="match_parent"-->
+<!--		android:layout_height="match_parent"-->
+<!--		android:layout_weight="1"-->
+<!--		android:scaleType="fitCenter"/>-->
+
+	<FrameLayout
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:layout_weight="1"
-		android:scaleType="fitCenter"/>
+		android:padding="15dp"
+		android:clipToPadding="false"
+		android:scaleType="fitCenter">
+
+		<android.support.v7.widget.CardView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			card_view:cardBackgroundColor="@android:color/white"
+			card_view:cardCornerRadius="10dp"
+			card_view:cardElevation="5dp">
+
+			<github.daneren2005.dsub.view.RecyclingImageView
+				android:id="@+id/download_album_art_image"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:layout_gravity="center_horizontal|top"
+				android:scaleType="fitCenter"
+				android:adjustViewBounds="true"/>
+
+		</android.support.v7.widget.CardView>
+
+	</FrameLayout>
 
 	<RelativeLayout
 		android:id="@+id/download_control_layout"
