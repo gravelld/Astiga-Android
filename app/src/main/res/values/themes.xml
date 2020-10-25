@@ -153,6 +153,7 @@
 	<style name="Theme.DSub.Dark" parent="Theme.DSub.Dark.Base">
 	</style>
 	<style name="Theme.DSub.Black.Base" parent="Theme.DSub.Dark.Base">
+		<item name="background_gradient">@android:color/black</item>
 		<item name="cardBackgroundDrawable">@drawable/card_rounded_corners_black</item>
 		<item name="android:windowBackground">@android:color/black</item>
 	</style>
