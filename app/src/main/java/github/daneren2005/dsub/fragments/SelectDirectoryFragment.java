@@ -234,14 +234,14 @@ public class SelectDirectoryFragment extends SubsonicFragment implements Section
 		} else if(artist && !showAll) {
 			menuInflater.inflate(R.menu.select_album, menu);
 
-			if(!ServerInfo.hasTopSongs(context)) {
-				menu.removeItem(R.id.menu_top_tracks);
-			}
+//			if(!ServerInfo.hasTopSongs(context)) {
+			menu.removeItem(R.id.menu_top_tracks);
+			menu.removeItem(R.id.menu_similar_artists);
+//			}
 			if(!ServerInfo.checkServerVersion(context, "1.11")) {
 				menu.removeItem(R.id.menu_radio);
 				menu.removeItem(R.id.menu_similar_artists);
 			} else if(!ServerInfo.hasSimilarArtists(context)) {
-				menu.removeItem(R.id.menu_similar_artists);
 			}
 		} else {
 			if(podcastId == null) {

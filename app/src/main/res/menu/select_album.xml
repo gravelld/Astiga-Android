@@ -29,11 +29,13 @@
 
 	<item
 		android:id="@+id/menu_top_tracks"
-		android:title="@string/menu.top_tracks"/>
+		android:title="@string/menu.top_tracks"
+		android:visible="false"/>
 
 	<item
 		android:id="@+id/menu_similar_artists"
-		android:title="@string/menu.similar_artists"/>
+		android:title="@string/menu.similar_artists"
+		android:visible="false"/>
 
 	<item
 		android:id="@+id/menu_show_all"
