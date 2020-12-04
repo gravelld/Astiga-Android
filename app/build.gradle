@@ -13,8 +13,8 @@ android {
 		applicationId "ga.asti.android"
 		minSdkVersion 16
 		targetSdkVersion 30
-		versionCode 1561
-		versionName '1.5.6'
+		versionCode 1570
+		versionName '1.5.7'
 		setProperty("archivesBaseName", "Astiga $versionName")
 		//resConfigs "de", "es", "fr", "hu", "nl", "pt-rPT", "ru", "sv"
 		vectorDrawables.useSupportLibrary = true
