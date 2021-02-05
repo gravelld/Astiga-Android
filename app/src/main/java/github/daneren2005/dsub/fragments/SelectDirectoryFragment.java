@@ -959,7 +959,7 @@ public class SelectDirectoryFragment extends SubsonicFragment implements Section
 			}
 		};
 
-//		checkLicenseAndTrialPeriod(onValid);
+		onValid.execute();
 	}
 
 	@Override
