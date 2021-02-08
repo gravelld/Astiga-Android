@@ -1566,7 +1566,9 @@ public class SubsonicFragment extends Fragment implements SwipeRefreshLayout.OnR
 		if(Util.isTagBrowsing(context)) {
 			args.putString(Constants.INTENT_EXTRA_NAME_ID, entry.getArtistId());
 		} else {
-			if(entry.getGrandParent() == null) {
+			if (entry.getArtistId() != null) {
+				args.putString(Constants.INTENT_EXTRA_NAME_ID, entry.getArtistId());
+			} else if(entry.getGrandParent() == null) {
 				args.putString(Constants.INTENT_EXTRA_NAME_CHILD_ID, entry.getParent());
 			} else {
 				args.putString(Constants.INTENT_EXTRA_NAME_ID, entry.getGrandParent());

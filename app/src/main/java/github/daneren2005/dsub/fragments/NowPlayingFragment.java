@@ -577,7 +577,10 @@ public class NowPlayingFragment extends SubsonicFragment implements OnGestureLis
 					if(Util.isTagBrowsing(context)) {
 						albumId = entry.getArtistId();
 					} else {
-						albumId = entry.getGrandParent();
+						albumId = entry.getArtistId();
+						if(albumId == null) {
+							albumId = entry.getGrandParent();
+						}
 						if(albumId == null) {
 							intent.putExtra(Constants.INTENT_EXTRA_NAME_CHILD_ID, entry.getParent());
 						}
