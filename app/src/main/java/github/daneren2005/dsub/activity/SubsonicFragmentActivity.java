@@ -183,7 +183,7 @@ public class SubsonicFragmentActivity extends SubsonicActivity implements Downlo
 
 				Bundle args = new Bundle();
 				args.putString(Constants.INTENT_EXTRA_NAME_ALBUM_LIST_TYPE, albumType);
-				args.putInt(Constants.INTENT_EXTRA_NAME_ALBUM_LIST_SIZE, 20);
+				args.putInt(Constants.INTENT_EXTRA_NAME_ALBUM_LIST_SIZE, 10000);
 				args.putInt(Constants.INTENT_EXTRA_NAME_ALBUM_LIST_OFFSET, 0);
 
 				fragment.setArguments(args);

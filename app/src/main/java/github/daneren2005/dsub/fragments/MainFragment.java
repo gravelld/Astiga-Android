@@ -175,7 +175,7 @@ public class MainFragment extends SelectRecyclerFragment<Integer> {
 			SubsonicFragment fragment = new SelectDirectoryFragment();
 			Bundle args = new Bundle();
 			args.putString(Constants.INTENT_EXTRA_NAME_ALBUM_LIST_TYPE, type);
-			args.putInt(Constants.INTENT_EXTRA_NAME_ALBUM_LIST_SIZE, 20);
+			args.putInt(Constants.INTENT_EXTRA_NAME_ALBUM_LIST_SIZE, 10000);
 			args.putInt(Constants.INTENT_EXTRA_NAME_ALBUM_LIST_OFFSET, 0);
 			fragment.setArguments(args);
 

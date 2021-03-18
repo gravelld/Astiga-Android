@@ -22,11 +22,6 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.LinearGradient;
-import android.graphics.Paint;
-import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
@@ -40,7 +35,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.lang.ref.WeakReference;
+import java.util.concurrent.Semaphore;
+import java.util.concurrent.locks.ReentrantLock;
 
 import github.daneren2005.dsub.R;
 import github.daneren2005.dsub.domain.ArtistInfo;
@@ -76,6 +72,8 @@ public class ImageLoader {
 	private final int avatarSizeDefault;
 	private boolean clearingCache = false;
 	private final int cacheSize;
+
+	private static Semaphore loadingDrawablesSemaphore = new Semaphore(16);
 
 	private final static int[] COLORS = {0xFF33B5E5, 0xFFAA66CC, 0xFF99CC00, 0xFFFFBB33, 0xFFFF4444};
 
@@ -460,10 +458,11 @@ public class ImageLoader {
 
 		@Override
 		protected Void doInBackground() throws Throwable {
+			loadingDrawablesSemaphore.acquire();
 			try {
 				MusicService musicService = MusicServiceFactory.getMusicService(mContext);
 				Bitmap bitmap = musicService.getCoverArt(mContext, mEntry, mSize, null, this);
-				if(bitmap != null) {
+				if (bitmap != null) {
 					String key = getKey(mEntry.getCoverArt(), mSize);
 					cache.put(key, bitmap);
 					// Make sure key is the most recently "used"
@@ -479,8 +478,9 @@ public class ImageLoader {
 			} catch (Throwable x) {
 				Log.e(TAG, "Failed to download album art.", x);
 				cancelled.set(true);
+			} finally {
+				loadingDrawablesSemaphore.release();
 			}
-
 			return null;
 		}
 	}
