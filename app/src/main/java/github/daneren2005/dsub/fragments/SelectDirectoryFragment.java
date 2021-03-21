@@ -123,8 +123,8 @@ public class SelectDirectoryFragment extends SubsonicFragment implements Section
 	public void onCreate(Bundle bundle) {
 		super.onCreate(bundle);
 		if(bundle != null) {
-			entries = (List<Entry>) bundle.getSerializable(Constants.FRAGMENT_LIST);
-			albums = (List<Entry>) bundle.getSerializable(Constants.FRAGMENT_LIST2);
+//			entries = (List<Entry>) bundle.getSerializable(Constants.FRAGMENT_LIST);
+//			albums = (List<Entry>) bundle.getSerializable(Constants.FRAGMENT_LIST2);
 			if(albums == null) {
 				albums = new ArrayList<>();
 			}
@@ -136,8 +136,8 @@ public class SelectDirectoryFragment extends SubsonicFragment implements Section
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		outState.putSerializable(Constants.FRAGMENT_LIST, (Serializable) entries);
-		outState.putSerializable(Constants.FRAGMENT_LIST2, (Serializable) albums);
+//		outState.putSerializable(Constants.FRAGMENT_LIST, (Serializable) entries);
+//		outState.putSerializable(Constants.FRAGMENT_LIST2, (Serializable) albums);
 		outState.putSerializable(Constants.FRAGMENT_EXTRA, (Serializable) artistInfo);
 	}
 

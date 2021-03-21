@@ -63,6 +63,8 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.gu.toolargetool.TooLargeTool;
+
 import java.io.File;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -132,6 +134,8 @@ public class SubsonicActivity extends AppCompatActivity implements OnItemSelecte
 
 	@Override
 	protected void onCreate(Bundle bundle) {
+		TooLargeTool.startLogging(this.getApplication());
+
 		UiModeManager uiModeManager = (UiModeManager) getSystemService(UI_MODE_SERVICE);
 		if (uiModeManager.getCurrentModeType() == Configuration.UI_MODE_TYPE_TELEVISION) {
 			// tv = true;
@@ -1179,7 +1183,7 @@ public class SubsonicActivity extends AppCompatActivity implements OnItemSelecte
 			try {
 
 				PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
-				file = new File(Environment.getExternalStorageDirectory(), "dsub-stacktrace.txt");
+				file = new File(Environment.getExternalStorageDirectory(), "astiga-stacktrace.txt");
 				printWriter = new PrintWriter(file);
 				printWriter.println("Android API level: " + Build.VERSION.SDK);
 				printWriter.println("Subsonic version name: " + packageInfo.versionName);

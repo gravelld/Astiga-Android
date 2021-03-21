@@ -4,6 +4,7 @@ repositories {
 	maven {
 		url "https://maven.google.com"
 	}
+	maven { url 'https://dl.bintray.com/guardian/android' }
 }
 
 android {
@@ -13,7 +14,7 @@ android {
 		applicationId "ga.asti.android"
 		minSdkVersion 16
 		targetSdkVersion 30
-		versionCode 1580
+		versionCode 1581
 		versionName '1.5.8'
 		setProperty("archivesBaseName", "Astiga $versionName")
 		//resConfigs "de", "es", "fr", "hu", "nl", "pt-rPT", "ru", "sv"
@@ -86,4 +87,5 @@ dependencies {
 	implementation group: 'org.eclipse.jetty', name: 'jetty-server', version:'8.1.16.v20140903'
 	implementation group: 'org.eclipse.jetty', name: 'jetty-servlet', version:'8.1.16.v20140903'
 	implementation group: 'org.eclipse.jetty', name: 'jetty-client', version:'8.1.16.v20140903'
+	implementation 'com.gu.android:toolargetool:0.1.6@aar'
 }
