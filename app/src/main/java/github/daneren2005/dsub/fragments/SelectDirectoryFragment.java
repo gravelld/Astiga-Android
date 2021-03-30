@@ -33,6 +33,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import github.daneren2005.dsub.R;
 import github.daneren2005.dsub.adapter.AlphabeticalAlbumAdapter;
+import github.daneren2005.dsub.adapter.AlphabeticalArtistAdapter;
 import github.daneren2005.dsub.adapter.EntryInfiniteGridAdapter;
 import github.daneren2005.dsub.adapter.EntryGridAdapter;
 import github.daneren2005.dsub.adapter.SectionAdapter;
@@ -773,6 +774,8 @@ public class SelectDirectoryFragment extends SubsonicFragment implements Section
 		} else {
 			if("alphabeticalByName".equals(albumListType)) {
 				entryGridAdapter = new AlphabeticalAlbumAdapter(context, entries, getImageLoader(), largeAlbums);
+			} else if("artist-alphabeticalByName".equals(albumListType)) {
+				entryGridAdapter = new AlphabeticalArtistAdapter(context, entries, getImageLoader(), largeAlbums);
 			} else if("highest".equals(albumListType)) {
 				entryGridAdapter = new TopRatedAlbumAdapter(context, entries, getImageLoader(), largeAlbums);
 			} else {

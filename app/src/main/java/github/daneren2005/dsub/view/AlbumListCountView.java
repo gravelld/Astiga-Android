@@ -61,40 +61,42 @@ public class AlbumListCountView extends UpdateView2<Integer, Void> {
 	@Override
 	protected void updateBackground() {
 		try {
-			String recentAddedFile = Util.getCacheName(context, "recent_count");
-			ArrayList<String> recents = FileUtil.deserialize(context, recentAddedFile, ArrayList.class);
-			if (recents == null) {
-				recents = new ArrayList<String>();
-			}
+			return;
 
-			MusicService musicService = MusicServiceFactory.getMusicService(context);
-			MusicDirectory recentlyAdded = musicService.getAlbumList("newest", 20, 0, false, context, null);
-
-			// If first run, just put everything in it and return 0
-			boolean firstRun = recents.isEmpty();
-
-			// Count how many new albums are in the list
-			count = 0;
-			for (MusicDirectory.Entry album : recentlyAdded.getChildren()) {
-				if (!recents.contains(album.getId())) {
-					recents.add(album.getId());
-					count++;
-				}
-			}
-
-			// Keep recents list from growing infinitely
-			while (recents.size() > 40) {
-				recents.remove(0);
-			}
-			FileUtil.serialize(context, recents, recentAddedFile);
-
-			if (!firstRun) {
-				// Add the old count which will get cleared out after viewing recents
-				count += startCount;
-				SharedPreferences.Editor editor = Util.getPreferences(context).edit();
-				editor.putInt(Constants.PREFERENCES_KEY_RECENT_COUNT + Util.getActiveServer(context), count);
-				editor.commit();
-			}
+//			String recentAddedFile = Util.getCacheName(context, "recent_count");
+//			ArrayList<String> recents = FileUtil.deserialize(context, recentAddedFile, ArrayList.class);
+//			if (recents == null) {
+//				recents = new ArrayList<String>();
+//			}
+//
+//			MusicService musicService = MusicServiceFactory.getMusicService(context);
+//			MusicDirectory recentlyAdded = musicService.getAlbumList("newest", 20, 0, false, context, null);
+//
+//			// If first run, just put everything in it and return 0
+//			boolean firstRun = recents.isEmpty();
+//
+//			// Count how many new albums are in the list
+//			count = 0;
+//			for (MusicDirectory.Entry album : recentlyAdded.getChildren()) {
+//				if (!recents.contains(album.getId())) {
+//					recents.add(album.getId());
+//					count++;
+//				}
+//			}
+//
+//			// Keep recents list from growing infinitely
+//			while (recents.size() > 40) {
+//				recents.remove(0);
+//			}
+//			FileUtil.serialize(context, recents, recentAddedFile);
+//
+//			if (!firstRun) {
+//				// Add the old count which will get cleared out after viewing recents
+//				count += startCount;
+//				SharedPreferences.Editor editor = Util.getPreferences(context).edit();
+//				editor.putInt(Constants.PREFERENCES_KEY_RECENT_COUNT + Util.getActiveServer(context), count);
+//				editor.commit();
+//			}
 		} catch(Exception e) {
 			Log.w(TAG, "Failed to refresh most recent count", e);
 		}
