@@ -17,5 +17,5 @@ package github.daneren2005.dsub.util;
 
 public final class EnvironmentVariables {
 	public static final String PASTEBIN_DEV_KEY = null;
-	public static final String CAST_APPLICATION_ID = "82C4EC73";
+	public static final String CAST_APPLICATION_ID = "29E2D790";
 }
