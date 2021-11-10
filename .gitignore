@@ -17,3 +17,8 @@ local.properties
 Subsonic\.iml
 
 app/google/release
+/.gradle/
+keystore.properties
+.settings
+*.keystore
+app/upload-certificate.pem
