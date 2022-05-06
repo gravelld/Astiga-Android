@@ -75,6 +75,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static github.daneren2005.dsub.domain.MusicDirectory.Entry;
 
@@ -902,10 +905,31 @@ public class SelectDirectoryFragment extends SubsonicFragment implements Section
 	private void playAll(final boolean shuffle, final boolean append, final boolean playNext) {
 		boolean hasSubFolders = albums != null && !albums.isEmpty();
 
-		if (hasSubFolders && (id != null || share != null || "starred".equals(albumListType))) {
+		if (hasSubFolders && !artist && (id != null || share != null || "starred".equals(albumListType))) {
 			downloadRecursively(id, false, append, !append, shuffle, false, playNext);
-		} else if(hasSubFolders && albumListType != null) {
+		} else if(hasSubFolders && !artist && albumListType != null) {
 			downloadRecursively(albums, shuffle, append, playNext);
+		} else if(artist) {
+			// #44 we'll download the entries recursively, so don't send the tracks because we
+			// don't want them added twice
+			final Predicate<MusicDirectory.Entry> isDirectory = new Predicate<Entry>() {
+				@Override
+				public boolean test(Entry entry) {
+					return entry.isDirectory();
+				}
+			};
+			Predicate<MusicDirectory.Entry> isRootFile = new Predicate<Entry>() {
+				@Override
+				public boolean test(Entry entry) {
+					return !isDirectory.test(entry) && !entry.getPath().contains("/");
+				}
+			};
+
+			List<MusicDirectory.Entry> onlyDirectoriesAndRootFiles = entries.stream()
+					.filter(isDirectory.or(isRootFile))
+					.collect(Collectors.<MusicDirectory.Entry>toList());
+			
+			download(onlyDirectoriesAndRootFiles, append, false, !append, playNext, shuffle);
 		} else {
 			download(entries, append, false, !append, playNext, shuffle);
 		}
