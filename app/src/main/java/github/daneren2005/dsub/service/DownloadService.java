@@ -18,7 +18,6 @@
  */
 package github.daneren2005.dsub.service;
 
-import static android.support.v7.media.MediaRouter.RouteInfo;
 import static github.daneren2005.dsub.domain.PlayerState.COMPLETED;
 import static github.daneren2005.dsub.domain.PlayerState.DOWNLOADING;
 import static github.daneren2005.dsub.domain.PlayerState.IDLE;
@@ -82,6 +81,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import androidx.mediarouter.media.MediaRouter;
 import android.media.PlaybackParams;
 import android.media.audiofx.AudioEffect;
 import android.net.wifi.WifiManager;
@@ -90,10 +90,9 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.PowerManager;
-import android.support.v7.media.MediaRouteSelector;
-import android.support.v7.media.MediaRouter;
+import androidx.mediarouter.media.MediaRouteSelector;
 import android.util.Log;
-import android.support.v4.util.LruCache;
+import androidx.collection.LruCache;
 import android.view.KeyEvent;
 
 /**
@@ -1764,7 +1763,7 @@ public class DownloadService extends Service {
 	public void setRemoteEnabled(RemoteControlState newState, Object ref) {
 		setRemoteState(newState, ref);
 
-		RouteInfo info = mediaRouter.getSelectedRoute();
+		MediaRouter.RouteInfo info = mediaRouter.getSelectedRoute();
 		String routeId = info.getId();
 
 		SharedPreferences.Editor editor = Util.getPreferences(this).edit();
@@ -1857,7 +1856,7 @@ public class DownloadService extends Service {
 			final Runnable delayedReconnect = new Runnable() {
 				@Override
 				public void run() {
-					RouteInfo info = mediaRouter.getRouteForId(routeId);
+					MediaRouter.RouteInfo info = mediaRouter.getRouteForId(routeId);
 					if(info == null) {
 						setRemoteState(LOCAL, null);
 					} else if(newState == RemoteControlState.CHROMECAST) {
@@ -1874,7 +1873,7 @@ public class DownloadService extends Service {
 				@Override
 				public void run() {
 					mediaRouter.startScan();
-					RouteInfo info = mediaRouter.getRouteForId(routeId);
+					MediaRouter.RouteInfo info = mediaRouter.getRouteForId(routeId);
 					if(info == null) {
 						handler.postDelayed(delayedReconnect, 2000L);
 					} else if(newState == RemoteControlState.CHROMECAST) {

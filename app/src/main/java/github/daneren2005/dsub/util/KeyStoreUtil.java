@@ -3,9 +3,9 @@ package github.daneren2005.dsub.util;
 import android.annotation.TargetApi;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
-import android.support.annotation.NonNull;
 import android.util.Base64;
 import android.util.Log;
+import androidx.annotation.NonNull;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

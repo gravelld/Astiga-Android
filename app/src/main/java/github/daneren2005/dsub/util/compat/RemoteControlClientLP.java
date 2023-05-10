@@ -30,14 +30,14 @@ import android.media.RemoteControlClient;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.support.v4.media.MediaDescriptionCompat;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
-import android.support.v7.media.MediaRouter;
+import androidx.mediarouter.media.MediaRouter;
 import android.util.Log;
 import android.view.KeyEvent;
+import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,17 +83,21 @@ public class RemoteControlClientLP extends RemoteControlClientBase {
 	@Override
 	public void register(Context context, ComponentName mediaButtonReceiverComponent) {
 		downloadService = (DownloadService) context;
-		mediaSession = new MediaSessionCompat(downloadService, "Astiga MediaSession");
-
 		Intent mediaButtonIntent = new Intent(Intent.ACTION_MEDIA_BUTTON);
+		PendingIntent mediaPendingIntent = PendingIntent.getBroadcast(
+				context,
+				0, mediaButtonIntent,
+				PendingIntent.FLAG_IMMUTABLE
+		);
+		mediaSession = new MediaSessionCompat(downloadService, "Astiga MediaSession", null, mediaPendingIntent);
+
 		mediaButtonIntent.setComponent(mediaButtonReceiverComponent);
-		PendingIntent mediaPendingIntent = PendingIntent.getBroadcast(context.getApplicationContext(), 0, mediaButtonIntent, 0);
 		mediaSession.setMediaButtonReceiver(mediaPendingIntent);
 
 		Intent activityIntent = new Intent(context, SubsonicFragmentActivity.class);
 		activityIntent.putExtra(Constants.INTENT_EXTRA_NAME_DOWNLOAD, true);
 		activityIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		PendingIntent activityPendingIntent = PendingIntent.getActivity(context, 0, activityIntent, 0);
+		PendingIntent activityPendingIntent = PendingIntent.getActivity(context, 0, activityIntent, PendingIntent.FLAG_IMMUTABLE);
 		mediaSession.setSessionActivity(activityPendingIntent);
 
 		mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS | MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS);

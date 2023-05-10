@@ -31,10 +31,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.Toolbar;
+import androidx.annotation.NonNull;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,6 +44,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
+import com.sothree.slidinguppanel.PanelSlideListener;
+import com.sothree.slidinguppanel.PanelState;
 
 import java.io.File;
 import java.util.Date;
@@ -91,7 +94,7 @@ public class SubsonicFragmentActivity extends SubsonicActivity implements Downlo
 	private static long ALLOWED_SKEW = 30000L;
 
 	private SlidingUpPanelLayout slideUpPanel;
-	private SlidingUpPanelLayout.PanelSlideListener panelSlideListener;
+	private PanelSlideListener panelSlideListener;
 	private boolean isPanelClosing = false;
 	private NowPlayingFragment nowPlayingFragment;
 	private SubsonicFragment secondaryFragment;
@@ -192,13 +195,21 @@ public class SubsonicFragmentActivity extends SubsonicActivity implements Downlo
 		}
 
 		slideUpPanel = (SlidingUpPanelLayout) findViewById(R.id.slide_up_panel);
-		panelSlideListener = new SlidingUpPanelLayout.PanelSlideListener() {
+		panelSlideListener = new PanelSlideListener() {
 			@Override
 			public void onPanelSlide(View panel, float slideOffset) {
 
 			}
 
 			@Override
+			public void onPanelStateChanged(View panel, PanelState previousState, PanelState newState) {
+				if(newState==PanelState.EXPANDED) {
+					onPanelExpanded(panel);
+				} else if(newState==PanelState.COLLAPSED) {
+					onPanelCollapsed(panel);
+				}
+			}
+
 			public void onPanelCollapsed(View panel) {
 				isPanelClosing = false;
 				if(bottomBar.getVisibility() == View.GONE) {
@@ -210,7 +221,6 @@ public class SubsonicFragmentActivity extends SubsonicActivity implements Downlo
 				}
 			}
 
-			@Override
 			public void onPanelExpanded(View panel) {
 				isPanelClosing = false;
 				currentFragment.stopActionMode();
@@ -232,18 +242,8 @@ public class SubsonicFragmentActivity extends SubsonicActivity implements Downlo
 				drawerToggle.setDrawerIndicatorEnabled(false);
 				getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 			}
-
-			@Override
-			public void onPanelAnchored(View panel) {
-
-			}
-
-			@Override
-			public void onPanelHidden(View panel) {
-
-			}
 		};
-		slideUpPanel.setPanelSlideListener(panelSlideListener);
+		slideUpPanel.addPanelSlideListener(panelSlideListener);
 
 		bottomBar = findViewById(R.id.bottom_bar);
 		mainToolbar = (Toolbar) findViewById(R.id.main_toolbar);
@@ -381,7 +381,7 @@ public class SubsonicFragmentActivity extends SubsonicActivity implements Downlo
 		super.onNewIntent(intent);
 
 		if(currentFragment != null && intent.getStringExtra(Constants.INTENT_EXTRA_NAME_QUERY) != null) {
-			if(slideUpPanel.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
+			if(slideUpPanel.getPanelState() == PanelState.EXPANDED) {
 				closeNowPlaying();
 			}
 
@@ -403,11 +403,11 @@ public class SubsonicFragmentActivity extends SubsonicActivity implements Downlo
 				replaceFragment(fragment, fragment.getSupportTag());
 			}
 		} else if(intent.getBooleanExtra(Constants.INTENT_EXTRA_NAME_DOWNLOAD, false)) {
-			if(slideUpPanel.getPanelState() != SlidingUpPanelLayout.PanelState.EXPANDED) {
+			if(slideUpPanel.getPanelState() != PanelState.EXPANDED) {
 				openNowPlaying();
 			}
 		} else {
-			if(slideUpPanel.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
+			if(slideUpPanel.getPanelState() == PanelState.EXPANDED) {
 				closeNowPlaying();
 			}
 			setIntent(intent);
@@ -503,8 +503,8 @@ public class SubsonicFragmentActivity extends SubsonicActivity implements Downlo
 			drawerToggle.setDrawerIndicatorEnabled(false);
 		}
 
-		if(savedInstanceState.getInt(Constants.MAIN_SLIDE_PANEL_STATE, -1) == SlidingUpPanelLayout.PanelState.EXPANDED.hashCode()) {
-			panelSlideListener.onPanelExpanded(null);
+		if(savedInstanceState.getInt(Constants.MAIN_SLIDE_PANEL_STATE, -1) == PanelState.EXPANDED.hashCode()) {
+			panelSlideListener.onPanelStateChanged(null, PanelState.COLLAPSED, PanelState.EXPANDED);
 		}
 	}
 
@@ -523,8 +523,8 @@ public class SubsonicFragmentActivity extends SubsonicActivity implements Downlo
 
 	@Override
 	public void onBackPressed() {
-		if(slideUpPanel.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED && secondaryFragment == null) {
-			slideUpPanel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+		if(slideUpPanel.getPanelState() == PanelState.EXPANDED && secondaryFragment == null) {
+			slideUpPanel.setPanelState(PanelState.COLLAPSED);
 		} else if(onBackPressedSupport()) {
 			if(!Util.disableExitPrompt(this) && lastBackPressTime < (System.currentTimeMillis() - 4000)) {
 				lastBackPressTime = System.currentTimeMillis();
@@ -537,7 +537,7 @@ public class SubsonicFragmentActivity extends SubsonicActivity implements Downlo
 
 	@Override
 	public boolean onBackPressedSupport() {
-		if(slideUpPanel.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
+		if(slideUpPanel.getPanelState() == PanelState.EXPANDED) {
 			removeCurrent();
 			return false;
 		} else {
@@ -547,7 +547,7 @@ public class SubsonicFragmentActivity extends SubsonicActivity implements Downlo
 
 	@Override
 	public SubsonicFragment getCurrentFragment() {
-		if(slideUpPanel.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
+		if(slideUpPanel.getPanelState() == PanelState.EXPANDED) {
 			if(secondaryFragment == null) {
 				return nowPlayingFragment;
 			} else {
@@ -560,7 +560,7 @@ public class SubsonicFragmentActivity extends SubsonicActivity implements Downlo
 
 	@Override
 	public void replaceFragment(SubsonicFragment fragment, int tag, boolean replaceCurrent) {
-		if(slideUpPanel != null && slideUpPanel.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED && !isPanelClosing) {
+		if(slideUpPanel != null && slideUpPanel.getPanelState() == PanelState.EXPANDED && !isPanelClosing) {
 			secondaryFragment = fragment;
 			nowPlayingFragment.setPrimaryFragment(false);
 			secondaryFragment.setPrimaryFragment(true);
@@ -577,7 +577,7 @@ public class SubsonicFragmentActivity extends SubsonicActivity implements Downlo
 	}
 	@Override
 	public void removeCurrent() {
-		if(slideUpPanel.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED && secondaryFragment != null) {
+		if(slideUpPanel.getPanelState() == PanelState.EXPANDED && secondaryFragment != null) {
 			FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
 			trans.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_left);
 			trans.remove(secondaryFragment);
@@ -594,7 +594,7 @@ public class SubsonicFragmentActivity extends SubsonicActivity implements Downlo
 
 	@Override
 	public void setTitle(CharSequence title) {
-		if(slideUpPanel.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
+		if(slideUpPanel.getPanelState() == PanelState.EXPANDED) {
 			getSupportActionBar().setTitle(title);
 		} else {
 			super.setTitle(title);
@@ -605,8 +605,8 @@ public class SubsonicFragmentActivity extends SubsonicActivity implements Downlo
 	protected void drawerItemSelected(String fragmentType) {
 		super.drawerItemSelected(fragmentType);
 
-		if(slideUpPanel.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
-			slideUpPanel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+		if(slideUpPanel.getPanelState() == PanelState.EXPANDED) {
+			slideUpPanel.setPanelState(PanelState.COLLAPSED);
 		}
 	}
 
@@ -645,11 +645,11 @@ public class SubsonicFragmentActivity extends SubsonicActivity implements Downlo
 
 	@Override
 	public void openNowPlaying() {
-		slideUpPanel.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+		slideUpPanel.setPanelState(PanelState.EXPANDED);
 	}
 	@Override
 	public void closeNowPlaying() {
-		slideUpPanel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+		slideUpPanel.setPanelState(PanelState.COLLAPSED);
 		isPanelClosing = true;
 	}
 
@@ -944,7 +944,7 @@ public class SubsonicFragmentActivity extends SubsonicActivity implements Downlo
 	}
 
 	public Toolbar getActiveToolbar() {
-		return slideUpPanel.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED ? nowPlayingToolbar : mainToolbar;
+		return slideUpPanel.getPanelState() == PanelState.EXPANDED ? nowPlayingToolbar : mainToolbar;
 	}
 
 	@Override
@@ -1040,7 +1040,7 @@ public class SubsonicFragmentActivity extends SubsonicActivity implements Downlo
 			getImageLoader().loadImage(coverArtView, song, false, height, false);
 
 			// We need to update it immediately since it won't update if updater is not running for it
-			if(nowPlayingFragment != null && slideUpPanel.getPanelState() == SlidingUpPanelLayout.PanelState.COLLAPSED) {
+			if(nowPlayingFragment != null && slideUpPanel.getPanelState() == PanelState.COLLAPSED) {
 				nowPlayingFragment.onMetadataUpdate(song, fieldChange);
 			}
 		}

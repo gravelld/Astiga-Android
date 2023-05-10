@@ -19,7 +19,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.preference.DialogPreference;
 import android.preference.EditTextPreference;
-import android.support.v4.content.ContextCompat;
+import androidx.core.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
