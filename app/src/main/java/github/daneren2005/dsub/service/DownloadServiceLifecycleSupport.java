@@ -24,12 +24,15 @@ import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.media.RemoteControlClient;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.telephony.PhoneStateListener;
@@ -51,6 +54,8 @@ import github.daneren2005.dsub.util.SongDBHandler;
 import github.daneren2005.dsub.util.Util;
 
 import static github.daneren2005.dsub.domain.PlayerState.PREPARING;
+
+import androidx.core.content.ContextCompat;
 
 /**
  * @author Sindre Mehus
@@ -160,7 +165,12 @@ public class DownloadServiceLifecycleSupport {
 
 		// Android 6.0 removes requirement for android.Manifest.permission.READ_PHONE_STATE;
 		TelephonyManager telephonyManager = (TelephonyManager) downloadService.getSystemService(Context.TELEPHONY_SERVICE);
-		telephonyManager.listen(phoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
+		// for API 31+: you need to first check for READ_PHONE_STATE permission to be able to listen to LISTEN_CALL_STATE
+		if (Build.VERSION.SDK_INT >= 31) {
+			if(ContextCompat.checkSelfPermission(downloadService, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED)
+				telephonyManager.listen(phoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
+		}
+		else telephonyManager.listen(phoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
 
 		// Register the handler for outside intents.
 		IntentFilter commandFilter = new IntentFilter();

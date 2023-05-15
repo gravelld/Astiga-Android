@@ -89,7 +89,7 @@ public final class Notifications {
 		MediaStyle mediaStyle = new MediaStyle()
 				.setShowActionsInCompactView(compactActions)
 				.setShowCancelButton(true)
-				.setCancelButtonIntent(PendingIntent.getService(context, 0, cancelIntent, 0));
+				.setCancelButtonIntent(PendingIntent.getService(context, 0, cancelIntent, PendingIntent.FLAG_IMMUTABLE));
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN){
 			builder.setPriority(Notification.PRIORITY_HIGH);
@@ -106,7 +106,7 @@ public final class Notifications {
 		Intent notificationIntent = new Intent(context, SubsonicFragmentActivity.class);
 		notificationIntent.putExtra(Constants.INTENT_EXTRA_NAME_DOWNLOAD, true);
 		notificationIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		builder.setContentIntent(PendingIntent.getActivity(context, 0, notificationIntent, 0));
+		builder.setContentIntent(PendingIntent.getActivity(context, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE));
 		final Notification notification = builder.build();
 		if(playing) {
 			notification.flags |= Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;
@@ -192,20 +192,20 @@ public final class Notifications {
 
 		if (thumbs) {
 			pendingIntent = PendingIntent.getService(downloadService, 0,
-					new Intent(DownloadService.THUMBS_UP).setComponent(new ComponentName(context, DownloadService.class)), 0);
+					new Intent(DownloadService.THUMBS_UP).setComponent(new ComponentName(context, DownloadService.class)), PendingIntent.FLAG_IMMUTABLE);
 			builder.addAction(rating == 5 ? R.drawable.ic_action_rating_good_selected : R.drawable.ic_action_rating_good, "Thumbs Up", pendingIntent);
 		}
 		if(!shouldFastForward) {
 			Intent prevIntent = new Intent("KEYCODE_MEDIA_PREVIOUS");
 			prevIntent.setComponent(new ComponentName(context, DownloadService.class));
 			prevIntent.putExtra(Intent.EXTRA_KEY_EVENT, new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_PREVIOUS));
-			pendingIntent = PendingIntent.getService(context, 0, prevIntent, 0);
+			pendingIntent = PendingIntent.getService(context, 0, prevIntent, PendingIntent.FLAG_IMMUTABLE);
 			builder.addAction(R.drawable.ic_skip_previous, "Previous", pendingIntent);
 		} else {
 			Intent rewindIntent = new Intent("KEYCODE_MEDIA_REWIND");
 			rewindIntent.setComponent(new ComponentName(context, DownloadService.class));
 			rewindIntent.putExtra(Intent.EXTRA_KEY_EVENT, new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_REWIND));
-			pendingIntent = PendingIntent.getService(context, 0, rewindIntent, 0);
+			pendingIntent = PendingIntent.getService(context, 0, rewindIntent, PendingIntent.FLAG_IMMUTABLE);
 			builder.addAction(R.drawable.ic_fast_rewind, "Rewind", pendingIntent);
 		}
 
@@ -213,13 +213,13 @@ public final class Notifications {
 			Intent pauseIntent = new Intent("KEYCODE_MEDIA_PLAY_PAUSE");
 			pauseIntent.setComponent(new ComponentName(context, DownloadService.class));
 			pauseIntent.putExtra(Intent.EXTRA_KEY_EVENT, new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE));
-			pendingIntent = PendingIntent.getService(context, 0, pauseIntent, 0);
+			pendingIntent = PendingIntent.getService(context, 0, pauseIntent, PendingIntent.FLAG_IMMUTABLE);
 			builder.addAction(R.drawable.ic_pause, "Pause", pendingIntent);
 		} else {
 			Intent playIntent = new Intent("KEYCODE_MEDIA_PLAY");
 			playIntent.setComponent(new ComponentName(context, DownloadService.class));
 			playIntent.putExtra(Intent.EXTRA_KEY_EVENT, new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_PLAY));
-			pendingIntent = PendingIntent.getService(context, 0, playIntent, 0);
+			pendingIntent = PendingIntent.getService(context, 0, playIntent, PendingIntent.FLAG_IMMUTABLE);
 			builder.addAction(R.drawable.ic_play_arrow, "Play", pendingIntent);
 		}
 
@@ -227,19 +227,19 @@ public final class Notifications {
 			Intent nextIntent = new Intent("KEYCODE_MEDIA_NEXT");
 			nextIntent.setComponent(new ComponentName(context, DownloadService.class));
 			nextIntent.putExtra(Intent.EXTRA_KEY_EVENT, new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_NEXT));
-			pendingIntent = PendingIntent.getService(context, 0, nextIntent, 0);
+			pendingIntent = PendingIntent.getService(context, 0, nextIntent, PendingIntent.FLAG_IMMUTABLE);
 			builder.addAction(R.drawable.ic_skip_next, "Next", pendingIntent);
 		}
 		if(shouldFastForward) {
 			Intent fastForwardIntent = new Intent("KEYCODE_MEDIA_FAST_FORWARD");
 			fastForwardIntent.setComponent(new ComponentName(context, DownloadService.class));
 			fastForwardIntent.putExtra(Intent.EXTRA_KEY_EVENT, new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_FAST_FORWARD));
-			pendingIntent = PendingIntent.getService(context, 0, fastForwardIntent, 0);
+			pendingIntent = PendingIntent.getService(context, 0, fastForwardIntent, PendingIntent.FLAG_IMMUTABLE);
 			builder.addAction(R.drawable.ic_fast_forward, "Fast Forward", pendingIntent);
 		}
 		if (thumbs) {
 			pendingIntent = PendingIntent.getService(downloadService, 0,
-					new Intent(DownloadService.THUMBS_DOWN).setComponent(new ComponentName(context, DownloadService.class)), 0);
+					new Intent(DownloadService.THUMBS_DOWN).setComponent(new ComponentName(context, DownloadService.class)), PendingIntent.FLAG_IMMUTABLE);
 			builder.addAction(rating == 1 ? R.drawable.ic_action_rating_bad_selected : R.drawable.ic_action_rating_bad, "Thumbs Down", pendingIntent);
 		}
 	}
@@ -290,7 +290,7 @@ public final class Notifications {
 
 		Intent cancelIntent = new Intent(context, DownloadService.class);
 		cancelIntent.setAction(DownloadService.CANCEL_DOWNLOADS);
-		PendingIntent cancelPI = PendingIntent.getService(context, 0, cancelIntent, 0);
+		PendingIntent cancelPI = PendingIntent.getService(context, 0, cancelIntent, PendingIntent.FLAG_IMMUTABLE);
 
 		String currentDownloading, currentSize;
 		if(file != null) {
@@ -318,7 +318,7 @@ public final class Notifications {
 		Intent notificationIntent = new Intent(context, SubsonicFragmentActivity.class);
 		notificationIntent.putExtra(Constants.INTENT_EXTRA_NAME_DOWNLOAD_VIEW, true);
 		notificationIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		builder.setContentIntent(PendingIntent.getActivity(context, 2, notificationIntent, 0));
+		builder.setContentIntent(PendingIntent.getActivity(context, 2, notificationIntent, PendingIntent.FLAG_IMMUTABLE));
 
 		final Notification notification = builder.build();
 		downloadShowing = true;
@@ -438,7 +438,7 @@ public final class Notifications {
 				notificationIntent.putExtra(Constants.INTENT_EXTRA_NAME_ID, extraId);
 			}
 
-			builder.setContentIntent(PendingIntent.getActivity(context, stringId, notificationIntent, 0));
+			builder.setContentIntent(PendingIntent.getActivity(context, stringId, notificationIntent, PendingIntent.FLAG_IMMUTABLE));
 
 			NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 			notificationManager.notify(stringId, builder.build());
