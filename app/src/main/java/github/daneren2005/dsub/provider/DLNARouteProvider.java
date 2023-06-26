@@ -33,7 +33,6 @@ import androidx.mediarouter.media.MediaRouteProvider;
 import androidx.mediarouter.media.MediaRouteProviderDescriptor;
 import android.util.Log;
 
-import org.eclipse.jetty.util.log.Logger;
 import org.fourthline.cling.android.AndroidUpnpService;
 import org.fourthline.cling.android.AndroidUpnpServiceImpl;
 import org.fourthline.cling.model.action.ActionInvocation;
@@ -76,9 +75,6 @@ public class DLNARouteProvider extends MediaRouteProvider {
 
 	public DLNARouteProvider(Context context) {
 		super(context);
-
-		// Use custom logger
-		org.eclipse.jetty.util.log.Log.setLog(new JettyAndroidLog());
 
 		this.downloadService = (DownloadService) context;
 		dlnaServiceConnection = new ServiceConnection() {
@@ -367,88 +363,6 @@ public class DLNARouteProvider extends MediaRouteProvider {
 				controller.setVolume(volume);
 			}
 			broadcastDescriptors();
-		}
-	}
-
-	public static class JettyAndroidLog implements Logger {
-		final private static java.util.logging.Logger log = java.util.logging.Logger.getLogger("Jetty");
-
-		public static boolean __isIgnoredEnabled = false;
-		public String _name;
-
-		public JettyAndroidLog() {
-			this (JettyAndroidLog.class.getName());
-		}
-
-		public JettyAndroidLog(String name) {
-			_name = name;
-		}
-
-		public String getName () {
-			return  _name;
-		}
-
-		public void debug(Throwable th) {
-			// Log.d(TAG, "", th);
-		}
-
-		public void debug(String msg, Throwable th) {
-			// Log.d(TAG, msg, th);
-		}
-
-		public void debug(String msg, Object... args) {
-			// Log.d(TAG, msg);
-		}
-
-		public Logger getLogger(String name) {
-			return new JettyAndroidLog(name);
-		}
-
-		public void info(String msg, Object... args) {
-			// Log.i(TAG, msg);
-		}
-
-		public void info(Throwable th) {
-			// Log.i(TAG, "", th);
-		}
-
-		public void info(String msg, Throwable th) {
-			// Log.i(TAG, msg, th);
-		}
-
-		public boolean isDebugEnabled() {
-			return false;
-		}
-
-		public void warn(Throwable th) {
-			// Log.w(TAG, "", th);
-		}
-
-		public void warn(String msg, Object... args) {
-			// Log.w(TAG, msg);
-		}
-
-		public void warn(String msg, Throwable th) {
-			// Log.w(TAG, msg, th);
-		}
-
-		public boolean isIgnoredEnabled () {
-			return __isIgnoredEnabled;
-		}
-
-
-		public void ignore(Throwable ignored) {
-			if (__isIgnoredEnabled) {
-				warn("IGNORED", ignored);
-			}
-		}
-
-		public void setIgnoredEnabled(boolean enabled) {
-			__isIgnoredEnabled = enabled;
-		}
-
-		public void setDebugEnabled(boolean enabled) {
-
 		}
 	}
 }

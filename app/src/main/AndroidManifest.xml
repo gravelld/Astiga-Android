@@ -63,7 +63,7 @@
 
         <activity android:name="github.daneren2005.dsub.activity.VoiceQueryReceiverActivity"
                   android:launchMode="singleTask" android:label="@string/common.appname"
-				  android:exported="false">
+				  android:exported="true">
             <intent-filter>
                 <action android:name="android.media.action.MEDIA_PLAY_FROM_SEARCH" />
                 <category android:name="android.intent.category.DEFAULT" />

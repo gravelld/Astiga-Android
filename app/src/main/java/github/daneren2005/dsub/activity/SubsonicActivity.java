@@ -63,8 +63,6 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.gu.toolargetool.TooLargeTool;
-
 import java.io.File;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -134,7 +132,6 @@ public class SubsonicActivity extends AppCompatActivity implements OnItemSelecte
 
 	@Override
 	protected void onCreate(Bundle bundle) {
-		TooLargeTool.startLogging(this.getApplication());
 
 		UiModeManager uiModeManager = (UiModeManager) getSystemService(UI_MODE_SERVICE);
 		if (uiModeManager.getCurrentModeType() == Configuration.UI_MODE_TYPE_TELEVISION) {

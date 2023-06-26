@@ -25,8 +25,8 @@ android {
 		applicationId "ga.asti.android"
 		minSdkVersion 16
 		targetSdkVersion 31
-		versionCode 10513	// convention: use versionName plus incrementable last part. M.mm.rr, zero padded
-		versionName '1.5.13'
+		versionCode 10519	// convention: use versionName plus incrementable last part. M.mm.rr, zero padded
+		versionName '1.5.19'
 		setProperty("archivesBaseName", "Astiga $versionName")
 		//resConfigs "de", "es", "fr", "hu", "nl", "pt-rPT", "ru", "sv"
 		vectorDrawables.useSupportLibrary = true
@@ -36,7 +36,6 @@ android {
 		resValue 'string', 'provider.podcast', applicationId + ".podcasts.provider"
 		resValue 'string', 'provider.starred', applicationId + ".starred.provider"
 		resValue 'string', 'provider.recently_added', applicationId + ".mostrecent.provider"
-		multiDexEnabled true
 	}
     signingConfigs {
         release {
@@ -52,7 +51,7 @@ android {
 		release {
 			minifyEnabled true
 			shrinkResources true
-			proguardFiles 'proguard.cfg'
+			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard.cfg'
 			zipAlignEnabled true
 			signingConfig signingConfigs.release
 			debuggable = false
@@ -60,7 +59,7 @@ android {
 		fix {
 			minifyEnabled true
 			shrinkResources true
-			proguardFiles 'proguard.cfg'
+			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard.cfg'
 			zipAlignEnabled true
 		}
 	}
@@ -99,26 +98,21 @@ android {
 }
 
 dependencies {
+	implementation 'androidx.annotation:annotation:1.3.0'
+
 	implementation project(path: ':ServerProxy')
 	implementation fileTree(include: ['*.jar'], dir: 'libs')
-	implementation 'androidx.core:core:1.0.0'
-	implementation 'androidx.annotation:annotation:1.1.0'
-	implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-	implementation 'androidx.appcompat:appcompat:1.4.2'
+	implementation 'androidx.core:core:1.8.0'
+	implementation 'androidx.recyclerview:recyclerview:1.2.1'
+  	implementation 'androidx.appcompat:appcompat:1.1.0'
 	implementation 'androidx.mediarouter:mediarouter:1.0.0'
-	implementation 'androidx.recyclerview:recyclerview:1.0.0'
 	implementation 'com.google.android.material:material:1.0.0'
 	implementation 'androidx.cardview:cardview:1.0.0'
-	implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 	implementation 'com.google.android.gms:play-services-cast:21.3.0'
 	implementation 'com.github.hannesa2:AndroidSlidingUpPanel:4.5.0'
 	implementation 'de.hdodenhof:circleimageview:1.2.1'
     implementation 'com.shehabic.droppy:Droppy:0.5.1@aar'
 	implementation group: 'org.fourthline.cling', name: 'cling-core', version:'2.1.1'
 	implementation group: 'org.fourthline.cling', name: 'cling-support', version:'2.1.1'
-	implementation group: 'org.eclipse.jetty', name: 'jetty-server', version:'8.1.16.v20140903'
-	implementation group: 'org.eclipse.jetty', name: 'jetty-servlet', version:'8.1.16.v20140903'
-	implementation group: 'org.eclipse.jetty', name: 'jetty-client', version:'8.1.16.v20140903'
-	implementation 'com.gu.android:toolargetool:0.3.0'
-	implementation "androidx.multidex:multidex:2.0.1"
+
 }
