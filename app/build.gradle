@@ -19,14 +19,14 @@ def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
-	compileSdkVersion 31
+	compileSdkVersion 33
 
 	defaultConfig {
 		applicationId "ga.asti.android"
 		minSdkVersion 16
-		targetSdkVersion 31
-		versionCode 10519	// convention: use versionName plus incrementable last part. M.mm.rr, zero padded
-		versionName '1.5.19'
+		targetSdkVersion 33
+		versionCode 10521	// convention: use versionName plus incrementable last part. M.mm.rr, zero padded
+		versionName '1.5.21'
 		setProperty("archivesBaseName", "Astiga $versionName")
 		//resConfigs "de", "es", "fr", "hu", "nl", "pt-rPT", "ru", "sv"
 		vectorDrawables.useSupportLibrary = true
