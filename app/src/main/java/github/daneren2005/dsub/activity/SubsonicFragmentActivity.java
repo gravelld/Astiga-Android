@@ -517,6 +517,16 @@ public class SubsonicFragmentActivity extends SubsonicActivity implements Downlo
 	}
 
 	@Override
+	protected void onResumeFragments() {
+		super.onResumeFragments();
+	}
+
+	@Override
+	protected void onPostResume() {
+		super.onPostResume();
+	}
+
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		return super.onOptionsItemSelected(item);
 	}

@@ -27,10 +27,13 @@ import android.provider.MediaStore;
 import android.provider.SearchRecentSuggestions;
 import android.util.Log;
 
+import github.daneren2005.dsub.R;
 import github.daneren2005.dsub.fragments.SubsonicFragment;
+import github.daneren2005.dsub.service.DownloadService;
 import github.daneren2005.dsub.util.Constants;
 import github.daneren2005.dsub.util.Util;
 import github.daneren2005.dsub.provider.DSubSearchProvider;
+import github.daneren2005.dsub.util.compat.RemoteControlClientLP;
 
 /**
  * Receives voice search queries and forwards to the SearchFragment.
@@ -74,8 +77,19 @@ public class VoiceQueryReceiverActivity extends Activity {
             intent.putExtra(MediaStore.EXTRA_MEDIA_FOCUS, getIntent().getStringExtra(MediaStore.EXTRA_MEDIA_FOCUS));
 			intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             Util.startActivityWithoutTransition(VoiceQueryReceiverActivity.this, intent);
-        }
+        } else {
+        	/* There's no query, so this is a request to "play music" which is required to be supported and play something
+			 * according to the Android Auto requirements
+        	 */
+
+			Intent start = new Intent(VoiceQueryReceiverActivity.this, DownloadService.class);
+			start.setAction(DownloadService.START_PLAY);
+			start.putExtra(Constants.INTENT_EXTRA_NAME_SHUFFLE, true);
+			DownloadService.startService(VoiceQueryReceiverActivity.this, start);
+		}
         finish();
         Util.disablePendingTransition(this);
     }
+
+
 }
