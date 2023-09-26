@@ -37,7 +37,6 @@ import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.AudioManager.OnAudioFocusChangeListener;
 import android.net.ConnectivityManager;
-import android.net.Network;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
@@ -74,7 +73,6 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import java.math.BigInteger;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
@@ -83,7 +81,6 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -118,7 +115,7 @@ public final class Util {
 
 	private static OnAudioFocusChangeListener focusListener;
 	private static AudioFocusRequest audioFocusRequest;
-	private static boolean pauseFocus = false;
+	private static boolean isPausedDueToFocusLoss = false;
 	private static boolean lowerFocus = false;
 
     // Used by hexEncode()
@@ -1359,13 +1356,13 @@ public final class Util {
 							lowerFocus = true;
 							downloadService.setVolume(0.1f);
 						} else if(lossPref == 0 || (lossPref == 1 && focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT)) {
-							pauseFocus = true;
+							isPausedDueToFocusLoss = true;
 							downloadService.pause(true);
 						}
 					}
 				} else if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
-					if(pauseFocus) {
-						pauseFocus = false;
+					if(isPausedDueToFocusLoss && downloadService.getPlayerState() != PlayerState.PAUSED) {
+						isPausedDueToFocusLoss = false;
 						downloadService.start();
 					}
 					if(lowerFocus) {
