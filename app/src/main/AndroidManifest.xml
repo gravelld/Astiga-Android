@@ -95,7 +95,8 @@
 		</activity>
 
         <service android:name="github.daneren2005.dsub.service.DownloadService"
-                 android:label="Astiga Playback Service"/>
+			android:foregroundServiceType="mediaPlayback"
+			android:label="Astiga Playback Service"/>
 
 		<service android:name="github.daneren2005.dsub.service.AutoMediaBrowserService"
 				 android:exported="true">
