@@ -31,10 +31,12 @@ import android.widget.TextView;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import github.daneren2005.dsub.R;
 import github.daneren2005.dsub.service.MusicService;
 import github.daneren2005.dsub.service.MusicServiceFactory;
+import github.daneren2005.dsub.service.parser.SubsonicRESTException;
 import github.daneren2005.dsub.util.Constants;
 import github.daneren2005.dsub.util.FileUtil;
 import github.daneren2005.dsub.util.KeyStoreUtil;
@@ -228,6 +230,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         private final String mPassword;
 
         private Context context;
+        private Exception loginException;
 
         UserLoginTask(String email, String password) {
             mEmail = email;
@@ -272,6 +275,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 musicService.ping(context, null);
                 return musicService.isLicenseValid(context, null);
             } catch (Exception e) {
+                this.loginException = e;
                 return false;
             }
         }
@@ -296,7 +300,16 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 editor.putInt(Constants.PREFERENCES_KEY_SERVER_INSTANCE, 1);
                 editor.commit();
 
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
+                // If it's not an expected credential problem, show the exception message
+                String msg = null;
+                if(null!= loginException && (
+                        !(loginException instanceof SubsonicRESTException)
+                        || ((SubsonicRESTException) loginException).getCode() != 40)) {
+                    msg = loginException.getMessage();
+                } else {
+                    msg = getString(R.string.error_incorrect_password);
+                }
+                mPasswordView.setError(msg);
                 mPasswordView.requestFocus();
             }
         }
