@@ -81,6 +81,8 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+
+import androidx.lifecycle.ProcessLifecycleOwner;
 import androidx.mediarouter.media.MediaRouter;
 import android.media.PlaybackParams;
 import android.media.audiofx.AudioEffect;
@@ -1387,11 +1389,19 @@ public class DownloadService extends Service {
 	}
 
 	public synchronized void start() {
+		if(size()==0) {
+			/*
+			 * nothing to play - attempting to play causes issues with mediaPlayer if it's not prepared
+			 * https://developer.android.com/reference/android/media/MediaPlayer
+			 */
+			return;
+		}
 		try {
 			if (remoteState != LOCAL) {
 				remoteController.start();
 			} else {
 				// Only start if done preparing
+				Log.d(TAG, "start(), playerState: " + playerState);
 				if(playerState != PREPARING) {
 					mediaPlayer.start();
 					applyPlaybackParamsMain();
