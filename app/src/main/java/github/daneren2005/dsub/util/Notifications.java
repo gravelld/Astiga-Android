@@ -16,6 +16,7 @@
 package github.daneren2005.dsub.util;
 
 import android.annotation.TargetApi;
+import android.app.ForegroundServiceStartNotAllowedException;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -23,11 +24,14 @@ import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ServiceInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Handler;
 import androidx.core.app.NotificationCompat;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.ProcessLifecycleOwner;
 import androidx.media.app.NotificationCompat.MediaStyle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -97,7 +101,7 @@ public final class Notifications {
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 			RemoteControlClientLP remoteControlClientLP = (RemoteControlClientLP) downloadService.getRemoteControlClient();
 			mediaStyle.setMediaSession(remoteControlClientLP.getMediaSession().getSessionToken());
-			builder.setVisibility(Notification.VISIBILITY_PUBLIC).setColor(context.getResources().getColor(R.color.lightPrimary));
+			builder.setVisibility(NotificationCompat.VISIBILITY_PUBLIC).setColor(context.getResources().getColor(R.color.lightPrimary));
 			if(Util.getPreferences(context).getBoolean(Constants.PREFERENCES_KEY_HEADS_UP_NOTIFICATION, false) && !UpdateView.hasActiveActivity()) {
 				builder.setVibrate(new long[0]);
 			}
@@ -134,7 +138,12 @@ public final class Notifications {
 				public void run() {
 					if (playing) {
 						try {
-							startForeground(downloadService, NOTIFICATION_ID_PLAYING, notification);
+							if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+								startForeground(downloadService, NOTIFICATION_ID_PLAYING, notification);
+							} else {
+								NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+								notificationManager.notify(NOTIFICATION_ID_PLAYING, notification);
+							}
 						} catch(Exception e) {
 							Log.e(TAG, "Failed to start notifications while playing");
 						}
@@ -368,7 +377,8 @@ public final class Notifications {
 	@TargetApi(Build.VERSION_CODES.O)
 	public static void shutGoogleUpNotification(final DownloadService downloadService) {
 		// On Android O+, service crashes if startForeground isn't called within 5 seconds of starting
-		if (downloadService.isForeground()) {
+		if (downloadService.isForeground()
+				|| Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) { // don't push notification in foreground #433
 			return;
 		}
 		getDownloadingNotificationChannel(downloadService);
@@ -459,8 +469,16 @@ public final class Notifications {
 	}
 
 	private static void startForeground(DownloadService downloadService, int notificationId, Notification notification) {
-		downloadService.startForeground(notificationId, notification);
-		downloadService.setIsForeground(true);
+		try {
+			if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+				downloadService.startForeground(notificationId, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK);
+			} else {
+				downloadService.startForeground(notificationId, notification);
+			}
+			downloadService.setIsForeground(true);
+		} catch(Exception e) {
+			Log.e(TAG, "Exception startForeground", e);
+		}
 	}
 
 	private static void stopForeground(DownloadService downloadService, boolean removeNotification) {
