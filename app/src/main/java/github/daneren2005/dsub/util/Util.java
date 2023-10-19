@@ -1361,6 +1361,7 @@ public final class Util {
 						}
 					}
 				} else if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
+					Log.i(TAG, "Gained focus");
 					if(isPausedDueToFocusLoss && downloadService.getPlayerState() != PlayerState.PAUSED) {
 						isPausedDueToFocusLoss = false;
 						downloadService.start();

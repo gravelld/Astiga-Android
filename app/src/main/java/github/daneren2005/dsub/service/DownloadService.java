@@ -198,6 +198,12 @@ public class DownloadService extends Service {
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		long onCreateStart = System.currentTimeMillis();
+		Log.d(TAG, "onCreate");
+
+		if(Build.VERSION.SDK_INT >= 26) {
+			Notifications.shutGoogleUpNotification(this);
+		}
 
 		final SharedPreferences prefs = Util.getPreferences(this);
 		new Thread(new Runnable() {
@@ -304,14 +310,14 @@ public class DownloadService extends Service {
 		artistRadioBuffer = new ArtistRadioBuffer(this);
 		lifecycleSupport.onCreate();
 
-		if(Build.VERSION.SDK_INT >= 26) {
-			Notifications.shutGoogleUpNotification(this);
-		}
+		long onCreateEnd = System.currentTimeMillis();
+		Log.d(TAG, "onCreate took " + (onCreateEnd-onCreateStart) + "ms");
 	}
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		super.onStartCommand(intent, flags, startId);
+		Log.d(TAG, "onStartCommand");
 		lifecycleSupport.onStart(intent);
 
 		String action = intent.getAction();
@@ -345,6 +351,7 @@ public class DownloadService extends Service {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
+		Log.d(TAG, "onDestroy");
 		instance = null;
 
 		setPlayerState(IDLE);
@@ -3117,4 +3124,6 @@ public class DownloadService extends Service {
 		void onStateUpdate(DownloadFile downloadFile, PlayerState playerState);
 		void onMetadataUpdate(MusicDirectory.Entry entry, int fieldChange);
 	}
+
+
 }
