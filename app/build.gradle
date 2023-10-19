@@ -25,8 +25,8 @@ android {
 		applicationId "ga.asti.android"
 		minSdkVersion 16
 		targetSdkVersion 33
-		versionCode 10522	// convention: use versionName plus incrementable last part. M.mm.rr, zero padded
-		versionName '1.5.22'
+		versionCode 10527	// convention: use versionName plus incrementable last part. M.mm.rr, zero padded
+		versionName '1.5.27'
 		setProperty("archivesBaseName", "Astiga $versionName")
 		//resConfigs "de", "es", "fr", "hu", "nl", "pt-rPT", "ru", "sv"
 		vectorDrawables.useSupportLibrary = true
@@ -57,6 +57,12 @@ android {
 			debuggable = false
 		}
 		fix {
+			minifyEnabled true
+			shrinkResources true
+			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard.cfg'
+			zipAlignEnabled true
+		}
+		debug {
 			minifyEnabled true
 			shrinkResources true
 			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard.cfg'
@@ -114,5 +120,6 @@ dependencies {
     implementation 'com.shehabic.droppy:Droppy:0.5.1@aar'
 	implementation group: 'org.fourthline.cling', name: 'cling-core', version:'2.1.1'
 	implementation group: 'org.fourthline.cling', name: 'cling-support', version:'2.1.1'
+    implementation 'androidx.lifecycle:lifecycle-process:2.3.1'
 
 }
