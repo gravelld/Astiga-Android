@@ -347,6 +347,7 @@ public class DownloadService extends Service {
 		super.onDestroy();
 		instance = null;
 
+		setPlayerState(IDLE);
 		if(currentPlaying != null) currentPlaying.setPlaying(false);
 		if(sleepTimer != null){
 			sleepTimer.cancel();
