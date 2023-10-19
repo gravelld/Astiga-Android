@@ -377,8 +377,9 @@ public final class Notifications {
 	@TargetApi(Build.VERSION_CODES.O)
 	public static void shutGoogleUpNotification(final DownloadService downloadService) {
 		// On Android O+, service crashes if startForeground isn't called within 5 seconds of starting
-		if (downloadService.isForeground()
-				|| Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) { // don't push notification in foreground #433
+		// See https://developer.android.com/about/versions/oreo/android-8.0-changes#back-all
+		// https://github.com/androidx/media/issues/112
+		if (downloadService.isForeground()) {
 			return;
 		}
 		getDownloadingNotificationChannel(downloadService);
