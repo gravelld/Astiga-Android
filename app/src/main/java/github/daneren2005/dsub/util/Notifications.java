@@ -138,12 +138,14 @@ public final class Notifications {
 				public void run() {
 					if (playing) {
 						try {
-							if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
-								startForeground(downloadService, NOTIFICATION_ID_PLAYING, notification);
-							} else {
-								NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-								notificationManager.notify(NOTIFICATION_ID_PLAYING, notification);
-							}
+							/* it's essential this starts in the foreground so that, when the screen sleeps,
+							 * the service is not destroyed. This is still causing an issue when the app
+							 * is running in the background, however, so we need some other solution to that.
+							 *
+							 * At one point we used NotificationManager to send the notification, but that
+							 * means the app doesn't get its foreground permission.
+							 */
+							startForeground(downloadService, NOTIFICATION_ID_PLAYING, notification);
 						} catch(Exception e) {
 							Log.e(TAG, "Failed to start notifications while playing");
 						}
@@ -471,6 +473,7 @@ public final class Notifications {
 
 	private static void startForeground(DownloadService downloadService, int notificationId, Notification notification) {
 		try {
+			Log.d(TAG, "startForeground: " + notificationId, new Exception());
 			if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
 				downloadService.startForeground(notificationId, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK);
 			} else {
@@ -483,12 +486,14 @@ public final class Notifications {
 	}
 
 	private static void stopForeground(DownloadService downloadService, boolean removeNotification) {
+		Log.d(TAG, "stopForeground", new Exception());
 		downloadService.stopForeground(removeNotification);
 		downloadService.setIsForeground(false);
 	}
 
 	@TargetApi(24)
 	private static void stopForeground(DownloadService downloadService, int removeNotification) {
+		Log.d(TAG, "stopForeground", new Exception());
 		downloadService.stopForeground(removeNotification);
 		downloadService.setIsForeground(false);
 	}
