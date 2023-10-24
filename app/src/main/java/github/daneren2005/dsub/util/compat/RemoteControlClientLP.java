@@ -45,6 +45,7 @@ import java.util.List;
 import github.daneren2005.dsub.R;
 import github.daneren2005.dsub.activity.SubsonicActivity;
 import github.daneren2005.dsub.activity.SubsonicFragmentActivity;
+import github.daneren2005.dsub.activity.VoiceQueryReceiverActivity;
 import github.daneren2005.dsub.domain.Bookmark;
 import github.daneren2005.dsub.domain.MusicDirectory;
 import github.daneren2005.dsub.domain.MusicDirectory.Entry;
@@ -546,8 +547,12 @@ public class RemoteControlClientLP extends RemoteControlClientBase {
 		public void onPlayFromSearch (String query, Bundle extras) {
 			// User just asked to playing something
 			if("".equals(query)) {
-				downloadService.clear();
-				downloadService.setShufflePlayEnabled(true);
+
+				Intent start = new Intent(downloadService, DownloadService.class);
+				start.setAction(DownloadService.START_PLAY);
+				start.putExtra(Constants.INTENT_EXTRA_NAME_SHUFFLE, true);
+				DownloadService.startService(downloadService, start);
+
 			} else {
 				String mediaFocus = extras.getString(MediaStore.EXTRA_MEDIA_FOCUS);
 
