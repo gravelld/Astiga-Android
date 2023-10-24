@@ -32,12 +32,18 @@ public class SearchCritera {
 	private final int albumCount;
 	private final int songCount;
 	private Pattern pattern;
+	private final boolean isFallbackToTitle;
 
 	public SearchCritera(String query, int artistCount, int albumCount, int songCount) {
+		this(query, artistCount, albumCount, songCount, false);
+	}
+
+	public SearchCritera(String query, int artistCount, int albumCount, int songCount, boolean fallbackToTitle) {
 		this.query = query;
 		this.artistCount = artistCount;
 		this.albumCount = albumCount;
 		this.songCount = songCount;
+		this.isFallbackToTitle = fallbackToTitle;
 	}
 
 	public String getQuery() {
@@ -89,5 +95,9 @@ public class SearchCritera {
 		}
 
 		return this.pattern;
+	}
+
+	public boolean isFallbackToTitle() {
+		return isFallbackToTitle;
 	}
 }

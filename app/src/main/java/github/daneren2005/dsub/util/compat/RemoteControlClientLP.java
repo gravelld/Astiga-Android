@@ -330,6 +330,11 @@ public class RemoteControlClientLP extends RemoteControlClientBase {
 				} else if(results.hasSongs()) {
 					playSongs(results.getSongs());
 				} else {
+
+					if(searchCritera.isFallbackToTitle()) {
+						SearchCritera fallbackCriteria = new SearchCritera(searchCritera.getQuery(), 0, 0, 100);
+						searchCriteria(fallbackCriteria);
+					}
 					noResults();
 				}
 
@@ -579,12 +584,14 @@ public class RemoteControlClientLP extends RemoteControlClientBase {
 					int artists = 100;
 					int albums = 100;
 					int songs = 100;
+					boolean isFallbackToTitle = false;
 
 					// Play a specific artist
 					if (MediaStore.Audio.Artists.ENTRY_CONTENT_TYPE.equals(mediaFocus)) {
 						query = extras.getString(MediaStore.EXTRA_MEDIA_ARTIST);
 						albums = 0;
 						songs = 0;
+						isFallbackToTitle = true;
 					}
 					// Play a specific album
 					else if (MediaStore.Audio.Albums.ENTRY_CONTENT_TYPE.equals(mediaFocus)) {
@@ -599,7 +606,7 @@ public class RemoteControlClientLP extends RemoteControlClientBase {
 						albums = 0;
 					}
 
-					SearchCritera criteria = new SearchCritera(query, artists, albums, songs);
+					SearchCritera criteria = new SearchCritera(query, artists, albums, songs, isFallbackToTitle);
 					searchCriteria(criteria);
 				}
 			}
