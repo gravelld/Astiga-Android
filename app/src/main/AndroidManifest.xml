@@ -36,7 +36,8 @@
     	android:icon="@drawable/launch"
     	android:theme="@style/Theme.DSub.Light"
 		android:largeHeap="true"
-		android:usesCleartextTraffic="true">
+		android:usesCleartextTraffic="true"
+		android:name="github.daneren2005.dsub.AstigaApplication">
     	
         <uses-library android:name="android.test.runner" />
 

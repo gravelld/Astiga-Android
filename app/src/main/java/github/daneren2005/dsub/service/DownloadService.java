@@ -29,6 +29,7 @@ import static github.daneren2005.dsub.domain.PlayerState.STARTED;
 import static github.daneren2005.dsub.domain.PlayerState.STOPPED;
 import static github.daneren2005.dsub.domain.RemoteControlState.LOCAL;
 
+import github.daneren2005.dsub.AstigaApplication;
 import github.daneren2005.dsub.R;
 import github.daneren2005.dsub.activity.SubsonicActivity;
 import github.daneren2005.dsub.audiofx.AudioEffectsController;
@@ -96,6 +97,7 @@ import androidx.mediarouter.media.MediaRouteSelector;
 import android.util.Log;
 import androidx.collection.LruCache;
 import android.view.KeyEvent;
+import android.widget.Toast;
 
 /**
  * @author Sindre Mehus
@@ -317,7 +319,7 @@ public class DownloadService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		super.onStartCommand(intent, flags, startId);
-		Log.d(TAG, "onStartCommand");
+		//Log.d(TAG, "onStartCommand");
 		lifecycleSupport.onStart(intent);
 
 		String action = intent.getAction();
@@ -414,7 +416,8 @@ public class DownloadService extends Service {
 		PowerManager powerManager = (PowerManager) context.getSystemService(POWER_SERVICE);
 		if (Build.VERSION.SDK_INT < 26 || (powerManager != null && powerManager.isIgnoringBatteryOptimizations(intent.getPackage()))) {
 			context.startService(intent);
-		} else {
+		} else if(!AstigaApplication.BACKGROUND_LISTENER.isBackground) {
+//			Log.d(TAG, "will startForegroundService. inBackground: " + AstigaApplication.BACKGROUND_LISTENER.isBackground + " service: " + instance/*, new Exception()*/);
 			context.startForegroundService(intent);
 		}
 	}
