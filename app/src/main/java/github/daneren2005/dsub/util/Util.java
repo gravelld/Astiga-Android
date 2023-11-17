@@ -345,7 +345,7 @@ public final class Util {
 	public static String getRestUrl(Context context, String method, SharedPreferences prefs, int instance, boolean allowAltAddress) {
 		StringBuilder builder = new StringBuilder();
 
-		String serverUrl = "https://play.asti.ga";//prefs.getString(Constants.PREFERENCES_KEY_SERVER_URL + instance, null);
+		String serverUrl = "http://192.168.0.9";//https://play.asti.ga";//prefs.getString(Constants.PREFERENCES_KEY_SERVER_URL + instance, null);
 
 		String username = prefs.getString(Constants.PREFERENCES_KEY_USERNAME + instance, null);
 		String password = prefs.getString(Constants.PREFERENCES_KEY_PASSWORD + instance, null);

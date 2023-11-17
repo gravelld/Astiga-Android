@@ -3044,6 +3044,8 @@ public class DownloadService extends Service {
 			while (!bufferComplete()) {
 				Thread.sleep(1000L);
 				if (isCancelled() || downloadFile.isFailedMax()) {
+					Toast toast = Toast.makeText(DownloadService.this, downloadFile.getFailedMessage(), Toast.LENGTH_LONG);
+					toast.show();
 					return null;
 				} else if(!downloadFile.isFailedMax() && !downloadFile.isDownloading()) {
 					checkDownloads();

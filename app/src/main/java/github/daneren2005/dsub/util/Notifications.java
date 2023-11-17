@@ -473,7 +473,7 @@ public final class Notifications {
 
 	private static void startForeground(DownloadService downloadService, int notificationId, Notification notification) {
 		try {
-			Log.d(TAG, "startForeground: " + notificationId, new Exception());
+			//Log.d(TAG, "startForeground: " + notificationId/*, new Exception()*/);
 			if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
 				downloadService.startForeground(notificationId, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK);
 			} else {
@@ -486,14 +486,14 @@ public final class Notifications {
 	}
 
 	private static void stopForeground(DownloadService downloadService, boolean removeNotification) {
-		Log.d(TAG, "stopForeground", new Exception());
+		//Log.d(TAG, "stopForeground"/*, new Exception()*/);
 		downloadService.stopForeground(removeNotification);
 		downloadService.setIsForeground(false);
 	}
 
 	@TargetApi(24)
 	private static void stopForeground(DownloadService downloadService, int removeNotification) {
-		Log.d(TAG, "stopForeground", new Exception());
+		//Log.d(TAG, "stopForeground"/*, new Exception()*/);
 		downloadService.stopForeground(removeNotification);
 		downloadService.setIsForeground(false);
 	}

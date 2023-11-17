@@ -54,6 +54,7 @@ public class DownloadFile implements BufferFile {
     private boolean save;
 	private boolean failedDownload = false;
     private int failed = 0;
+	private String failedMessage;
     private int bitRate;
 	private boolean isPlaying = false;
 	private boolean saveWhenDone = false;
@@ -263,6 +264,9 @@ public class DownloadFile implements BufferFile {
     public boolean isFailedMax() {
     	return failed > MAX_FAILURES;
     }
+	public String getFailedMessage() {
+		return failedMessage;
+	}
 
     public void delete() {
         cancelDownload();
@@ -512,6 +516,7 @@ public class DownloadFile implements BufferFile {
 				if(!isCancelled()) {
 					failed = MAX_FAILURES + 1;
 					failedDownload = true;
+					failedMessage = "File not found: " + song.getPath();
 					Log.w(TAG, "Failed to download '" + song + "'.", x);
 				}
 			} catch(IOException x) {
@@ -519,6 +524,7 @@ public class DownloadFile implements BufferFile {
 				Util.delete(saveFile);
 				if(!isCancelled()) {
 					failedDownload = true;
+					failedMessage = "Failed to download " + song.getPath();
 					Log.w(TAG, "Failed to download '" + song + "'.", x);
 				}
 			} catch (Exception x) {
@@ -527,6 +533,7 @@ public class DownloadFile implements BufferFile {
                 if (!isCancelled()) {
                 	failed++;
                     failedDownload = true;
+					failedMessage = "Failed to download " + song.getPath();
                     Log.w(TAG, "Failed to download '" + song + "'.", x);
                 }
             } finally {
