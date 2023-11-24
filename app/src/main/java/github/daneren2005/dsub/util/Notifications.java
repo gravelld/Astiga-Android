@@ -16,7 +16,6 @@
 package github.daneren2005.dsub.util;
 
 import android.annotation.TargetApi;
-import android.app.ForegroundServiceStartNotAllowedException;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -30,12 +29,11 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Handler;
 import androidx.core.app.NotificationCompat;
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.ProcessLifecycleOwner;
 import androidx.media.app.NotificationCompat.MediaStyle;
 import android.util.Log;
 import android.view.KeyEvent;
 
+import github.daneren2005.dsub.AstigaApplication;
 import github.daneren2005.dsub.R;
 import github.daneren2005.dsub.activity.SubsonicActivity;
 import github.daneren2005.dsub.activity.SubsonicFragmentActivity;
@@ -377,25 +375,33 @@ public final class Notifications {
 	}
 
 	@TargetApi(Build.VERSION_CODES.O)
-	public static void shutGoogleUpNotification(final DownloadService downloadService) {
+	public static void shutGoogleUpNotification(final DownloadService downloadService, Handler handler) {
 		// On Android O+, service crashes if startForeground isn't called within 5 seconds of starting
 		// See https://developer.android.com/about/versions/oreo/android-8.0-changes#back-all
 		// https://github.com/androidx/media/issues/112
 		if (downloadService.isForeground()) {
 			return;
 		}
-		getDownloadingNotificationChannel(downloadService);
+		handler.post(new Runnable() {
+			@Override
+			public void run() {
+				getDownloadingNotificationChannel(downloadService);
 
-		NotificationCompat.Builder builder;
-		builder = new NotificationCompat.Builder(downloadService)
-				.setSmallIcon(android.R.drawable.stat_sys_download)
-				.setContentTitle(downloadService.getResources().getString(R.string.download_downloading_title, 0))
-				.setContentText(downloadService.getResources().getString(R.string.download_downloading_summary, "Temp"))
-				.setChannelId("downloading-channel");
+				NotificationCompat.Builder builder;
+				builder = new NotificationCompat.Builder(downloadService)
+						.setSmallIcon(android.R.drawable.stat_sys_download)
+						.setContentTitle(downloadService.getResources().getString(R.string.download_downloading_title, 0))
+						.setContentText(downloadService.getResources().getString(R.string.download_downloading_summary, "Temp"))
+						.setChannelId("downloading-channel");
 
-		final Notification notification = builder.build();
-		startForeground(downloadService, NOTIFICATION_ID_SHUT_GOOGLE_UP, notification);
-		stopForeground(downloadService, true);
+				final Notification notification = builder.build();
+				if(!AstigaApplication.BACKGROUND_LISTENER.isBackground) {
+					// should we reschedule with the handler if still not in the foreground?
+					startForeground(downloadService, NOTIFICATION_ID_SHUT_GOOGLE_UP, notification);
+					stopForeground(downloadService, true);
+				}
+			}
+		});
 	}
 
 	public static void showSyncNotification(final Context context, int stringId, String extra) {

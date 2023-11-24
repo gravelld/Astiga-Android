@@ -204,7 +204,7 @@ public class DownloadService extends Service {
 		Log.d(TAG, "onCreate");
 
 		if(Build.VERSION.SDK_INT >= 26) {
-			Notifications.shutGoogleUpNotification(this);
+			Notifications.shutGoogleUpNotification(this, handler);
 		}
 
 		final SharedPreferences prefs = Util.getPreferences(this);
@@ -324,7 +324,7 @@ public class DownloadService extends Service {
 
 		String action = intent.getAction();
 		if(Build.VERSION.SDK_INT >= 26 && !this.isForeground() && !"KEYCODE_MEDIA_START".equals(action)) {
-			Notifications.shutGoogleUpNotification(this);
+			Notifications.shutGoogleUpNotification(this, handler);
 		}
 		return START_NOT_STICKY;
 	}
