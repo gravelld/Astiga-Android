@@ -609,35 +609,12 @@ public class SettingsFragment extends PreferenceCompatFragment implements Shared
 		serverRemoveServerPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 			@Override
 			public boolean onPreferenceClick(Preference preference) {
-				Util.confirmDialog(context, R.string.common_delete, screen.getTitle().toString(), new DialogInterface.OnClickListener() {
+				Util.confirmDialog(context, R.string.settings_delete_account_confirm, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						// Reset values to null so when we ask for them again they are new
-						serverNamePreference.setText(null);
-//						serverUrlPreference.setText(null);
-						serverUsernamePreference.setText(null);
-						serverPasswordPreference.setText(null);
-
-						// Don't use Util.getActiveServer since it is 0 if offline
-						int activeServer = Util.getPreferences(context).getInt(Constants.PREFERENCES_KEY_SERVER_INSTANCE, 1);
-						for (int i = instance; i <= serverCount; i++) {
-							Util.removeInstanceName(context, i, activeServer);
-						}
-
-						serverCount--;
-						SharedPreferences.Editor editor = settings.edit();
-						editor.putInt(Constants.PREFERENCES_KEY_SERVER_COUNT, serverCount);
-						editor.commit();
-
-						removeCurrent();
-
-						SubsonicFragment parentFragment = context.getCurrentFragment();
-						if(parentFragment instanceof SettingsFragment) {
-							SettingsFragment serverSelectionFragment = (SettingsFragment) parentFragment;
-							serverSelectionFragment.checkForRemoved();
-						}
+						removeUserFromApp(serverNamePreference, serverUsernamePreference, serverPasswordPreference, instance);
 					}
-				});
+				}, null);
 
 				return true;
 			}
@@ -655,6 +632,68 @@ public class SettingsFragment extends PreferenceCompatFragment implements Shared
 			}
 		});
 
+		Preference serverDeleteAccountPreference = new Preference(context);
+		serverDeleteAccountPreference.setKey(Constants.PREFERENCES_KEY_DELETE_ACCOUNT + instance);
+		serverDeleteAccountPreference.setPersistent(false);
+		serverDeleteAccountPreference.setTitle(R.string.settings_delete_account_title);
+		serverDeleteAccountPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+			@Override
+			public boolean onPreferenceClick(Preference preference) {
+
+				Util.confirmDialog(context, R.string.settings_delete_account_from_server_confirm, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						String username = Util.getPreferences(context).getString(Constants.PREFERENCES_KEY_USERNAME + instance, "");
+
+						LoadingTask<Boolean> task = new LoadingTask<Boolean>(context) {
+							private int previousInstance;
+
+							@Override
+							protected Boolean doInBackground() throws Throwable {
+								updateProgress(R.string.settings_removing_account);
+								previousInstance = Util.getActiveServer(context);
+
+								MusicService musicService = MusicServiceFactory.getMusicService(context);
+								try {
+									musicService.setInstance(instance);
+									musicService.deleteUser(username, context, this);
+									return true;
+								} finally {
+									musicService.setInstance(null);
+								}
+							}
+
+							@Override
+							protected void done(Boolean deleted) {
+								if (deleted) {
+									removeUserFromApp(serverNamePreference, serverUsernamePreference, serverPasswordPreference, instance);
+									Util.toast(context, R.string.settings_removing_account_complete);
+								} else {
+									Util.toast(context, R.string.settings_removing_account_failed);
+								}
+							}
+
+							@Override
+							public void cancel() {
+								super.cancel();
+								Util.setActiveServer(context, previousInstance);
+							}
+
+							@Override
+							protected void error(Throwable error) {
+								Log.w(TAG, error.toString(), error);
+								new ErrorDialog(context, getResources().getString(R.string.settings_remove_account_failed) +
+										" " + getErrorMessage(error), false);
+							}
+						};
+						task.execute();
+					}
+				}, null);
+
+				return true;
+			}
+		});
+
 		screen.addPreference(serverNamePreference);
 //		screen.addPreference(serverUrlPreference);
 //		screen.addPreference(serverInternalUrlPreference);
@@ -667,8 +706,36 @@ public class SettingsFragment extends PreferenceCompatFragment implements Shared
 		screen.addPreference(serverTestConnectionPreference);
 		screen.addPreference(serverOpenBrowser);
 		screen.addPreference(serverRemoveServerPreference);
+		screen.addPreference(serverDeleteAccountPreference);
 
 		return screen;
+	}
+
+	private void removeUserFromApp(EditTextPreference serverNamePreference, EditTextPreference serverUsernamePreference, EditTextPreference serverPasswordPreference, int instance) {
+		// Reset values to null so when we ask for them again they are new
+		serverNamePreference.setText(null);
+//						serverUrlPreference.setText(null);
+		serverUsernamePreference.setText(null);
+		serverPasswordPreference.setText(null);
+
+		// Don't use Util.getActiveServer since it is 0 if offline
+		int activeServer = Util.getPreferences(context).getInt(Constants.PREFERENCES_KEY_SERVER_INSTANCE, 1);
+		for (int i = instance; i <= serverCount; i++) {
+			Util.removeInstanceName(context, i, activeServer);
+		}
+
+		serverCount--;
+		SharedPreferences.Editor editor = settings.edit();
+		editor.putInt(Constants.PREFERENCES_KEY_SERVER_COUNT, serverCount);
+		editor.commit();
+
+		removeCurrent();
+
+		SubsonicFragment parentFragment = context.getCurrentFragment();
+		if(parentFragment instanceof SettingsFragment) {
+			SettingsFragment serverSelectionFragment = (SettingsFragment) parentFragment;
+			serverSelectionFragment.checkForRemoved();
+		}
 	}
 
 	private void setHideMedia(boolean hide) {

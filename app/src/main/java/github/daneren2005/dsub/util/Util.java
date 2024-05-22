@@ -741,6 +741,16 @@ public final class Util {
 			.show();
 	}
 
+	public static void confirmDialog(Context context, int messageId, DialogInterface.OnClickListener onClick, DialogInterface.OnClickListener onCancel) {
+		new AlertDialog.Builder(context)
+				.setIcon(android.R.drawable.ic_dialog_alert)
+				.setTitle(R.string.common_confirm)
+				.setMessage(context.getResources().getString(messageId))
+				.setPositiveButton(R.string.common_ok, onClick)
+				.setNegativeButton(R.string.common_cancel, onCancel)
+				.show();
+	}
+
     /**
      * Converts a byte-count to a formatted string suitable for display to the user.
      * For instance:

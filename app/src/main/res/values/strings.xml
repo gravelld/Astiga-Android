@@ -293,8 +293,11 @@
     <string name="settings.title">Settings</string>
     <string name="settings.test_connection_title">Test connection</string>
 	<string name="settings.accounts_add">Add account</string>
-	<string name="settings.accounts_remove">Remove account</string>
+	<string name="settings.accounts_remove">Remove account from app</string>
 	<string name="settings.accounts_register">Create an account</string>
+	<string name="settings.delete_account_title">Remove account from app and Astiga</string>
+	<string name="settings.delete_account_confirm">Do you want to remove your Astiga account from the app?</string>
+	<string name="settings.delete_account_from_server_confirm">Do you want to remove your account from the app and the Astiga service? Astiga will disconnect from your storage and delete its records of your music library.</string>
 	<string name="settings.accounts_title">Accounts</string>
     <string name="settings.server_unused">Unused</string>
     <string name="settings.server_name">Name</string>
@@ -326,6 +329,10 @@
     <string name="settings.connection_failure">Connection failure.</string>
     <string name="settings.invalid_url">Please specify a valid URL.</string>
     <string name="settings.invalid_username">Please specify a valid username (no trailing spaces).</string>
+	<string name="settings.removing_account">Removing account…</string>
+	<string name="settings.removing_account_complete">Your account has been removed.</string>
+	<string name="settings.removing_account_failed">Account removal failed. Please contact info@asti.ga.</string>
+	<string name="settings.remove_account_failed">Account removal failed.</string>
     <string name="settings.appearance_title">Appearance</string>
     <string name="settings.theme_title">Theme</string>
     <string name="settings.theme_light">Light</string>
