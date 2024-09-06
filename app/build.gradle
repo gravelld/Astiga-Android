@@ -19,14 +19,15 @@ def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
-	compileSdkVersion 33
+	compileSdkVersion 34
 
 	defaultConfig {
 		applicationId "ga.asti.android"
 		minSdkVersion 16
-		targetSdkVersion 33
-		versionCode 10537	// convention: use versionName plus incrementable last part. M.mm.rr, zero padded
-		versionName '1.5.37'
+		targetSdkVersion 34
+		// this should just be incremented on each new build. it need have no relation to the versionName https://developer.android.com/studio/publish/versioning
+		versionCode 10539
+		versionName '1.5.38'
 		setProperty("archivesBaseName", "Astiga $versionName")
 		//resConfigs "de", "es", "fr", "hu", "nl", "pt-rPT", "ru", "sv"
 		vectorDrawables.useSupportLibrary = true
@@ -125,5 +126,6 @@ dependencies {
 	implementation group: 'org.eclipse.jetty', name: 'jetty-server', version:'8.1.16.v20140903'
 	implementation group: 'org.eclipse.jetty', name: 'jetty-servlet', version:'8.1.16.v20140903'
 	implementation group: 'org.eclipse.jetty', name: 'jetty-client', version:'8.1.16.v20140903'
+	implementation group: 'javax.servlet', name: 'javax.servlet-api', version:'3.0.1'
 
 }
