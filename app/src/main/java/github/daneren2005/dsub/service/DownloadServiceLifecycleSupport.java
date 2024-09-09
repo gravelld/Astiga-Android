@@ -25,6 +25,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -112,6 +113,7 @@ public class DownloadServiceLifecycleSupport {
 		this.downloadService = downloadService;
 	}
 
+	@SuppressLint("WrongConstant")
 	public void onCreate() {
 		new Thread(new Runnable() {
 			@Override
@@ -155,7 +157,12 @@ public class DownloadServiceLifecycleSupport {
 		IntentFilter ejectFilter = new IntentFilter(Intent.ACTION_MEDIA_EJECT);
 		ejectFilter.addAction(Intent.ACTION_MEDIA_MOUNTED);
 		ejectFilter.addDataScheme("file");
-		downloadService.registerReceiver(ejectEventReceiver, ejectFilter);
+
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+			downloadService.registerReceiver(ejectEventReceiver, ejectFilter, Context.RECEIVER_EXPORTED);
+		} else {
+			downloadService.registerReceiver(ejectEventReceiver, ejectFilter);
+		}
 
 		// React to media buttons.
 		Util.registerMediaButtonEventReceiver(downloadService);
@@ -181,7 +188,11 @@ public class DownloadServiceLifecycleSupport {
 		commandFilter.addAction(DownloadService.CMD_PREVIOUS);
 		commandFilter.addAction(DownloadService.CMD_NEXT);
 		commandFilter.addAction(DownloadService.CANCEL_DOWNLOADS);
-		downloadService.registerReceiver(intentReceiver, commandFilter);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+			downloadService.registerReceiver(intentReceiver, commandFilter, Context.RECEIVER_EXPORTED);
+		} else {
+			downloadService.registerReceiver(intentReceiver, commandFilter);
+		}
 
 		new CacheCleaner(downloadService, downloadService).clean();
 	}

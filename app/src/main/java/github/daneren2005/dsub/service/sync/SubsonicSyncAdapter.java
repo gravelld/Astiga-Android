@@ -20,6 +20,7 @@
 package github.daneren2005.dsub.service.sync;
 
 import android.accounts.Account;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
@@ -29,6 +30,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.SyncResult;
 import android.os.BatteryManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -63,6 +65,7 @@ public class SubsonicSyncAdapter extends AbstractThreadedSyncAdapter {
 		this.context = context;
 	}
 
+	@SuppressLint("WrongConstant")
 	@Override
 	public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
 		String invalidMessage = isNetworkValid();
@@ -73,7 +76,13 @@ public class SubsonicSyncAdapter extends AbstractThreadedSyncAdapter {
 
 		// Make sure battery > x% or is charging
 		IntentFilter intentFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
-		Intent batteryStatus = context.registerReceiver(null, intentFilter);
+		Intent batteryStatus;
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+			batteryStatus = context.registerReceiver(null, intentFilter, Context.RECEIVER_EXPORTED);
+		} else {
+			 batteryStatus = context.registerReceiver(null, intentFilter);
+		}
+
 		int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
 		if (status != BatteryManager.BATTERY_STATUS_CHARGING && status != BatteryManager.BATTERY_STATUS_FULL) {
 			int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);

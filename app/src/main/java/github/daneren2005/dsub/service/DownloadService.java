@@ -71,6 +71,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Service;
@@ -202,6 +203,7 @@ public class DownloadService extends Service {
 	 */
 	private BastpUtil mBastpUtil;
 
+	@SuppressLint("WrongConstant")
 	@Override
 	public void onCreate() {
 		super.onCreate();
@@ -286,7 +288,11 @@ public class DownloadService extends Service {
 
 		Util.registerMediaButtonEventReceiver(this);
 		audioNoisyReceiver = new AudioNoisyReceiver();
-		registerReceiver(audioNoisyReceiver, audioNoisyIntent);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+			registerReceiver(audioNoisyReceiver, audioNoisyIntent, Context.RECEIVER_EXPORTED);
+		} else {
+			registerReceiver(audioNoisyReceiver, audioNoisyIntent);
+		}
 
 		if (mRemoteControl == null) {
 			// Use the remote control APIs (if available) to set the playback state

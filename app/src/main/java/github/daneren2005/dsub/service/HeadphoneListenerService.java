@@ -15,9 +15,12 @@
 
 package github.daneren2005.dsub.service;
 
+import android.annotation.SuppressLint;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.IBinder;
 
 import github.daneren2005.dsub.receiver.HeadphonePlugReceiver;
@@ -29,12 +32,17 @@ import github.daneren2005.dsub.util.Util;
 public class HeadphoneListenerService extends Service {
 	private HeadphonePlugReceiver receiver;
 
+	@SuppressLint("WrongConstant")
 	@Override
 	public void onCreate() {
 		super.onCreate();
 
 		receiver = new HeadphonePlugReceiver();
-		registerReceiver(receiver, new IntentFilter(Intent.ACTION_HEADSET_PLUG));
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+			registerReceiver(receiver, new IntentFilter(Intent.ACTION_HEADSET_PLUG), Context.RECEIVER_EXPORTED);
+		} else {
+			registerReceiver(receiver, new IntentFilter(Intent.ACTION_HEADSET_PLUG));
+		}
 	}
 
 	@Override
