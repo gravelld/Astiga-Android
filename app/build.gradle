@@ -26,8 +26,8 @@ android {
 		minSdkVersion 16
 		targetSdkVersion 34
 		// this should just be incremented on each new build. it need have no relation to the versionName https://developer.android.com/studio/publish/versioning
-		versionCode 10539
-		versionName '1.5.38'
+		versionCode 10540
+		versionName '1.5.39'
 		setProperty("archivesBaseName", "Astiga $versionName")
 		//resConfigs "de", "es", "fr", "hu", "nl", "pt-rPT", "ru", "sv"
 		vectorDrawables.useSupportLibrary = true
